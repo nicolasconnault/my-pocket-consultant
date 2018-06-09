@@ -4,3 +4,9 @@ export const selectLibrary = (libraryId) => {
     payload: libraryId
   };
 };
+export const selectCompany = (companyId) => {
+  return {
+    type: 'select_company',
+    payload: companyId
+  };
+};

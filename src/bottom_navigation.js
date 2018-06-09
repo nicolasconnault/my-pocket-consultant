@@ -3,34 +3,28 @@ import { View } from 'react-native';
 import { BottomNavigation } from 'react-native-material-ui';
 
 export default class Nav extends React.Component {
-   state = { active: 'today' };
+   state = { active: 'customers' };
 
   render() {
     return (
     <BottomNavigation active={this.state.active} hidden={false} >
         <BottomNavigation.Action
-            key="today"
-            icon="today"
-            label="Today"
-            onPress={() => this.setState({ active: 'today' })}
-        />
-        <BottomNavigation.Action
-            key="people"
+            key="customers"
             icon="people"
-            label="People"
-            onPress={() => this.setState({ active: 'people' })}
+            label="Customers"
+            onPress={() => this.setState({ active: 'customers' })}
         />
         <BottomNavigation.Action
-            key="bookmark-border"
-            icon="bookmark-border"
-            label="Bookmark"
-            onPress={() => this.setState({ active: 'bookmark-border' })}
+            key="news"
+            icon="announcement"
+            label="News"
+            onPress={() => this.setState({ active: 'news' })}
         />
         <BottomNavigation.Action
-            key="settings"
-            icon="settings"
-            label="Settings"
-            onPress={() => this.setState({ active: 'settings' })}
+            key="subscriptions"
+            icon="list"
+            label="Subscriptions"
+            onPress={() => this.setState({ active: 'subscriptions' })}
         />
     </BottomNavigation>
     );
