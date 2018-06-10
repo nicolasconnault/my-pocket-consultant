@@ -17,7 +17,7 @@ export default class Main extends React.Component {
             <StatusBar hidden={true} />
             <Toolbar
                 leftElement="menu"
-                centerElement="My Subscriptions"
+                centerElement="My Consultants"
                 searchable={{
                   autoFocus: true,
                   placeholder: 'Search'
