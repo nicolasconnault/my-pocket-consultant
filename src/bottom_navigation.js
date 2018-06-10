@@ -21,10 +21,10 @@ export default class Nav extends React.Component {
             onPress={() => this.setState({ active: 'news' })}
         />
         <BottomNavigation.Action
-            key="subscriptions"
+            key="companies"
             icon="list"
             label="Subscriptions"
-            onPress={() => this.setState({ active: 'subscriptions' })}
+            onPress={() => this.setState({ active: 'companies' })}
         />
     </BottomNavigation>
     );

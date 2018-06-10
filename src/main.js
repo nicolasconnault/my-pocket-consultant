@@ -1,6 +1,6 @@
 import React from 'react';
-import { StatusBar, View, ScrollView } from 'react-native';
-import { Toolbar, Subheader } from 'react-native-material-ui';
+import { Text, StatusBar, View, ScrollView } from 'react-native';
+import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui';
 import Nav from './bottom_navigation.js';
 import uiTheme from './uitheme.js';
 import Menu from './menu.js';
@@ -11,6 +11,7 @@ export default class Main extends React.Component {
   state = { menuVisible: false };
 
   render() {
+    const { headingStyle } = styles;
     return (
         <Container>
             <StatusBar hidden={true} />
@@ -23,6 +24,9 @@ export default class Main extends React.Component {
                 }}
             />
             <View style={{ flex: 1 }}>
+                <Text style={headingStyle}>
+                    Set a consultant for each company
+                </Text>
                 <CompanyList />
             </View>
             <Nav />
@@ -30,3 +34,11 @@ export default class Main extends React.Component {
     );
   }
 }
+
+const styles = {
+  headingStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    padding: 10
+  }
+};

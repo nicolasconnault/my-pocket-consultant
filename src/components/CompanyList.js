@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ListView } from 'react-native';
 import { connect } from 'react-redux';
-import SubscriptionCard from './SubscriptionCard';
+import CompanyCard from './CompanyCard.js';
 
 class CompanyList extends Component {
   componentWillMount() {
@@ -13,7 +13,7 @@ class CompanyList extends Component {
   }
 
   renderRow(company) {
-    return <SubscriptionCard company={company} />;
+    return <CompanyCard company={company} />;
   }
 
   render() {
