@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { COLOR } from 'react-native-material-ui';
 import MyConsultants from "../../screens/MyConsultants/";
 import MyCompanies from "../../screens/MyCompanies/";
 import MyNews from "../../screens/MyNews/";
@@ -11,9 +12,10 @@ export default createMaterialBottomTabNavigator({
   "My Companies": MyCompanies
 },
   {
-    tabBarOptions: {
-      activeTintColor: '#ff0000',
+    barStyle: {
+      backgroundColor: COLOR.pink500,
     },
+    inactiveTintColor: COLOR.grey300,
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;

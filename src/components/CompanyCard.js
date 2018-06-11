@@ -17,14 +17,14 @@ class CompanyCard extends Component {
 
     let consultantText = null;
     let buttons = <View style={buttonContainerStyle}>
-        <Button style={buttonStyle} primary text="Find a nearby Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant')} />
+        <Button style={buttonStyle} primary text="Find a nearby Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant', { mode: 'findFirst'} )} />
     </View>;
 
     for (index in this.props.consultants) {
         if (this.props.consultants[index].id == consultantId) {
             consultantText = <Text>{this.props.consultants[index].firstName} {this.props.consultants[index].lastName}</Text>;
             buttons = <View style={buttonContainerStyle}>
-                <Button style={buttonStyle} primary text="Change Consultant" />
+                <Button style={buttonStyle} primary text="Change Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant', { mode: 'replace'} )} />
                 <Button style={buttonStyle} primary text="View Profile" />
             </View>;
         }
