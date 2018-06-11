@@ -1,32 +1,45 @@
 import React from 'react';
 import { View } from 'react-native';
+import { withNavigation, NavigationActions } from 'react-navigation';
 import { BottomNavigation } from 'react-native-material-ui';
 
-export default class Nav extends React.Component {
+class Nav extends React.Component {
    state = { active: 'customers' };
+
+   onPressAction(key, screen) {
+        this.setState({ active: key })
+        let actionToDispatch = NavigationActions.reset({
+            index: 0,
+            key: null,
+            actions: [NavigationActions.navigate({ routeName: screen })],
+          });
+        this.props.navigator.dispatch(actionToDispatch);
+   }
 
   render() {
     return (
     <BottomNavigation active={this.state.active} hidden={false} >
         <BottomNavigation.Action
-            key="customers"
+            key="consultants"
             icon="people"
-            label="Customers"
-            onPress={() => this.setState({ active: 'customers' })}
+            label="Consultants"
+            onPress={() => this.onPressAction('consultants','MyConsultants')}       
         />
         <BottomNavigation.Action
             key="news"
             icon="announcement"
             label="News"
-            onPress={() => this.setState({ active: 'news' })}
+            onPress={() => this.onPressAction('news','MyNews')}       
         />
         <BottomNavigation.Action
             key="companies"
             icon="list"
-            label="Subscriptions"
-            onPress={() => this.setState({ active: 'companies' })}
+            label="Companies"
+            onPress={() => this.onPressAction('companies', 'MyCompanies')}
         />
     </BottomNavigation>
     );
   }
 }
+
+export default withNavigation(Nav)

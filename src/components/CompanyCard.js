@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { LayoutAnimation, Image, Text, View } from 'react-native';
 import { Button, Card } from 'react-native-material-ui';
+import { withNavigation } from 'react-navigation';
 import * as actions from '../actions';
 import uiTheme from '../uitheme.js';
 
@@ -16,7 +17,7 @@ class CompanyCard extends Component {
 
     let consultantText = null;
     let buttons = <View style={buttonContainerStyle}>
-        <Button style={buttonStyle} primary text="Find a nearby Consultant" />
+        <Button style={buttonStyle} primary text="Find a nearby Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant')} />
     </View>;
 
     for (index in this.props.consultants) {
@@ -76,4 +77,4 @@ const mapStateToProps = (state, ownProps) => {
   const consultants = state.consultants;
   return { expanded, consultants };
 };
-export default connect(mapStateToProps, actions)(CompanyCard);
+export default withNavigation(connect(mapStateToProps, actions)(CompanyCard));
