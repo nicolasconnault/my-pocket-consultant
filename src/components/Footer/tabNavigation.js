@@ -1,61 +1,35 @@
-import React from "react";
-import { Icon, FooterTab, Button, Footer as FTab } from "native-base";
-import { createBottomTabNavigator } from "react-navigation";
-import Spinner from "../../screens/Spinner/";
-import ProgressBar from "../../screens/Progressbar/";
-import CalendarNSP from "../../screens/Calendar/";
-import Form from "../../screens/Form/";
+import React from 'react';
+import { Text, View } from 'react-native';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
 import MyConsultants from "../../screens/MyConsultants/";
-import styles from "./styles";
+import MyCompanies from "../../screens/MyCompanies/";
+import MyNews from "../../screens/MyNews/";
+export default createMaterialBottomTabNavigator({
+  "My Consultants": MyConsultants,
+  "My News": MyNews,
+  "My Companies": MyCompanies
+},
+  {
+    tabBarOptions: {
+      activeTintColor: '#ff0000',
+    },
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === 'My Consultants') {
+          iconName = `ios-people${focused ? '' : '-outline'}`;
+        } else if (routeName === 'My News') {
+          iconName = `ios-megaphone${focused ? '' : '-outline'}`;
+        } else if (routeName === 'My Companies') {
+          iconName = `ios-list${focused ? '' : '-outline'}`;
+        }
 
-const FooterTabNavigation = createBottomTabNavigator(
-  {
-    MyConsultants: {
-      screen: ({ screenProps, navigation }) => <MyConsultants navigation={navigation} />
-    },
-    Spinner: {
-      screen: ({ screenProps, navigation }) =>
-        <Spinner navigation={navigation} />
-    },
-    ProgressBar: {
-      screen: ({ screenProps, navigation }) =>
-        <ProgressBar navigation={navigation} />
-    },
-    Calendar: {
-      screen: ({ screenProps, navigation }) =>
-        <CalendarNSP navigation={navigation} />
-    },
-    Form: {
-      screen: ({ screenProps, navigation }) => <Form navigation={navigation} />
-    }
-  },
-  {
-    tabBarPosition: "bottom",
-    lazy: true,
-    tabBarComponent: props => {
-      return (
-        <FTab>
-          <FooterTab style={styles.footer}>
-            <Button onPress={() => props.navigation.navigate("Calendar")}>
-              <Icon name="calendar" style={{ color: "#fff" }} />
-            </Button>
-            <Button onPress={() => props.navigation.navigate("Form")}>
-              <Icon name="paper" style={{ color: "#fff" }} />
-            </Button>
-            <Button onPress={() => props.navigation.navigate("MyConsultants")}>
-              <Icon name="add-circle" style={{ color: "#fff" }} />
-            </Button>
-            <Button onPress={() => props.navigation.navigate("ProgressBar")}>
-              <Icon active name="options" style={{ color: "#fff" }} />
-            </Button>
-            <Button onPress={() => props.navigation.navigate("Spinner")}>
-              <Icon name="ios-refresh-circle" style={{ color: "#fff" }} />
-            </Button>
-          </FooterTab>
-        </FTab>
-      );
-    }
+        // You can return any component that you like here! We usually use an
+        // icon component from react-native-vector-icons
+        return <Ionicons name={iconName} size={25} color={tintColor} />;
+      },
+    }),
   }
 );
-
-export default FooterTabNavigation;

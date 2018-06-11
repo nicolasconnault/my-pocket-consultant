@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, StatusBar, View, ScrollView } from 'react-native';
 import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui';
-import Nav from '../../bottom_navigation.js';
 import uiTheme from '../../uitheme.js';
 import Menu from '../../menu.js';
 import Container from '../../components/Container.js';
@@ -29,7 +28,6 @@ export default class MyConsultants extends React.Component {
                 </Text>
                 <CompanyList navigation={this.props.navigation} />
             </View>
-            <Nav />
         </Container>
     );
   }

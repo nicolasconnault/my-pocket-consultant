@@ -4,9 +4,8 @@ import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui';
 import uiTheme from '../../uitheme.js';
 import Menu from '../../menu.js';
 import Container from '../../components/Container.js';
-import CompanyList from '../../components/CompanyList.js';
 
-export default class MyCompanies extends React.Component {
+export default class MyNews extends React.Component {
   state = { menuVisible: false };
 
   render() {
@@ -24,9 +23,8 @@ export default class MyCompanies extends React.Component {
             />
             <View style={{ flex: 1 }}>
                 <Text style={headingStyle}>
-                    These are your companies
+                    News here
                 </Text>
-                <CompanyList mode="companyList" navigation={this.props.navigation} />
             </View>
         </Container>
     );
