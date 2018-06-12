@@ -1,10 +1,13 @@
 import React from "react";
-import { ScrollView, StyleSheet } from 'react-native';
+import { Button, Text, View, ScrollView, StyleSheet } from 'react-native';
 import { DrawerItems, SafeAreaView } from 'react-navigation';
 
 const CustomDrawerContentComponent = (props) => (
   <ScrollView>
     <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
+      <View style={{ alignSelf: 'flex-end' }}>
+        <Button onPress={() => this.props.navigation.navigate('ConsultantDrawer')} title="Switch to Consultant" />
+      </View>
       <DrawerItems {...props} />
     </SafeAreaView>
   </ScrollView>

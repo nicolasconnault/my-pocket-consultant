@@ -1,36 +1,38 @@
 import React from 'react';
 import { Text, StatusBar, View } from 'react-native';
 import { Toolbar } from 'react-native-material-ui';
-import Container from '../../components/Container.js';
+import Container from '../../../components/Container.js';
+import CompanyList from '../../../components/CompanyList.js';
+import Nav from '../../../bottom_navigation.js';
 
-export default class SelectAConsultant extends React.Component {
+export default class MyConsultants extends React.Component {
   state = { menuVisible: false };
   static navigationOptions = {
-    title: 'Select a Consultant',
-    headerLeft: null
+    title: 'My Consultants',
+    drawerLabel: 'My Consultants'
   };
 
   render() {
     const { headingStyle } = styles;
-    let title = "Select a Consultant"
-    if (this.props.navigation.getParam('mode') == 'replace') {
-        title = "Select a new Consultant"
-    }
-
     return (
         <Container>
             <StatusBar hidden={true} />
             <Toolbar
-                leftElement="arrow-back"
-                onLeftElementPress={() => this.props.navigation.goBack()}
-                centerElement={ title }
+                leftElement="menu"
+                onLeftElementPress={() => this.props.navigation.toggleDrawer()}
+                centerElement="My Consultants"
                 searchable={{
                   autoFocus: true,
                   placeholder: 'Search',
                 }}
               />
             <View style={{ flex: 1 }}>
+                <Text style={headingStyle}>
+                    Set a consultant for each company
+                </Text>
+                <CompanyList navigation={this.props.navigation} />
             </View>
+            <Nav />
         </Container>
     );
   }

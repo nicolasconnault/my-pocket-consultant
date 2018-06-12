@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "babel-root-slash-import": "^1.1.0",
     "jest-expo": "25.0.0",
     "react-native-dotenv": "^0.1.1",
     "react-native-scripts": "1.11.1",

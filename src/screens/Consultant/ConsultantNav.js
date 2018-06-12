@@ -4,7 +4,7 @@ import { withNavigation, NavigationActions } from 'react-navigation';
 import { BottomNavigation } from 'react-native-material-ui';
 
 class Nav extends React.Component {
-   state = { active: 'customers' };
+   state = { active: this.props.activeKey };
 
    onPressAction(key, screen) {
         this.setState({ active: key })
@@ -15,22 +15,22 @@ class Nav extends React.Component {
     return (
     <BottomNavigation active={this.state.active} hidden={false} >
         <BottomNavigation.Action
-            key="consultants"
+            key="customers"
             icon="people"
-            label="Consultants"
-            onPress={() => this.onPressAction('consultants','MyConsultants')}       
+            label="Customers"
+            onPress={() => this.onPressAction('customers','Customers')}       
         />
         <BottomNavigation.Action
             key="news"
             icon="announcement"
             label="News"
-            onPress={() => this.onPressAction('news','MyNews')}       
+            onPress={() => this.onPressAction('news','News')}       
         />
         <BottomNavigation.Action
-            key="companies"
+            key="subscriptions"
             icon="list"
-            label="Companies"
-            onPress={() => this.onPressAction('companies', 'MyCompanies')}
+            label="Subscriptions"
+            onPress={() => this.onPressAction('subscriptions', 'Subscriptions')}
         />
     </BottomNavigation>
     );

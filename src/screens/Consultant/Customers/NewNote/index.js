@@ -1,13 +1,17 @@
 import React from 'react';
 import { Text, StatusBar, View, ScrollView } from 'react-native';
 import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui';
-import uiTheme from '../../uitheme.js';
-import Menu from '../../menu.js';
-import Container from '../../components/Container.js';
-import CompanyList from '../../components/CompanyList.js';
+import uiTheme from '../../../../uitheme.js';
+import Menu from '../../../../menu.js';
+import Container from '../../../../components/Container.js';
+import Nav from '../../ConsultantNav.js';
 
-export default class MyCompanies extends React.Component {
+export default class Notifications extends React.Component {
   state = { menuVisible: false };
+  static navigationOptions = {
+    title: 'Notifications',
+    drawerLabel: 'Notifications'
+  };
 
   render() {
     const { headingStyle } = styles;
@@ -16,18 +20,15 @@ export default class MyCompanies extends React.Component {
             <StatusBar hidden={true} />
             <Toolbar
                 leftElement="menu"
-                centerElement="My Companies"
-                searchable={{
-                  autoFocus: true,
-                  placeholder: 'Search'
-                }}
+                onLeftElementPress={() => this.props.navigation.toggleDrawer()}
+                centerElement="Notifications"
             />
             <View style={{ flex: 1 }}>
                 <Text style={headingStyle}>
-                    These are your companies
+                    Notifications here
                 </Text>
-                <CompanyList mode="companyList" navigation={this.props.navigation} />
             </View>
+            <Nav activeKey="customers" />
         </Container>
     );
   }
