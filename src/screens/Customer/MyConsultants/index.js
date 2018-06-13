@@ -3,7 +3,7 @@ import { Text, StatusBar, View } from 'react-native';
 import { Toolbar } from 'react-native-material-ui';
 import Container from '../../../components/Container.js';
 import CompanyList from '../../../components/CompanyList.js';
-import Nav from '../../../bottom_navigation.js';
+import Nav from '../CustomerNav.js';
 
 export default class MyConsultants extends React.Component {
   state = { menuVisible: false };
@@ -32,7 +32,7 @@ export default class MyConsultants extends React.Component {
                 </Text>
                 <CompanyList navigation={this.props.navigation} />
             </View>
-            <Nav />
+            <Nav activeKey="consultants" />
         </Container>
     );
   }

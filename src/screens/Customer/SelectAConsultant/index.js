@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, StatusBar, View } from 'react-native';
 import { Toolbar } from 'react-native-material-ui';
 import Container from '../../../components/Container.js';
-import Nav from '../../../bottom_navigation.js';
+import Nav from '../CustomerNav.js';
 
 export default class SelectAConsultant extends React.Component {
   state = { menuVisible: false };
@@ -32,7 +32,7 @@ export default class SelectAConsultant extends React.Component {
               />
             <View style={{ flex: 1 }}>
             </View>
-            <Nav />
+            <Nav activeKey="consultants" />
         </Container>
     );
   }

@@ -2,10 +2,10 @@ import React from 'react';
 import { Text, StatusBar, View, ScrollView } from 'react-native';
 import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui';
 import uiTheme from '../../../uitheme.js';
-import Menu from '../../../menu.js';
+
 import Container from '../../../components/Container.js';
 import CompanyList from '../../../components/CompanyList.js';
-import Nav from '../../../bottom_navigation.js';
+import Nav from '../CustomerNav.js';
 
 export default class MyCompanies extends React.Component {
   state = { menuVisible: false };
@@ -34,7 +34,7 @@ export default class MyCompanies extends React.Component {
                 </Text>
                 <CompanyList mode="companyList" navigation={this.props.navigation} />
             </View>
-            <Nav />
+            <Nav activeKey="companies" />
         </Container>
     );
   }

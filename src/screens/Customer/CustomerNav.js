@@ -4,7 +4,7 @@ import { withNavigation, NavigationActions } from 'react-navigation';
 import { BottomNavigation } from 'react-native-material-ui';
 
 class Nav extends React.Component {
-   state = { active: 'consultants' };
+   state = { active: this.props.activeKey };
 
    onPressAction(key, screen) {
         this.setState({ active: key })

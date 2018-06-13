@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, StatusBar, View, ScrollView } from 'react-native';
 import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui';
 import uiTheme from '../../../../uitheme.js';
-import Menu from '../../../../menu.js';
+
 import Container from '../../../../components/Container.js';
 import Nav from '../../ConsultantNav.js';
 
