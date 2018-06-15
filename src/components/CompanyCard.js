@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { LayoutAnimation, Image, Text, View } from 'react-native';
 import { Button, Card } from 'react-native-material-ui';
 import { withNavigation } from 'react-navigation';
+import * as actions from '../actions';
 import uiTheme from '../uitheme.js';
 
 class CompanyCard extends Component {
@@ -70,5 +72,9 @@ const styles = {
     height: 41,
   }
 };
-
-export default CompanyCard;
+const mapStateToProps = (state, ownProps) => {
+  const expanded = state.CompanyId === ownProps.company.id;
+  const consultants = state.consultants;
+  return { expanded, consultants };
+};
+export default withNavigation(connect(mapStateToProps, actions)(CompanyCard));

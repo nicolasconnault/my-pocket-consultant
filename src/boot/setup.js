@@ -1,25 +1,15 @@
 import * as Expo from "expo";
-import AWSAppSyncClient from "aws-appsync";
-import { Rehydrated } from 'aws-appsync-react';
-import { ApolloProvider } from 'react-apollo';
 import React, { Component } from "react";
+import { Provider } from "react-redux";
 import { ThemeProvider } from 'react-native-material-ui';
 
 import uiTheme from '../uitheme.js';
 import App from "../App.js";
-import appSyncConfig from '../aws-exports';
- 
-const client = new AWSAppSyncClient({
-  url: appSyncConfig.graphqlEndpoint,
-  region: appSyncConfig.region,
-  auth: {
-    type: appSyncConfig.authType,
-    apiKey: appSyncConfig.apiKey,
-  }
-});
- 
+import configureStore from "./configureStore.js";
+
 export default class Setup extends Component {
   state: {
+    store: Object,
     isLoading: boolean,
     isReady: boolean
   };
@@ -27,6 +17,7 @@ export default class Setup extends Component {
     super();
     this.state = {
       isLoading: false,
+      store: configureStore(() => this.setState({ isLoading: false })),
       isReady: false
     };
   }
@@ -47,15 +38,12 @@ export default class Setup extends Component {
     if (!this.state.isReady || this.state.isLoading) {
       return <Expo.AppLoading />;
     }
-
     return (
-      <ApolloProvider client={client}>
-        <Rehydrated>
+        <Provider store={this.state.store}>
           <ThemeProvider uiTheme={uiTheme}>
               <App />
           </ThemeProvider>
-        </Rehydrated>
-      </ApolloProvider>
+        </Provider>
     );
   }
 }

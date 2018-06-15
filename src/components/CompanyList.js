@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ListView } from 'react-native';
+import { connect } from 'react-redux';
 import CompanyCard from './CompanyCard.js';
 
 class CompanyList extends Component {
@@ -25,4 +26,8 @@ class CompanyList extends Component {
   }
 }
 
-export default CompanyList
+const mapStateToProps = state => {
+  return { companies: state.companies };
+};
+
+export default connect(mapStateToProps)(CompanyList);
