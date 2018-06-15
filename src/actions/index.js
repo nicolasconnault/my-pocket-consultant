@@ -4,3 +4,9 @@ export const selectCompany = (companyId) => {
     payload: companyId
   };
 };
+export const selectAppMode = (appMode) => {
+  return {
+    type: 'select_app_mode',
+    payload: appMode
+  };
+};
