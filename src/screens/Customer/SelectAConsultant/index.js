@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, StatusBar, View } from 'react-native';
 import { Toolbar } from 'react-native-material-ui';
 import Container from '../../../components/Container.js';
+import ConsultantList from '../../../components/ConsultantList.js';
 import Nav from '../CustomerNav.js';
 
 export default class SelectAConsultant extends React.Component {
@@ -31,6 +32,7 @@ export default class SelectAConsultant extends React.Component {
                 }}
               />
             <View style={{ flex: 1 }}>
+                <ConsultantList navigation={this.props.navigation} />
             </View>
             <Nav activeKey="consultants" />
         </Container>
