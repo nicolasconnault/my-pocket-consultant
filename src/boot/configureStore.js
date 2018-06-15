@@ -4,6 +4,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import { persistStore } from "redux-persist";
 import reducers from "../reducers";
+import { fetchCompanies } from "../actions/companyActions"
 
 export default function configureStore(onCompletion: () => void): any {
   const enhancer = compose(
@@ -16,7 +17,7 @@ export default function configureStore(onCompletion: () => void): any {
 
   let store = createStore(reducers, enhancer);
   // persistStore(store, { storage: AsyncStorage }, onCompletion);
-
+  store.dispatch(fetchCompanies())
   return store;
 }
 

@@ -7,9 +7,6 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 import { COLOR } from 'react-native-material-ui';
 import { Ionicons } from '@expo/vector-icons';
 
-import Login from "./screens/Login/";
-import SignUp from "./screens/SignUp/";
-
 import Notifications from "./screens/Customer/Notifications/";
 import MyConsultants from "./screens/Customer/MyConsultants/";
 import MyCompanies from "./screens/Customer/MyCompanies/";
