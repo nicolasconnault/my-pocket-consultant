@@ -1,10 +1,10 @@
 import {
-    RECEIVE_COMPANIES_WITH_CONSULTANTS,
+    RECEIVE_CUSTOMER_COMPANIES
 } from '../actions/companyActions'
 
 export default (state = {}, action) => {
     switch (action.type) {
-        case RECEIVE_COMPANIES_WITH_CONSULTANTS:
+        case RECEIVE_CUSTOMER_COMPANIES:
             return action.companies
         default:
             return state

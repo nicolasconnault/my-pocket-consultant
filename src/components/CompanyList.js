@@ -6,13 +6,17 @@ import CompanyCard from './CompanyCard.js';
 class CompanyList extends Component {
 
       render() {
+        let companies = this.props.companiesWithConsultants
+        if (this.props.listType == 'customerCompanies') {
+            companies = this.props.customerCompanies
+        }
         return (
           <View>
              <FlatList
-                data={this.props.companies}
+                data={companies}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => (
-                    <CompanyCard company={item} />
+                    <CompanyCard company={item} listType={this.props.listType} />
                 )}
               />
             </View>
@@ -21,7 +25,10 @@ class CompanyList extends Component {
 } 
 
 const mapStateToProps = state => {
-  return { companies: state.companies };
+  return { 
+    customerCompanies: state.customerCompanies,
+    companiesWithConsultants: state.companiesWithConsultants,
+  };
 };
 
 export default connect(mapStateToProps)(CompanyList);

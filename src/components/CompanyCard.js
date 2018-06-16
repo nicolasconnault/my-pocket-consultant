@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { LayoutAnimation, Image, Text, View } from 'react-native';
+import { LayoutAnimation, Image, Text, View, Switch } from 'react-native';
 import { Button, Card } from 'react-native-material-ui';
 import { withNavigation } from 'react-navigation';
+import { sendToggleCompany } from '../actions/companyActions'
 import uiTheme from '../uitheme.js';
 
 class CompanyCard extends Component {
@@ -12,19 +13,30 @@ class CompanyCard extends Component {
 
   render() {
     const { titleStyle, logoStyle, logoContainerStyle, buttonContainerStyle, buttonStyle } = styles;
-    const { id, name, label, consultantId, first_name, last_name } = this.props.company;
+    const { id, name, label, consultantId, first_name, last_name, enabled } = this.props.company;
 
     let consultantText = null;
-    let buttons = <View style={buttonContainerStyle}>
-        <Button style={buttonStyle} primary text="Find a nearby Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant', { mode: 'findFirst'} )} />
-    </View>;
+    let buttons = null;
+    let switchContainer = null;
 
-    if (consultantId != null) {
-        consultantText = <Text>{first_name} {last_name}</Text>;
+    if (this.props.listType == 'withConsultants') {
         buttons = <View style={buttonContainerStyle}>
-            <Button style={buttonStyle} primary text="Change Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant', { mode: 'replace'} )} />
-            <Button style={buttonStyle} primary text="View Profile" />
+            <Button style={buttonStyle} primary text="Find a nearby Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant', { mode: 'findFirst'} )} />
         </View>;
+
+        if (consultantId != null) {
+            consultantText = <Text>{first_name} {last_name}</Text>;
+            buttons = <View style={buttonContainerStyle}>
+                <Button style={buttonStyle} primary text="Change Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant', { mode: 'replace'} )} />
+                <Button style={buttonStyle} primary text="View Profile" />
+            </View>;
+        }
+    } else if (this.props.listType == 'customerCompanies') {
+
+        switchContainer = 
+            <View style={{ flex: 1, justifyContent: "flex-end", paddingRight: 3 }}>
+                <Switch value={enabled} onValueChange={() => sendToggleCompany(id, enabled) } />
+            </View>
     }
 
     return (
@@ -39,6 +51,7 @@ class CompanyCard extends Component {
                     </Text>
                     {consultantText}
                 </View>
+                {switchContainer}
             </View>
             {buttons}
         </Card>

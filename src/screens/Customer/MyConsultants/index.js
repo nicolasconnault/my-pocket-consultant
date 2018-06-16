@@ -30,7 +30,7 @@ export default class MyConsultants extends React.Component {
                 <Text style={headingStyle}>
                     Set a consultant for each company
                 </Text>
-                <CompanyList navigation={this.props.navigation} />
+                <CompanyList navigation={this.props.navigation} listType="withConsultants" />
             </View>
             <Nav activeKey="consultants" />
         </Container>

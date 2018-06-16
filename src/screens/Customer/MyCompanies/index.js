@@ -1,8 +1,6 @@
 import React from 'react';
-import { Text, StatusBar, View, ScrollView } from 'react-native';
-import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui';
-import uiTheme from '../../../uitheme.js';
-
+import { Text, StatusBar, View } from 'react-native';
+import { Toolbar } from 'react-native-material-ui';
 import Container from '../../../components/Container.js';
 import CompanyList from '../../../components/CompanyList.js';
 import Nav from '../CustomerNav.js';
@@ -32,7 +30,7 @@ export default class MyCompanies extends React.Component {
                 <Text style={headingStyle}>
                     These are your companies
                 </Text>
-                <CompanyList mode="companyList" navigation={this.props.navigation} />
+                <CompanyList navigation={this.props.navigation} listType="customerCompanies" />
             </View>
             <Nav activeKey="companies" />
         </Container>
