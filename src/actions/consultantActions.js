@@ -1,3 +1,5 @@
+import {NavigationActions} from 'react-navigation';
+import {navigatorRef} from '../App';
 import {
     RECEIVE_CONSULTANTS,
     SELECT_CONSULTANT,
@@ -8,13 +10,13 @@ import { receiveCustomerCompanies } from './companyActions'
 export const selectConsultant = (companies, companyId, consultantId, currentConsultantId) => async (dispatch) => {
 	try {
 		dispatch(optimisticSelectConsultant(companies, companyId, consultantId));
+        navigatorRef.dispatch(NavigationActions.navigate({routeName: 'MyConsultants'}));
 		await sendSelectConsultant(companyId, consultantId, dispatch);
 	} catch (e) {
 		// undo the state change
 		dispatch(undoSelectConsultant(companies, companyId, consultantId, currentConsultantId));
  
 		// then display the error
-        console.log(e)
 		dispatch(selectConsultantError(e));
 	}
 }

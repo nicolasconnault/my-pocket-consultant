@@ -16,7 +16,6 @@ export const toggleCompany = (companies, companyId, oldValue) => async (dispatch
 		dispatch(undoToggleCompany(companies, companyId, oldValue));
  
 		// then display the error
-        console.log(e)
 		dispatch(toggleCompanyError(e));
 	}
 }

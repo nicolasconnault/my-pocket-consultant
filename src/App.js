@@ -18,9 +18,12 @@ import SelectAConsultant from "./screens/Customer/SelectAConsultant/";
 import CustomerDrawer from "./screens/Customer/Drawer.js";
 import ConsultantDrawer from "./screens/Consultant/Drawer.js";
 
+export let navigatorRef
+
 class Main extends React.Component {
 
-    componentWillMount() {
+    componentDidMount() {
+        navigatorRef = this.navigator;
     }
 
     render () {
@@ -68,7 +71,7 @@ class Main extends React.Component {
         })
         return (
           <Root>
-            <StackNavigation />
+            <StackNavigation ref={nav => { this.navigator = nav }} />
           </Root>
       )
     }

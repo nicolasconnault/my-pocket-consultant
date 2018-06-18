@@ -7,24 +7,29 @@ import {
 } from '../actions/constants'
 
 export default (state = {}, action) => {
+    let companies = []
     switch (action.type) {
-        case SELECT_CONSULTANT:
-        case UNDO_SELECT_CONSULTANT:
-
-
-        case UNDO_TOGGLE_CUSTOMER_COMPANY:
         case RECEIVE_CUSTOMER_COMPANIES:
             return action.companies
         case TOGGLE_CUSTOMER_COMPANY:
-            let companies = []
+        case UNDO_TOGGLE_CUSTOMER_COMPANY:
+            companies = []
+            for (index in action.companies) {
+                let new_company = action.companies[index]
+                if (action.companies[index].id == action.companyId) {
+                    new_company.enabled = !action.oldValue
+                }
+                companies.push(new_company)
+            }
+            return companies
+        case SELECT_CONSULTANT:
             for (index in action.companies) {
                 if (action.companies[index].id == action.companyId) {
                     action.companies[index].consultantId = action.consultantId
                 }
             }
             return action.companies
-        case UNDO_TOGGLE_CUSTOMER_COMPANY:
-            companies = []
+        case UNDO_SELECT_CONSULTANT: 
             for (index in action.companies) {
                 if (action.companies[index].id == action.companyId) {
                     action.companies[index].consultantId = action.currentConsultantId
@@ -33,5 +38,5 @@ export default (state = {}, action) => {
             return action.companies
         default:
             return state
-    }
+    } 
 }

@@ -11,7 +11,6 @@ class ConsultantList extends Component {
         if (this.props.consultants.length > 0) {
             for (let consultant of this.props.consultants) {
                 if (this.props.listType == 'selectAConsultant') {
-                    console.log(consultant)
                     for (let company of consultant.companies) {
                         if (company.id == this.props.companyId) {
                             consultants.push(consultant)
