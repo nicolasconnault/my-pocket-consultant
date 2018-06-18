@@ -5,7 +5,6 @@ import thunk from "redux-thunk";
 import { persistStore } from "redux-persist";
 import reducers from "../reducers";
 import { 
-    fetchCompaniesWithConsultants, 
     fetchCustomerCompanies    
 } from "../actions/companyActions"
 
@@ -20,7 +19,6 @@ export default function configureStore(onCompletion: () => void): any {
 
   let store = createStore(reducers, enhancer);
   // persistStore(store, { storage: AsyncStorage }, onCompletion);
-  store.dispatch(fetchCompaniesWithConsultants())
   store.dispatch(fetchCustomerCompanies())
   return store;
 }

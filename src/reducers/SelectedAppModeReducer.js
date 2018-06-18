@@ -1,6 +1,7 @@
+import { SELECT_APP_MODE } from '../actions/constants'
 export default (state = null, action) => {
   switch (action.type) {
-    case 'select_app_mode':
+    case SELECT_APP_MODE:
        return action.mode
     default:
       return state;

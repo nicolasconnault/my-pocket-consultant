@@ -1,11 +1,11 @@
 import {
-    RECEIVE_CUSTOMER_COMPANIES
+    OPEN_MODAL_MESSAGE
 } from '../actions/constants'
 
 export default (state = {}, action) => {
     switch (action.type) {
-        case RECEIVE_CUSTOMER_COMPANIES:
-            return action.companies
+        case OPEN_MODAL_MESSAGE:
+            return action
         default:
             return state
     }

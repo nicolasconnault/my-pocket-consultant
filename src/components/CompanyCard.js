@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { LayoutAnimation, Image, Text, View, Switch } from 'react-native';
 import { Button, Card } from 'react-native-material-ui';
 import { withNavigation } from 'react-navigation';
-import { sendToggleCompany } from '../actions/companyActions'
+import { toggleCompany } from '../actions/companyActions'
 import uiTheme from '../uitheme.js';
 
 class CompanyCard extends Component {
@@ -20,6 +20,10 @@ class CompanyCard extends Component {
     let switchContainer = null;
 
     if (this.props.listType == 'withConsultants') {
+        if (enabled === false) {
+            return null
+        }
+
         buttons = <View style={buttonContainerStyle}>
             <Button style={buttonStyle} primary text="Find a nearby Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant', { mode: 'findFirst'} )} />
         </View>;
@@ -35,7 +39,7 @@ class CompanyCard extends Component {
 
         switchContainer = 
             <View style={{ flex: 1, justifyContent: "flex-end", paddingRight: 3 }}>
-                <Switch value={enabled} onValueChange={() => sendToggleCompany(id, enabled) } />
+                <Switch value={enabled} onValueChange={() => this.props.dispatch(toggleCompany(this.props.companies, id, enabled)) } />
             </View>
     }
 
@@ -82,4 +86,9 @@ const styles = {
     height: 41,
   }
 };
-export default withNavigation(connect()(CompanyCard));
+const mapStateToProps = state => {
+  return { 
+    companies: state.companies,
+  };
+};
+export default withNavigation(connect(mapStateToProps)(CompanyCard));

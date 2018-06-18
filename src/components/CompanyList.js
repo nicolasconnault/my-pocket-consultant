@@ -6,10 +6,16 @@ import CompanyCard from './CompanyCard.js';
 class CompanyList extends Component {
 
       render() {
-        let companies = this.props.companiesWithConsultants
-        if (this.props.listType == 'customerCompanies') {
-            companies = this.props.customerCompanies
+        let companies = []
+        
+        if (this.props.companies.length > 0) {
+            for (let company of this.props.companies) {
+                if (this.props.listType == 'customerCompanies' || company.enabled == true) {
+                    companies.push(company)
+                } 
+            }
         }
+
         return (
           <View>
              <FlatList
@@ -26,8 +32,7 @@ class CompanyList extends Component {
 
 const mapStateToProps = state => {
   return { 
-    customerCompanies: state.customerCompanies,
-    companiesWithConsultants: state.companiesWithConsultants,
+    companies: state.companies,
   };
 };
 
