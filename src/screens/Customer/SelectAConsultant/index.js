@@ -32,7 +32,7 @@ export default class SelectAConsultant extends React.Component {
                 }}
               />
             <View style={{ flex: 1 }}>
-                <ConsultantList navigation={this.props.navigation} />
+                <ConsultantList navigation={this.props.navigation} listType="selectAConsultant" companyId={this.props.navigation.getParam('companyId')} currentConsultantId={this.props.navigation.getParam('currentConsultantId')} />
             </View>
             <Nav activeKey="consultants" />
         </Container>

@@ -21,7 +21,7 @@ export const toggleCompany = (companies, companyId, oldValue) => async (dispatch
 	}
 }
 
-function receiveCustomerCompanies(json) {
+export const receiveCustomerCompanies = (json) => {
   return {
     type: RECEIVE_CUSTOMER_COMPANIES,
     companies: json.results,

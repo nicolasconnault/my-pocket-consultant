@@ -25,13 +25,13 @@ class CompanyCard extends Component {
         }
 
         buttons = <View style={buttonContainerStyle}>
-            <Button style={buttonStyle} primary text="Find a nearby Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant', { mode: 'findFirst'} )} />
+            <Button style={buttonStyle} primary text="Find a nearby Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant', { mode: 'findFirst', companyId: id, currentConsultantId: null} )} />
         </View>;
 
         if (consultantId != null) {
             consultantText = <Text>{first_name} {last_name}</Text>;
             buttons = <View style={buttonContainerStyle}>
-                <Button style={buttonStyle} primary text="Change Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant', { mode: 'replace'} )} />
+                <Button style={buttonStyle} primary text="Change Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant', { mode: 'replace', companyId: id, currentConsultantId: consultantId} )} />
                 <Button style={buttonStyle} primary text="View Profile" />
             </View>;
         }
