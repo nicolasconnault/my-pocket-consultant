@@ -10,6 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Notifications from "./screens/Customer/Notifications/";
 import MyConsultants from "./screens/Customer/MyConsultants/";
 import MyCompanies from "./screens/Customer/MyCompanies/";
+import CompanyMenu from "./screens/Customer/CompanyMenu/";
 import MyNews from "./screens/Customer/MyNews/";
 import Settings from "./screens/Customer/Settings/";
 import Customers from "./screens/Consultant/Customers/";
@@ -61,6 +62,7 @@ class Main extends React.Component {
         const StackNavigation = createStackNavigator({
             Drawer: { screen: DrawerNavigation },
             MyCompanies: { screen: MyCompanies },
+            CompanyMenu: { screen: CompanyMenu },
             MyNews: { screen: MyNews },
             SelectAConsultant: { screen: SelectAConsultant },
         }, {

@@ -12,12 +12,23 @@ class CompanyCard extends Component {
   }
 
   render() {
-    const { titleStyle, logoStyle, logoContainerStyle, buttonContainerStyle, buttonStyle } = styles;
+    const { 
+        titleStyle, 
+        logoStyle, 
+        mainContainerStyle, 
+        logoContainerStyle, 
+        buttonContainerStyle, 
+        buttonStyle, 
+        consultantImageStyle, 
+        switchContainerStyle ,
+        consultantImageContainerStyle
+    } = styles;
     const { id, name, label, consultantId, first_name, last_name, enabled } = this.props.company;
 
     let consultantText = null;
     let buttons = null;
     let switchContainer = null;
+    let consultantImage = null;
 
     if (this.props.listType == 'withConsultants') {
         if (enabled === false) {
@@ -32,20 +43,28 @@ class CompanyCard extends Component {
             consultantText = <Text>{first_name} {last_name}</Text>;
             buttons = <View style={buttonContainerStyle}>
                 <Button style={buttonStyle} primary text="Change Consultant" onPress={() => this.props.navigation.navigate('SelectAConsultant', { mode: 'replace', companyId: id, currentConsultantId: consultantId} )} />
-                <Button style={buttonStyle} primary text="View Profile" />
+                <Button style={buttonStyle} primary text="View Profile" onPress={() => this.props.navigation.navigate('CompanyMenu', { company: this.props.company }) } />
             </View>;
+            consultantImage = <View style={consultantImageContainerStyle}>
+                <Image style={consultantImageStyle} source={{ uri: 'https://s3-ap-southeast-2.amazonaws.com/mypocketconsultant/uploads/images/consultants/' + consultantId + '.png'}} />
+            </View>
         }
     } else if (this.props.listType == 'customerCompanies') {
 
         switchContainer = 
-            <View style={{ flex: 1, justifyContent: "flex-end", paddingRight: 3 }}>
+            <View style={switchContainerStyle}>
                 <Switch value={enabled} onValueChange={() => this.props.dispatch(toggleCompany(this.props.companies, id, enabled)) } />
             </View>
+    } else if (this.props.listType == 'singleCard') {
+        consultantText = <Text>{first_name} {last_name}</Text>;
+        consultantImage = <View style={consultantImageContainerStyle}>
+            <Image style={consultantImageStyle} source={{ uri: 'https://s3-ap-southeast-2.amazonaws.com/mypocketconsultant/uploads/images/consultants/' + consultantId + '.png'}} />
+        </View>
     }
 
     return (
         <Card>
-            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+            <View style={mainContainerStyle}>
                 <View style={logoContainerStyle}>
                     <Image style={logoStyle} source={{ uri: 'https://s3-ap-southeast-2.amazonaws.com/mypocketconsultant/uploads/images/companies/' + name + '_logo.png' }} />
                 </View>
@@ -56,6 +75,7 @@ class CompanyCard extends Component {
                     {consultantText}
                 </View>
                 {switchContainer}
+                {consultantImage}
             </View>
             {buttons}
         </Card>
@@ -84,6 +104,26 @@ const styles = {
   logoStyle: {
     width: 41,
     height: 41,
+  },
+  consultantImageStyle: {
+    width: 41,
+    height: 41,
+  },
+  consultantImageContainerStyle: {
+    justifyContent: 'space-around',
+    flex: 1,
+    paddingLeft: 40,
+    flexDirection: 'row',
+  },
+  switchContainerStyle: { 
+    flex: 1, 
+    justifyContent: "flex-end", 
+    paddingRight: 3 
+  },
+  mainContainerStyle: { 
+    flex: 1, 
+    flexDirection: 'row', 
+    alignItems: 'center'
   }
 };
 const mapStateToProps = state => {
