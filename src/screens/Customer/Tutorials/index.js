@@ -8,50 +8,41 @@ import MyIcon from '../../../components/MyIcon.js'
 import CompanyCard from '../../../components/CompanyCard.js'
 import Nav from '../CustomerNav.js'
 
-class CompanyMenu extends React.Component {
+class Tutorials extends React.Component {
   state = { company: null }
   static navigationOptions = {
-    title: 'Company Menu',
+    title: 'Tutorials',
   }
 
   render() {
     const { headingStyle } = styles
     let company = this.props.navigation.getParam('company')
     let menuItems = [
-        { iconKey: 'home', text: 'Home Page', onPress: () => { Linking.openURL(company.websiteUrl) }},
-        { iconKey: 'cart', text: 'Shop', onPress: () => { Linking.openURL(company.homeUrl) }},
-        { iconKey: 'news', text: 'News', onPress: () => { this.props.navigation.navigate('CompanyNews', { company: company }) }},
-        { iconKey: 'phoneCall', text: 'Contact me', onPress: () => { this.props.navigation.navigate('ContactMe', { company: company }) }},
+        { iconKey: 'home', text: 'Home Page', onPress: null },
+        { iconKey: 'cart', text: 'Shop', onPress: null },
+        { iconKey: 'news', text: 'News', onPress: this.props.navigation.navigate('CompanyNews', { company: company }) },
+        { iconKey: 'call', text: 'Contact me', onPress: this.props.navigation.navigate('ContactMe', { company: company }) },
         { iconKey: 'parcel', text: 'Request a sample', onPress: null },
         { iconKey: 'people', text: 'Host a demo', onPress: null },
-        { iconKey: 'school', text: 'Tutorials', onPress: () => { this.props.navigation.navigate('Tutorials', { company: company }) }},
+        { iconKey: 'school', text: 'Tutorials', onPress: this.props.navigation.navigate('Tutorials', { company: company }) },
     ]
 
     return (
         <Container>
             <StatusBar hidden={true} />
             <Toolbar
-                leftElement="arrow-back"
-                onLeftElementPress={() => this.props.navigation.navigate('MyConsultants') }
-                centerElement="Company Menu"
+                leftElement="menu"
+                onLeftElementPress={() => this.props.navigation.toggleDrawer()}
+                centerElement="Tutorials"
               />
             <View style={{ flex: 1 }}>
-                 <FlatList
-                    data={[company]}
-                    keyExtractor={item => item.id}
-                    renderItem={({ item }) => (
-                        <CompanyCard company={item} listType="singleCard" />
-                    )}
-                  />
                  <FlatList
                     data={menuItems}
                     keyExtractor={item => item.iconKey}
                     renderItem={({ item }) => (
                         <ListItem
                             leftElement={<MyIcon iconKey={item.iconKey} />}
-                            onLeftElementPress={() => item.onPress() }
                             centerElement={<View onPress={item.onPress}><Text>{item.text}</Text></View>}
-                            onPress={() => item.onPress() }
                         />
                     )}
                   />
@@ -76,4 +67,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(CompanyMenu)
+export default connect(mapStateToProps)(Tutorials)

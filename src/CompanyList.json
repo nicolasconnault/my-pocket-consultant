@@ -1,7 +1,0 @@
-[
-    { "id": 1, "title": "Tupperware", "key": "tupperware", "consultantId": null, "fist_name": null, "last_name": null},
-    { "id": 2, "title": "Scentsy", "key": "scentsy", "consultantId": 1, "first_name": "Samantha", "last_name": "Standley"},
-    { "id": 3, "title": "Jamberry", "key": "jamberry", "consultantId": 1, "first_name": "Samantha", "last_name": "Standley"},
-    { "id": 4, "title": "DoTerra", "key": "doterra", "consultantId": 1, "first_name": "Samantha", "last_name": "Standley"}
-]
-

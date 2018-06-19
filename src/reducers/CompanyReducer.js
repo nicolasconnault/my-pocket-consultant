@@ -11,6 +11,7 @@ export default (state = {}, action) => {
     switch (action.type) {
         case RECEIVE_CUSTOMER_COMPANIES:
             return action.companies
+            break
         case TOGGLE_CUSTOMER_COMPANY:
         case UNDO_TOGGLE_CUSTOMER_COMPANY:
             companies = []
@@ -22,6 +23,7 @@ export default (state = {}, action) => {
                 companies.push(new_company)
             }
             return companies
+            break
         case SELECT_CONSULTANT:
             for (index in action.companies) {
                 if (action.companies[index].id == action.companyId) {
@@ -29,6 +31,7 @@ export default (state = {}, action) => {
                 }
             }
             return action.companies
+            break
         case UNDO_SELECT_CONSULTANT: 
             for (index in action.companies) {
                 if (action.companies[index].id == action.companyId) {
@@ -36,6 +39,7 @@ export default (state = {}, action) => {
                 }
             }
             return action.companies
+            break
         default:
             return state
     } 

@@ -11,8 +11,12 @@ import Notifications from "./screens/Customer/Notifications/";
 import MyConsultants from "./screens/Customer/MyConsultants/";
 import MyCompanies from "./screens/Customer/MyCompanies/";
 import CompanyMenu from "./screens/Customer/CompanyMenu/";
+import ContactMe from "./screens/Customer/ContactMe/";
+import CompanyNews from "./screens/Customer/CompanyNews/";
+import Tutorials from "./screens/Customer/Tutorials/";
 import MyNews from "./screens/Customer/MyNews/";
 import Settings from "./screens/Customer/Settings/";
+
 import Customers from "./screens/Consultant/Customers/";
 import Help from "./screens/Customer/Help/";
 import SelectAConsultant from "./screens/Customer/SelectAConsultant/";
@@ -37,10 +41,14 @@ class Main extends React.Component {
             Notifications: { screen: Notifications },
             MyConsultants: { screen: MyConsultants },
             MyCompanies: { screen: MyCompanies },
+            ContactMe: { screen: ContactMe },
+            CompanyNews: { screen: CompanyNews },
+            Tutorials: { screen: Tutorials },
             MyNews: { screen: MyNews },
             Settings: { screen: Settings },
             Help: { screen: Help },
         }, {
+            backBehavior: 'initialRoute',
             initialRouteName: 'MyConsultants',
             contentComponent: props => <CustomerDrawer {...props} />
         })
@@ -55,6 +63,7 @@ class Main extends React.Component {
                 Help: { screen: Help },
             }, {
                 initialRouteName: 'Customers',
+                backBehavior: 'initialRoute',
                 contentComponent: props => <ConsultantDrawer {...props} />
             })
         }
@@ -69,7 +78,7 @@ class Main extends React.Component {
             initialRouteName: 'Drawer',
             headerMode: 'none',
             navigationOptions: {
-            }
+            },
         })
         return (
           <Root>

@@ -18,8 +18,9 @@ export default class Setup extends Component {
     super()
     this.state = {
       isLoading: false,
-      store: configureStore(() => this.setState({ isLoading: false })).store,
-      persistor: configureStore(() => this.setState({ isLoading: false })).persistor,
+      store: configureStore(() => this.setState({ isLoading: false })),
+      // store: configureStore(() => this.setState({ isLoading: false })).store,
+      // persistor: configureStore(() => this.setState({ isLoading: false })).persistor,
       isReady: false
     }
   }
@@ -42,11 +43,9 @@ export default class Setup extends Component {
     }
     return (
         <Provider store={this.state.store}>
-          <PersistGate loading={null} persistor={this.state.persistor}>
             <ThemeProvider uiTheme={uiTheme}>
                 <App />
             </ThemeProvider>
-          </PersistGate>
         </Provider>
     )
   }
