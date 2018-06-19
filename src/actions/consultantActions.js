@@ -1,4 +1,5 @@
 import {NavigationActions} from 'react-navigation';
+import { API_URL } from '../config'
 import {navigatorRef} from '../App';
 import {
     RECEIVE_CONSULTANTS,
@@ -49,7 +50,7 @@ function undoSelectConsultant(companies, companyId, consultantId, currentConsult
 }
 
 function sendSelectConsultant(companyId, consultantId, dispatch) {
-    return fetch(`http://192.168.0.11/customer/select_consultant.json`, {
+    return fetch(`${API_URL}select_consultant.json`, {
           method: 'PUT',
           headers: {
             Accept: 'application/json',
@@ -70,10 +71,10 @@ export function fetchConsultants() {
     return (dispatch, getState) => {
         const state = getState();
 
-        return fetch(`http://192.168.0.11/customer/consultants.json`)
+        return fetch(`${API_URL}consultants.json`)
             .then(res => res.json())
             .then((json) => {
                 dispatch(receiveConsultants(json))
             })
-    } 
+    }
 } 

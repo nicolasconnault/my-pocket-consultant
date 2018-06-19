@@ -1,5 +1,4 @@
-
-import { COLOR, ThemeProvider, Toolbar } from 'react-native-material-ui';
+import { COLOR, ThemeProvider } from 'react-native-material-ui';
 export default uiTheme = {
     palette: {
         primaryColor: COLOR.pink500,

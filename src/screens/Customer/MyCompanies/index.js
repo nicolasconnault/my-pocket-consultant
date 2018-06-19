@@ -1,19 +1,19 @@
-import React from 'react';
-import { Text, StatusBar, View } from 'react-native';
-import { Toolbar } from 'react-native-material-ui';
-import Container from '../../../components/Container.js';
-import CompanyList from '../../../components/CompanyList.js';
-import Nav from '../CustomerNav.js';
+import React from 'react'
+import { Text, StatusBar, View } from 'react-native'
+import { Toolbar } from 'react-native-material-ui'
+import Container from '../../../components/Container.js'
+import CompanyList from '../../../components/CompanyList.js'
+import Nav from '../CustomerNav.js'
 
 export default class MyCompanies extends React.Component {
-  state = { menuVisible: false };
+  state = { menuVisible: false }
   static navigationOptions = {
     title: 'My Companies',
     drawerLabel: 'My Companies'
-  };
+  }
 
   render() {
-    const { headingStyle } = styles;
+    const { headingStyle } = styles
     return (
         <Container>
             <StatusBar hidden={true} />
@@ -34,7 +34,7 @@ export default class MyCompanies extends React.Component {
             </View>
             <Nav activeKey="companies" />
         </Container>
-    );
+    )
   }
 }
 
@@ -44,4 +44,4 @@ const styles = {
     fontWeight: 'bold',
     padding: 10
   }
-};
+}

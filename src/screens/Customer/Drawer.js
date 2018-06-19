@@ -2,10 +2,11 @@ import React from "react"
 import { connect } from 'react-redux'
 import { Button, Text, View, ScrollView, StyleSheet } from 'react-native'
 import { DrawerItems, SafeAreaView } from 'react-navigation'
+import { changeAppMode } from '../../actions/appModeActions'
 
 class Drawer extends React.Component {
     switchToConsultant() {
-        this.props.dispatch({ type: 'select_app_mode', mode: 'consultant' })
+        this.props.dispatch(changeAppMode('consultant'))
     }
     
     render() { 

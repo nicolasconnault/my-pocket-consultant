@@ -4,7 +4,6 @@ import { LayoutAnimation, Image, Text, View, Switch } from 'react-native';
 import { Button, Card } from 'react-native-material-ui';
 import { withNavigation } from 'react-navigation';
 import { toggleCompany } from '../actions/companyActions'
-import uiTheme from '../uitheme.js';
 
 class CompanyCard extends Component {
   componentWillUpdate() {

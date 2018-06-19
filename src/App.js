@@ -3,9 +3,8 @@ import { createStackNavigator, createDrawerNavigator } from "react-navigation";
 import { Text, View } from 'react-native';
 import { connect } from "react-redux";
 import { Root } from "native-base";
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import { ThemeProvider } from 'react-native-material-ui'
 import { COLOR } from 'react-native-material-ui';
-import { Ionicons } from '@expo/vector-icons';
 
 import Notifications from "./screens/Customer/Notifications/";
 import MyConsultants from "./screens/Customer/MyConsultants/";
@@ -23,6 +22,9 @@ import SelectAConsultant from "./screens/Customer/SelectAConsultant/";
 import CustomerDrawer from "./screens/Customer/Drawer.js";
 import ConsultantDrawer from "./screens/Consultant/Drawer.js";
 
+import ConsultantTheme from './ConsultantTheme'
+import CustomerTheme from './CustomerTheme'
+
 export let navigatorRef
 
 class Main extends React.Component {
@@ -37,12 +39,12 @@ class Main extends React.Component {
             appMode = this.props.appMode
         }
         
+        let uiTheme = (appMode == 'consultant') ? ConsultantTheme : CustomerTheme
+
         let DrawerNavigation = createDrawerNavigator({
             Notifications: { screen: Notifications },
             MyConsultants: { screen: MyConsultants },
             MyCompanies: { screen: MyCompanies },
-            ContactMe: { screen: ContactMe },
-            CompanyNews: { screen: CompanyNews },
             Tutorials: { screen: Tutorials },
             MyNews: { screen: MyNews },
             Settings: { screen: Settings },
@@ -72,6 +74,8 @@ class Main extends React.Component {
             Drawer: { screen: DrawerNavigation },
             MyCompanies: { screen: MyCompanies },
             CompanyMenu: { screen: CompanyMenu },
+            ContactMe: { screen: ContactMe },
+            CompanyNews: { screen: CompanyNews },
             MyNews: { screen: MyNews },
             SelectAConsultant: { screen: SelectAConsultant },
         }, {
@@ -81,9 +85,11 @@ class Main extends React.Component {
             },
         })
         return (
-          <Root>
-            <StackNavigation ref={nav => { this.navigator = nav }} />
-          </Root>
+          <ThemeProvider uiTheme={uiTheme}>
+            <Root>
+              <StackNavigation ref={nav => { this.navigator = nav }} />
+            </Root>
+          </ThemeProvider>
       )
     }
 }

@@ -3,9 +3,8 @@ import {
     TOGGLE_CUSTOMER_COMPANY,
     UNDO_TOGGLE_CUSTOMER_COMPANY
 } from './constants'
-import {
-    toggleCompanyError
-} from './modalActions'
+import { API_URL } from '../config'
+import { toggleCompanyError } from './modalActions'
 
 export const toggleCompany = (companies, companyId, oldValue) => async (dispatch) => {
 	try {
@@ -47,7 +46,7 @@ function undoToggleCompany(companies, companyId, oldValue) {
 }
 
 function sendToggleCompany(companyId, oldValue, dispatch) {
-    return fetch(`http://192.168.0.11/customer/toggle_company.json`, {
+    return fetch(`${API_URL}toggle_company.json`, {
           method: 'PUT',
           headers: {
             Accept: 'application/json',
@@ -68,10 +67,10 @@ export function fetchCustomerCompanies() {
     return (dispatch, getState) => {
         const state = getState();
 
-        return fetch(`http://192.168.0.11/customer/customer_companies.json`)
+        return fetch(`${API_URL}customer_companies.json`)
             .then(res => res.json())
             .then((json) => {
                 dispatch(receiveCustomerCompanies(json))
             })
-    } 
+    }
 } 

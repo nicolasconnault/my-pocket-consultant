@@ -1,10 +1,8 @@
 import * as Expo from "expo"
 import React, { Component } from "react"
 import { Provider } from "react-redux"
-import { ThemeProvider } from 'react-native-material-ui'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import uiTheme from '../uitheme.js'
 import App from "../App.js"
 import configureStore from "./configureStore.js"
 
@@ -41,11 +39,10 @@ export default class Setup extends Component {
     if (!this.state.isReady || this.state.isLoading) {
       return <Expo.AppLoading />
     }
+
     return (
         <Provider store={this.state.store}>
-            <ThemeProvider uiTheme={uiTheme}>
-                <App />
-            </ThemeProvider>
+          <App />
         </Provider>
     )
   }
