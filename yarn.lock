@@ -5448,6 +5448,10 @@ react-native-material-ui@^1.22.3:
     prop-types "^15.5.10"
     react-native-material-design-styles "^0.2.6"
 
+react-native-network-info@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-network-info/-/react-native-network-info-3.2.2.tgz#93625587ab5ae31b7c853f37ec2b75a0af6c936d"
+
 react-native-paper@2.0.0-alpha.4:
   version "2.0.0-alpha.4"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-2.0.0-alpha.4.tgz#2186fd85e3e5aee368a0861f6a302015e76f24d9"
@@ -5457,10 +5461,6 @@ react-native-paper@2.0.0-alpha.4:
     deepmerge "^2.1.0"
     hoist-non-react-statics "^2.5.0"
     react-lifecycles-compat "^3.0.4"
-
-react-native-phone-call@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-phone-call/-/react-native-phone-call-1.0.6.tgz#354ba3c7737702ba7487fffd3cea979131b4640a"
 
 react-native-safe-area-view@^0.7.0:
   version "0.7.0"

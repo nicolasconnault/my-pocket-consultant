@@ -7,6 +7,7 @@ import storage from 'redux-persist/lib/storage'
 import reducers from "../reducers"
 import { fetchCustomerCompanies } from "../actions/companyActions"
 import { fetchConsultants } from "../actions/consultantActions"
+import { fetchTutorials } from "../actions/tutorialActions"
 
 /*
 const persistConfig = {
@@ -32,6 +33,7 @@ export default function configureStore(onCompletion: () => void): any {
   // let persistor = persistStore(store)
   store.dispatch(fetchCustomerCompanies())
   store.dispatch(fetchConsultants())
+  store.dispatch(fetchTutorials())
   // return { store, persistor }
   return store
 }

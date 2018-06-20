@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { View, FlatList } from 'react-native';
-import { connect } from 'react-redux';
-import CompanyCard from './CompanyCard.js';
+import React, { Component } from 'react'
+import { View, FlatList } from 'react-native'
+import { connect } from 'react-redux'
+import CompanyCard from './CompanyCard.js'
 
 class CompanyList extends Component {
 
@@ -26,14 +26,14 @@ class CompanyList extends Component {
                 )}
               />
             </View>
-        );
+        )
     }
 } 
 
 const mapStateToProps = state => {
   return { 
     companies: state.companies,
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps)(CompanyList);
+export default connect(mapStateToProps)(CompanyList)

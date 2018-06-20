@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { FlatList, Text, StatusBar, View, Linking } from 'react-native'
-import call from 'react-native-phone-call'
 import { Toolbar, ListItem } from 'react-native-material-ui';
 import Container from '../../../components/Container.js'
 import MyIcon from '../../../components/MyIcon.js'
