@@ -61,7 +61,7 @@ class MyIcon extends React.Component {
                 iconKey = iconKey[1]
             }
 
-            return ( <View><MyComponent name={iconKey} size={20} color={COLOR.pink500} /></View> )
+            return ( <View><MyComponent name={iconKey} size={this.props.size || 20} color={this.props.color || COLOR.pink500} /></View> )
         } else {
             return ( <View></View> )
         }

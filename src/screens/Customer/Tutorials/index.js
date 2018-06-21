@@ -1,10 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { FlatList, Text, StatusBar, View, Linking } from 'react-native'
-import { Toolbar, ListItem } from 'react-native-material-ui'
+import { FlatList, Text, StatusBar, View } from 'react-native'
+import { Card, Toolbar, ListItem } from 'react-native-material-ui'
 import Container from '../../../components/Container.js'
-import MyIcon from '../../../components/MyIcon.js'
-import CompanyCard from '../../../components/CompanyCard.js'
+import TutorialList from '../../../components/TutorialList.js'
 import Nav from '../CustomerNav.js'
 import { fetchTutorials } from '../../../actions/tutorialActions'
 
@@ -16,18 +15,25 @@ class Tutorials extends React.Component {
   render() {
     const { headingStyle } = styles
     let company = this.props.navigation.getParam('company')
+    let tutorials = Object.entries(this.props.tutorials[company.label])
     Tutorials.navigationOptions.title = company.label + ' Tutorials'
-    console.log(Object.entries(this.props.tutorials[company.label]))
+
+    let categories = []
+    for (index in tutorials) {
+        let category = tutorials[index]
+        categories.push(<TutorialList key={index} title={category[0]} company={company} tutorials={category[1]} />)
+    }
 
     return (
         <Container>
             <StatusBar hidden={true} />
             <Toolbar
-                leftElement="menu"
-                onLeftElementPress={() => this.props.navigation.toggleDrawer()}
+                leftElement="arrow-back"
+                onLeftElementPress={() => this.props.navigation.navigate('CompanyMenu', { company: company })}
                 centerElement={company.label + ' Tutorials'}
               />
             <View style={{ flex: 1 }}>
+                {categories}    
             </View>
             <Nav activeKey="companies" />
         </Container>

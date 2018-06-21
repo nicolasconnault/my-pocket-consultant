@@ -4,6 +4,7 @@ import { LayoutAnimation, Image, Text, View, Switch } from 'react-native';
 import { Button, Card } from 'react-native-material-ui';
 import { withNavigation } from 'react-navigation';
 import { toggleCompany } from '../actions/companyActions'
+import { STORAGE_URL } from '../config'
 
 class CompanyCard extends Component {
   componentWillUpdate() {
@@ -45,7 +46,7 @@ class CompanyCard extends Component {
                 <Button style={buttonStyle} primary text="View Profile" onPress={() => this.props.navigation.navigate('CompanyMenu', { company: this.props.company }) } />
             </View>;
             consultantImage = <View style={consultantImageContainerStyle}>
-                <Image style={consultantImageStyle} source={{ uri: 'https://s3-ap-southeast-2.amazonaws.com/mypocketconsultant/uploads/images/consultants/' + consultantId + '.png'}} />
+                <Image style={consultantImageStyle} source={{ uri: STORAGE_URL + 'images/consultants/' + consultantId + '.png'}} />
             </View>
         }
     } else if (this.props.listType == 'customerCompanies') {
@@ -57,7 +58,7 @@ class CompanyCard extends Component {
     } else if (this.props.listType == 'singleCard') {
         consultantText = <Text>{first_name} {last_name}</Text>;
         consultantImage = <View style={consultantImageContainerStyle}>
-            <Image style={consultantImageStyle} source={{ uri: 'https://s3-ap-southeast-2.amazonaws.com/mypocketconsultant/uploads/images/consultants/' + consultantId + '.png'}} />
+            <Image style={consultantImageStyle} source={{ uri: STORAGE_URL + 'images/consultants/' + consultantId + '.png'}} />
         </View>
     }
 
@@ -65,7 +66,7 @@ class CompanyCard extends Component {
         <Card>
             <View style={mainContainerStyle}>
                 <View style={logoContainerStyle}>
-                    <Image style={logoStyle} source={{ uri: 'https://s3-ap-southeast-2.amazonaws.com/mypocketconsultant/uploads/images/companies/' + name + '_logo.png' }} />
+                    <Image style={logoStyle} source={{ uri: STORAGE_URL + 'images/companies/' + name + '_logo.png' }} />
                 </View>
                 <View style={{ flexDirection: 'column' }}>
                     <Text style={titleStyle}>

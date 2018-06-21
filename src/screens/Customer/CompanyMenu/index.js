@@ -23,8 +23,11 @@ class CompanyMenu extends React.Component {
         { iconKey: 'phoneCall', text: 'Contact me', onPress: () => { this.props.navigation.navigate('ContactMe', { company: company }) }},
         { iconKey: 'parcel', text: 'Request a sample', onPress: null },
         { iconKey: 'people', text: 'Host a demo', onPress: null },
-        { iconKey: 'school', text: 'Tutorials', onPress: () => { this.props.navigation.navigate('Tutorials', { company: company }) }},
     ]
+
+    if (Object.entries(this.props.tutorials[company.label]).length > 0) { 
+        menuItems.push({ iconKey: 'school', text: 'Tutorials', onPress: () => { this.props.navigation.navigate('Tutorials', { company: company }) }})
+    }
 
     return (
         <Container>
@@ -72,6 +75,7 @@ const styles = {
 const mapStateToProps = state => {
   return { 
     companies: state.companies,
+    tutorials: state.tutorials,
   }
 }
 

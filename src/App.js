@@ -13,8 +13,10 @@ import CompanyMenu from "./screens/Customer/CompanyMenu/";
 import ContactMe from "./screens/Customer/ContactMe/";
 import CompanyNews from "./screens/Customer/CompanyNews/";
 import Tutorials from "./screens/Customer/Tutorials/";
+import Tutorial from "./screens/Customer/Tutorial/";
 import MyNews from "./screens/Customer/MyNews/";
 import Settings from "./screens/Customer/Settings/";
+import VideoPlayer from "./screens/VideoPlayer";
 
 import Customers from "./screens/Consultant/Customers/";
 import Help from "./screens/Customer/Help/";
@@ -62,6 +64,7 @@ class Main extends React.Component {
                 MyCompanies: { screen: MyCompanies },
                 MyNews: { screen: MyNews },
                 Settings: { screen: Settings },
+                VideoPlayer: { screen: VideoPlayer },
                 Help: { screen: Help },
             }, {
                 initialRouteName: 'Customers',
@@ -74,9 +77,12 @@ class Main extends React.Component {
             Drawer: { screen: DrawerNavigation },
             MyCompanies: { screen: MyCompanies },
             CompanyMenu: { screen: CompanyMenu },
+            Tutorials: { screen: Tutorials },
+            Tutorial: { screen: Tutorial },
             ContactMe: { screen: ContactMe },
             CompanyNews: { screen: CompanyNews },
             MyNews: { screen: MyNews },
+            VideoPlayer: { screen: VideoPlayer },
             SelectAConsultant: { screen: SelectAConsultant },
         }, {
             initialRouteName: 'Drawer',
