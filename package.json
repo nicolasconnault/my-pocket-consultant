@@ -22,10 +22,13 @@
   },
   "dependencies": {
     "@expo/videoplayer": "^0.4.0",
+    "color": "^3.0.0",
     "expo": "^25.0.1",
+    "moment": "^2.22.2",
     "native-base": "^2.5.1",
     "react": "16.2.0",
     "react-native": "0.52.0",
+    "react-native-extended-stylesheet": "^0.8.1",
     "react-native-material-ui": "^1.22.3",
     "react-navigation": "^2.2.5",
     "react-navigation-material-bottom-tabs": "^0.3.0",

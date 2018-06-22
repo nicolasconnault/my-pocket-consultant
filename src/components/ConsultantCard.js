@@ -4,7 +4,7 @@ import { LayoutAnimation, Image, Text, View } from 'react-native';
 import { Button, Card, ListItem } from 'react-native-material-ui';
 import { withNavigation } from 'react-navigation';
 import { selectConsultant } from '../actions/consultantActions'
-
+import { STORAGE_URL } from '../config'
 class ConsultantCard extends Component {
   componentWillUpdate() {
     LayoutAnimation.spring();
@@ -18,7 +18,7 @@ class ConsultantCard extends Component {
         <View>
             <ListItem
                 leftElement={
-                    <Image style={avatarStyle} source={{ uri: 'https://s3-ap-southeast-2.amazonaws.com/mypocketconsultant/uploads/images/consultants/' + id + '.png' }} />
+                    <Image style={avatarStyle} source={{ uri: STORAGE_URL + 'images/consultants/' + id + '.png' }} />
                 }
                 divider
                 centerElement={

@@ -3,13 +3,15 @@ import {
     TOGGLE_CUSTOMER_COMPANY,
     UNDO_TOGGLE_CUSTOMER_COMPANY
 } from './constants'
-import { API_URL } from '../config'
+import { AsyncStorage } from 'react-native'
+import { API_URL, ACCESS_TOKEN } from '../config'
 import { toggleCompanyError } from './modalActions'
 
 export const toggleCompany = (companies, companyId, oldValue) => async (dispatch) => {
 	try {
 		dispatch(optimisticToggleCompany(companies, companyId, oldValue));
-		await sendToggleCompany(companyId, oldValue, dispatch);
+        let token = await AsyncStorage.getItem(ACCESS_TOKEN)
+		await sendToggleCompany(companyId, oldValue, dispatch, token);
 	} catch (e) {
 		// undo the state change
 		dispatch(undoToggleCompany(companies, companyId, oldValue));
@@ -45,32 +47,45 @@ function undoToggleCompany(companies, companyId, oldValue) {
   }
 }
 
-function sendToggleCompany(companyId, oldValue, dispatch) {
+function sendToggleCompany(companyId, oldValue, dispatch, token) {
     return fetch(`${API_URL}toggle_company.json`, {
           method: 'PUT',
           headers: {
             Accept: 'application/json',
+            Authorization: 'Bearer ' + token,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             companyId: companyId,
             oldValue: oldValue,
           }), 
-    })
+        })
+        .then(res => console.log(res))
         .then(res => res.json())
         .then((json) => {
             dispatch(receiveCustomerCompanies(json))
         })
 }
 
-export function fetchCustomerCompanies() {
+export function fetchCustomerCompanies(token) {
     return (dispatch, getState) => {
         const state = getState();
 
-        return fetch(`${API_URL}customer_companies.json`)
-            .then(res => res.json())
-            .then((json) => {
-                dispatch(receiveCustomerCompanies(json))
-            })
+        return fetch(`${API_URL}customer_companies.json`, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              Authorization: 'Bearer ' + token,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              access_token: token
+            }) 
+          })
+          .then(res => console.log(res))
+          .then(res => res.json())
+          .then((json) => {
+              dispatch(receiveCustomerCompanies(json))
+          })
     }
 } 

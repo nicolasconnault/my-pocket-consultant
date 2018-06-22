@@ -1,3 +1,9 @@
 const localhost = this.Expo.Constants.experienceUrl.match(/192/)
 export const API_URL = (localhost) ? 'http://192.168.0.11/customer/' : 'http://mpc.smbstreamline.com.au/customer/'
+export const OAUTH_URL = (localhost) ? 'http://192.168.0.11/oauth/' : 'http://mpc.smbstreamline.com.au/oauth/'
 export const STORAGE_URL = 'https://s3-ap-southeast-2.amazonaws.com/mypocketconsultant/uploads/'
+export const FB_APP_ID = '143013909746090'
+export const GOOGLE_API_KEY = 'AIzaSyB4nhR4Cb43Kzwvbvbialb_8yQn_MOm6OI'
+export const GOOGLE_IOS_OAUTH_KEY = '86409689093-r9mkdt8iersm45m2tkg5d43ons0ljeqs.apps.googleusercontent.com'
+export const GOOGLE_ANDROID_OAUTH_KEY = '86409689093-vmcbsr9fr5c8a7bflcgr53ehqo4gaci8.apps.googleusercontent.com'
+export const ACCESS_TOKEN = 'access_token'

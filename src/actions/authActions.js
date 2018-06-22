@@ -1,29 +1,31 @@
+import { FETCH_USER } from './constants'
 import { API_URL } from '../config'
-import { RECEIVE_TUTORIALS } from './constants'
 
-function receiveTutorials(json) {
+export const receiveUser = (json) => {
   return {
-    type: RECEIVE_TUTORIALS,
-    tutorials: json.results,
+    type: FETCH_USER,
+    companies: json.results,
     receivedAt: Date.now()
   }
 }
 
-export function fetchTutorials(token) {
+export function fetchUser(token) {
     return (dispatch, getState) => {
         const state = getState();
 
-        return fetch(`${API_URL}tutorials.json`, {
+        return fetch(`${API_URL}user.json`, {
               method: 'POST',
               headers: {
                 Accept: 'application/json',
                 Authorization: 'Bearer ' + token,
                 'Content-Type': 'application/json',
               },
+                
             })
             .then(res => res.json())
             .then((json) => {
-                dispatch(receiveTutorials(json))
+                console.log(json)
+                dispatch(receiveUser(json))
             })
     }
 } 

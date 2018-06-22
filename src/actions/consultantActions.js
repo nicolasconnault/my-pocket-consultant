@@ -1,5 +1,6 @@
 import {NavigationActions} from 'react-navigation';
-import { API_URL } from '../config'
+import { AsyncStorage } from 'react-native'
+import { API_URL, ACCESS_TOKEN } from '../config'
 import {navigatorRef} from '../App';
 import {
     RECEIVE_CONSULTANTS,
@@ -12,7 +13,8 @@ export const selectConsultant = (companies, companyId, consultantId, currentCons
 	try {
 		dispatch(optimisticSelectConsultant(companies, companyId, consultantId));
         navigatorRef.dispatch(NavigationActions.navigate({routeName: 'MyConsultants'}));
-		await sendSelectConsultant(companyId, consultantId, dispatch);
+        let token = await AsyncStorage.getItem(ACCESS_TOKEN)
+		await sendSelectConsultant(companyId, consultantId, dispatch, token);
 	} catch (e) {
 		// undo the state change
 		dispatch(undoSelectConsultant(companies, companyId, consultantId, currentConsultantId));
@@ -39,6 +41,10 @@ function optimisticSelectConsultant(companies, companyId, consultantId) {
   }
 }
 
+function selectConsultantError(error) {
+    console.log(error)
+}
+
 function undoSelectConsultant(companies, companyId, consultantId, currentConsultantId) {
   return {
     type: UNDO_SELECT_CONSULTANT,
@@ -49,11 +55,12 @@ function undoSelectConsultant(companies, companyId, consultantId, currentConsult
   }
 }
 
-function sendSelectConsultant(companyId, consultantId, dispatch) {
+function sendSelectConsultant(companyId, consultantId, dispatch, token) {
     return fetch(`${API_URL}select_consultant.json`, {
           method: 'PUT',
           headers: {
             Accept: 'application/json',
+            Authorization: 'Bearer ' + token,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
@@ -67,11 +74,19 @@ function sendSelectConsultant(companyId, consultantId, dispatch) {
         })
 }
 
-export function fetchConsultants() {
+export function fetchConsultants(token) {
     return (dispatch, getState) => {
         const state = getState();
 
-        return fetch(`${API_URL}consultants.json`)
+        return fetch(`${API_URL}consultants.json`, {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json',
+              },
+                
+            })
             .then(res => res.json())
             .then((json) => {
                 dispatch(receiveConsultants(json))
