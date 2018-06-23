@@ -41,14 +41,14 @@ class Main extends React.Component {
     }
 
     render () {
-        let appMode = 'customer'
+        let appMode = 'consultant'
         if (this.props.appMode != undefined) {
             appMode = this.props.appMode
         }
-        
+
         let uiTheme = (appMode == 'consultant') ? ConsultantTheme : CustomerTheme 
 
-        let CustomerNavigation = createDrawerNavigator({
+        let Drawer = createDrawerNavigator({
             Notifications: { screen: Notifications },
             MyConsultants: { screen: MyConsultants },
             MyCompanies: { screen: MyCompanies },
@@ -62,29 +62,24 @@ class Main extends React.Component {
             contentComponent: props => <CustomerDrawer {...props} />
         })
 
-        let ConsultantNavigation = createDrawerNavigator({
-            Customers: { screen: Customers },
-            MyConsultants: { screen: MyConsultants },
-            MyCompanies: { screen: MyCompanies },
-            MyNews: { screen: MyNews },
-            Settings: { screen: Settings },
-            VideoPlayer: { screen: VideoPlayer },
-            Help: { screen: Help },
-        }, {
-            initialRouteName: 'Customers',
-            backBehavior: 'initialRoute',
-            contentComponent: props => <ConsultantDrawer {...props} />
-        })
-
-        let AppModeNavigation = createSwitchNavigator( {
-            CustomerMode: { screen: CustomerNavigation },
-            ConsultantMode: { screen: ConsultantNavigation }
-        }, {
-            initialRoute:  (appMode == 'consultant') ? 'ConsultantMode' : 'CustomerMode'
-        })
+        if (appMode == 'consultant') {
+            Drawer = createDrawerNavigator({
+                Customers: { screen: Customers },
+                MyConsultants: { screen: MyConsultants },
+                MyCompanies: { screen: MyCompanies },
+                MyNews: { screen: MyNews },
+                Settings: { screen: Settings },
+                VideoPlayer: { screen: VideoPlayer },
+                Help: { screen: Help },
+            }, {
+                initialRouteName: 'Customers',
+                backBehavior: 'initialRoute',
+                contentComponent: props => <ConsultantDrawer {...props} />
+            })
+        }
 
         let StackNavigation = createStackNavigator({
-            AppMode: { screen: AppModeNavigation },
+            Drawer: { screen: Drawer },
             Login: { screen: Login },
             Registration: { screen: Registration },
             Home: { screen: Home },
@@ -100,7 +95,7 @@ class Main extends React.Component {
             VideoPlayer: { screen: VideoPlayer },
             SelectAConsultant: { screen: SelectAConsultant },
         }, {
-            initialRouteName: 'AppMode',
+            initialRouteName: 'Drawer',
             headerMode: 'none',
             navigationOptions: {
             },
@@ -132,7 +127,6 @@ class Main extends React.Component {
 }
 
 const mapStateToProps = state => {
-    console.log(state)
   return { 
     appMode: state.appMode,
     user: state.user

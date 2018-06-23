@@ -19,8 +19,6 @@ import styles from '../components/Forms/styles'
 import { Logo } from '../components/Logo'
 import { OAUTH_URL, ACCESS_TOKEN } from '../config'
 
-
-
 const resetAction = StackActions.reset({
     index: 0,
     actions: [

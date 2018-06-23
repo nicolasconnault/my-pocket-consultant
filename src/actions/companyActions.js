@@ -60,7 +60,6 @@ function sendToggleCompany(companyId, oldValue, dispatch, token) {
             oldValue: oldValue,
           }), 
         })
-        .then(res => console.log(res))
         .then(res => res.json())
         .then((json) => {
             dispatch(receiveCustomerCompanies(json))
@@ -82,7 +81,6 @@ export function fetchCustomerCompanies(token) {
               access_token: token
             }) 
           })
-          .then(res => console.log(res))
           .then(res => res.json())
           .then((json) => {
               dispatch(receiveCustomerCompanies(json))

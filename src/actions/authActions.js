@@ -4,7 +4,7 @@ import { API_URL } from '../config'
 export const receiveUser = (json) => {
   return {
     type: FETCH_USER,
-    companies: json.results,
+    user: json.results,
     receivedAt: Date.now()
   }
 }
@@ -24,7 +24,6 @@ export function fetchUser(token) {
             })
             .then(res => res.json())
             .then((json) => {
-                console.log(json)
                 dispatch(receiveUser(json))
             })
     }

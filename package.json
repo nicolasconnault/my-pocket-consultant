@@ -30,6 +30,7 @@
     "react-native": "0.52.0",
     "react-native-extended-stylesheet": "^0.8.1",
     "react-native-material-ui": "^1.22.3",
+    "react-native-motion": "^0.2.0",
     "react-navigation": "^2.2.5",
     "react-navigation-material-bottom-tabs": "^0.3.0",
     "react-redux": "^4.4.9",
