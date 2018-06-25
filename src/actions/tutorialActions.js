@@ -5,25 +5,21 @@ function receiveTutorials(json) {
   return {
     type: RECEIVE_TUTORIALS,
     tutorials: json.results,
-    receivedAt: Date.now()
+    receivedAt: Date.now(),
   }
 }
 
-export function fetchTutorials(token) {
-    return (dispatch, getState) => {
-        const state = getState();
-
-        return fetch(`${API_URL}tutorials.json`, {
-              method: 'POST',
-              headers: {
-                Accept: 'application/json',
-                Authorization: 'Bearer ' + token,
-                'Content-Type': 'application/json',
-              },
-            })
-            .then(res => res.json())
-            .then((json) => {
-                dispatch(receiveTutorials(json))
-            })
-    }
-} 
+export default function fetchTutorials(token) {
+  return dispatch => fetch(`${API_URL}tutorials.json`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(res => res.json())
+    .then((json) => {
+      dispatch(receiveTutorials(json))
+    })
+}

@@ -36,6 +36,13 @@
 <PROJECT_ROOT>/node_modules/xdl/.*
 <PROJECT_ROOT>/node_modules/reqwest/.*
 <PROJECT_ROOT>/node_modules/metro-bundler/.*
+<PROJECT_ROOT>/node_modules/metro/.*
+<PROJECT_ROOT>/node_modules/react-native-keyboard-aware-scroll-view/.*
+<PROJECT_ROOT>/node_modules/react-native-paper/.*
+<PROJECT_ROOT>/node_modules/react-navigation-material-bottom-tabs/.*
+<PROJECT_ROOT>/node_modules/react-native/.*
+<PROJECT_ROOT>/node_modules/react-native-tab-view/.*
+<PROJECT_ROOT>/node_modules/react-navigation-tabs/.*
 
 [include]
 

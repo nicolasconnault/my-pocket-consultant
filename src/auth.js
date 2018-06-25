@@ -1,6 +1,8 @@
-import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import Expo, { AuthSession } from 'expo';
+import React from 'react'
+import {
+  Button, StyleSheet, Text, View,
+} from 'react-native'
+import Expo, { AuthSession } from 'expo'
 import { FB_APP_ID, GOOGLE_IOS_OAUTH_KEY, GOOGLE_ANDROID_OAUTH_KEY } from './config'
 
 async function signInWithGoogleAsync() {
@@ -9,18 +11,17 @@ async function signInWithGoogleAsync() {
       androidClientId: GOOGLE_ANDROID_OAUTH_KEY,
       iosClientId: GOOGLE_IOS_OAUTH_KEY,
       scopes: ['profile', 'email'],
-    });
+    })
 
     if (result.type === 'success') {
-      return result.accessToken;
-    } else {
-      return {cancelled: true};
+      return result.accessToken
     }
-  } catch(e) {
-    return {error: true};
+    return { cancelled: true }
+  } catch (e) {
+    return { error: true }
   }
 }
-    
+
 export default class App extends React.Component {
   state = {
     result: null,
@@ -31,21 +32,23 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <Button title="Google Sign in" onPress={() => { signInWithGoogleAsync() }} />
         {this.state.result ? (
-          <Text>{JSON.stringify(this.state.result)}</Text>
+          <Text>
+            {JSON.stringify(this.state.result)}
+          </Text>
         ) : null}
-        </View>
-    );
+      </View>
+    )
   }
 
   _handlePressAsync = async () => {
-    let redirectUrl = AuthSession.getRedirectUrl();
-    let result = await AuthSession.startAsync({
+    const redirectUrl = AuthSession.getRedirectUrl()
+    const result = await AuthSession.startAsync({
       authUrl:
-        `https://www.facebook.com/v3.0/dialog/oauth?response_type=token` +
-        `&client_id=${FB_APP_ID}` +
-        `&redirect_uri=${encodeURIComponent(redirectUrl)}`,
-    });
-    this.setState({ result });
+        'https://www.facebook.com/v3.0/dialog/oauth?response_type=token'
+        + `&client_id=${FB_APP_ID}`
+        + `&redirect_uri=${encodeURIComponent(redirectUrl)}`,
+    })
+    this.setState({ result })
   };
 }
 
@@ -55,4 +58,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+})

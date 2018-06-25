@@ -1,43 +1,60 @@
-import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
-import { connect } from 'react-redux';
-import ConsultantCard from './ConsultantCard.js';
+import React, { Component } from 'react'
+import { FlatList, View } from 'react-native'
+import { connect } from 'react-redux'
+import ConsultantCard from './ConsultantCard'
+import { UserListPropType, IdPropType, ListTypePropType } from '../proptypes'
 
 class ConsultantList extends Component {
+  render() {
+    const myConsultants = []
+    const {
+      consultants, listType, companyId, currentConsultantId,
+    } = this.props
 
-      render() {
-        let consultants = []
-        
-        if (this.props.consultants.length > 0) {
-            for (let consultant of this.props.consultants) {
-                if (this.props.listType == 'selectAConsultant') {
-                    for (let company of consultant.companies) {
-                        if (company.id == this.props.companyId) {
-                            consultants.push(consultant)
-                        }
-                    }
-                } 
-            }
-        }
-
-        return (
-          <View>
-             <FlatList
-                data={consultants}
-                keyExtractor={item => item.id}
-                renderItem={({ item }) => (
-                    <ConsultantCard consultant={item} listType={this.props.listType} companyId={this.props.companyId} currentConsultantId={this.props.currentConsultantId} />
-                )}
-              />
-            </View>
-        );
+    if (consultants.length > 0 && listType === 'selectConsultant') {
+      consultants.forEach((consultant) => {
+        consultant.companies.forEach((company) => {
+          if (company.id === companyId) {
+            myConsultants.push(consultant)
+          }
+        })
+      })
     }
-} 
 
-const mapStateToProps = state => {
-  return { 
-    consultants: state.consultants,
-  };
-};
+    return (
+      <View>
+        <FlatList
+          data={consultants}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <ConsultantCard
+              consultant={item}
+              listType={listType}
+              companyId={companyId}
+              currentConsultantId={currentConsultantId}
+            />
+          )}
+        />
+      </View>
+    )
+  }
+}
 
-export default connect(mapStateToProps)(ConsultantList);
+ConsultantList.propTypes = {
+  currentConsultantId: IdPropType,
+  companyId: IdPropType,
+  listType: ListTypePropType,
+  consultants: UserListPropType,
+}
+ConsultantList.defaultProps = {
+  currentConsultantId: null,
+  companyId: null,
+  listType: 'selectConsultant',
+  consultants: [],
+}
+
+const mapStateToProps = state => ({
+  consultants: state.consultants,
+})
+
+export default connect(mapStateToProps)(ConsultantList)

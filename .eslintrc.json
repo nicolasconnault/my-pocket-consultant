@@ -1,0 +1,30 @@
+{
+    "env": {
+        "node": true,
+        "browser": true,
+        "es6": true
+    },
+    "parser": "babel-eslint",
+    "extends": "airbnb",
+    "rules": {
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+      "react/prefer-stateless-function": "off",
+      "react/prop-types": ["error", { "ignore": ["navigation", "dispatch"] }],
+      "semi": [2, "never"],
+      "prefer-destructuring": ["error", {
+        "VariableDeclarator": {
+          "array": false,
+          "object": false
+        },
+        "AssignmentExpression": {
+          "array": false,
+          "object": false
+        }
+      }, {
+        "enforceForRenamedProperties": false
+      }]
+    },
+    "globals": {
+      "fetch": true
+    }
+}

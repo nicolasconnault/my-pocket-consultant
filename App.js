@@ -1,10 +1,7 @@
-import React from "react";
+import React from 'react'
 
-import Setup from "./src/boot/setup.js";
-//import Auth from './src/auth.js'
+import Setup from './src/boot/setup'
 
-export default class App extends React.Component {
-  render() {
-    return <Setup />;
-  }
+export default function App() {
+  return <Setup />
 }

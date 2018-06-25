@@ -1,12 +1,12 @@
 import {
-    RECEIVE_CONSULTANTS,
+  RECEIVE_CONSULTANTS,
 } from '../actions/constants'
 
 export default (state = {}, action) => {
-    switch (action.type) {
-        case RECEIVE_CONSULTANTS:
-            return action.consultants
-        default:
-            return state
-    }
+  switch (action.type) {
+    case RECEIVE_CONSULTANTS:
+      return action.consultants
+    default:
+      return state
+  }
 }

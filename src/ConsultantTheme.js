@@ -1,11 +1,13 @@
-import { COLOR, ThemeProvider } from 'react-native-material-ui';
-export default uiTheme = {
-    palette: {
-        primaryColor: COLOR.purple500,
+import { COLOR } from 'react-native-material-ui'
+
+const uiTheme = {
+  palette: {
+    primaryColor: COLOR.purple500,
+  },
+  toolbar: {
+    container: {
+      height: 50,
     },
-    toolbar: {
-        container: {
-            height: 50,
-        },
-    },
-}; 
+  },
+}
+export default uiTheme

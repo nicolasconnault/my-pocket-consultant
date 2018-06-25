@@ -1,28 +1,29 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { LoginButton } from 'react-native-fbsdk';
+import React, { Component } from 'react'
+import { View } from 'react-native'
+import { LoginButton } from 'react-native-fbsdk'
 
 export default class FBLoginButton extends Component {
   render() {
     return (
       <View>
         <LoginButton
-          publishPermissions={["email"]}
+          publishPermissions={['email']}
           onLoginFinished={
             (error, result) => {
               if (error) {
-                alert("Login failed with error: " + error.message);
+                alert(`Login failed with error: ${error.message}`)
               } else if (result.isCancelled) {
-                alert("Login was cancelled");
+                alert('Login was cancelled')
               } else {
-                alert("Login was successful with permissions: " + result.grantedPermissions)
+                alert(`Login was successful with permissions: ${result.grantedPermissions}`)
               }
             }
           }
-          onLogoutFinished={() => alert("User logged out")}/>
+          onLogoutFinished={() => alert('User logged out')}
+        />
       </View>
-    );
+    )
   }
-};
+}
 
-module.exports = FBLoginButton;
+module.exports = FBLoginButton

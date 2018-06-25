@@ -1,35 +1,38 @@
-import React from 'react';
-import { Text, StatusBar, View, ScrollView } from 'react-native';
-import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui';
+import React from 'react'
+import {
+  Text, StatusBar, View, ScrollView,
+} from 'react-native'
+import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui'
 
-import Container from '../../../../components/Container.js';
-import Nav from '../../ConsultantNav.js';
+import Container from '../../../../components/Container.js'
+import Nav from '../../ConsultantNav.js'
 
 export default class Notifications extends React.Component {
   state = { menuVisible: false };
+
   static navigationOptions = {
     title: 'Notifications',
-    drawerLabel: 'Notifications'
+    drawerLabel: 'Notifications',
   };
 
   render() {
-    const { headingStyle } = styles;
+    const { headingStyle } = styles
     return (
-        <Container>
-            <StatusBar hidden={true} />
-            <Toolbar
-                leftElement="menu"
-                onLeftElementPress={() => this.props.navigation.toggleDrawer()}
-                centerElement="Notifications"
-            />
-            <View style={{ flex: 1 }}>
-                <Text style={headingStyle}>
+      <Container>
+        <StatusBar hidden />
+        <Toolbar
+          leftElement="menu"
+          onLeftElementPress={() => this.props.navigation.toggleDrawer()}
+          centerElement="Notifications"
+        />
+        <View style={{ flex: 1 }}>
+          <Text style={headingStyle}>
                     Notifications here
-                </Text>
-            </View>
-            <Nav activeKey="subscriptions" />
-        </Container>
-    );
+          </Text>
+        </View>
+        <Nav activeKey="subscriptions" />
+      </Container>
+    )
   }
 }
 
@@ -37,6 +40,6 @@ const styles = {
   headingStyle: {
     fontSize: 18,
     fontWeight: 'bold',
-    padding: 10
-  }
-};
+    padding: 10,
+  },
+}

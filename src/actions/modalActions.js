@@ -1,11 +1,11 @@
 import {
-    OPEN_MODAL_MESSAGE
+  OPEN_MODAL_MESSAGE,
 } from './constants'
 
-export const toggleCompanyError = (message, messageType) => {
-    return {
-        type: OPEN_MODAL_MESSAGE,
-        message: message,
-        messageType: messageType
-    }
-}
+const toggleCompanyError = (message, messageType) => ({
+  type: OPEN_MODAL_MESSAGE,
+  message,
+  messageType,
+})
+
+export default toggleCompanyError
