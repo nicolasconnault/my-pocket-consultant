@@ -1,11 +1,12 @@
 import React from 'react'
-import { createSwitchNavigator, createStackNavigator, createDrawerNavigator } from 'react-navigation'
+import { createStackNavigator, createDrawerNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
 import { Root } from 'native-base'
 import { ThemeProvider } from 'react-native-material-ui'
 
 import Home from './screens/Home'
 import Login from './screens/Login'
+import Logout from './screens/Logout'
 import Registration from './screens/Registration'
 import MainScreen from './screens/Main'
 
@@ -51,6 +52,7 @@ class Main extends React.Component {
       MyNews: { screen: MyNews },
       Settings: { screen: Settings },
       Help: { screen: Help },
+      Logout: { screen: Logout },
     }, {
       backBehavior: 'initialRoute',
       initialRouteName: 'MyConsultants',
@@ -65,6 +67,7 @@ class Main extends React.Component {
         MyNews: { screen: MyNews },
         Settings: { screen: Settings },
         Help: { screen: Help },
+        Logout: { screen: Logout },
       }, {
         initialRouteName: 'Customers',
         backBehavior: 'initialRoute',
@@ -72,7 +75,7 @@ class Main extends React.Component {
       })
     }
 
-    const StackNavigation = createStackNavigator({
+    let StackNavigation = createStackNavigator({
       Drawer: { screen: Drawer },
       Login: { screen: Login },
       Registration: { screen: Registration },
@@ -94,25 +97,20 @@ class Main extends React.Component {
       },
     })
 
-    const LoggedOutNavigation = createStackNavigator({
-      Login: { screen: Login },
-      Registration: { screen: Registration },
+    if (Object.keys(user).length === 0) {
+      StackNavigation = createStackNavigator({
+        Login: { screen: Login },
+        Registration: { screen: Registration },
 
-    }, {
-      initialRouteName: 'Login',
-    })
-
-    const SwitchNavigation = createSwitchNavigator({
-      LoggedIn: { screen: StackNavigation },
-      LoggedOut: { screen: LoggedOutNavigation },
-    }, {
-      initialRouteName: user ? 'LoggedIn' : 'LoggedOut',
-    })
+      }, {
+        initialRouteName: 'Login',
+      })
+    }
 
     return (
       <ThemeProvider uiTheme={uiTheme}>
         <Root>
-          <SwitchNavigation ref={(nav) => { this.navigator = nav }} />
+          <StackNavigation ref={(nav) => { this.navigator = nav }} />
         </Root>
       </ThemeProvider>
     )

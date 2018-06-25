@@ -31,10 +31,12 @@ export default function configureStore(onCompletion: () => void): any {
   AsyncStorage.getItem(ACCESS_TOKEN).then((token) => {
     // let store = createStore(persistedReducer, enhancer)
     // let persistor = persistStore(store)
-    store.dispatch(fetchCustomerCompanies(token))
-    store.dispatch(fetchConsultants(token))
-    store.dispatch(fetchTutorials(token))
-    store.dispatch(fetchUser(token))
+    if (token !== null && token.length > 0) {
+      store.dispatch(fetchCustomerCompanies(token))
+      store.dispatch(fetchConsultants(token))
+      store.dispatch(fetchTutorials(token))
+      store.dispatch(fetchUser(token))
+    }
     // return { store, persistor }
   })
   return store
