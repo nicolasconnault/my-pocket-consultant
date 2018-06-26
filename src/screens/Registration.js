@@ -11,8 +11,6 @@ import {
   AsyncStorage,
 } from 'react-native'
 
-import { styles } from '../components/Forms'
-
 import { ACCESS_TOKEN, API_URL } from '../config'
 import { fetchUser } from '../actions/authActions'
 
@@ -113,12 +111,11 @@ class Registration extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <KeyboardAvoidingView behavior="padding">
         <ScrollView>
           <StatusBar translucent={false} barStyle="light-content" />
           <View>
             <TextInput
-              style={styles.input}
               onChangeText={val => this.setState({ firstName: val })}
               placeholder="First Name"
               placeholderTextColor="rgba(225,225,225,0.7)"
@@ -126,7 +123,6 @@ class Registration extends React.Component {
               defaultValue="Anne-Marie"
             />
             <TextInput
-              style={styles.input}
               onChangeText={val => this.setState({ lastName: val })}
               placeholder="Last Name"
               placeholderTextColor="rgba(225,225,225,0.7)"
@@ -134,7 +130,6 @@ class Registration extends React.Component {
               defaultValue="Connault"
             />
             <TextInput
-              style={styles.input}
               onChangeText={val => this.setState({ username: val })}
               autoCapitalize="none"
               onSubmitEditing={() => this.passwordInput.focus()}
@@ -147,7 +142,6 @@ class Registration extends React.Component {
               defaultValue="amlconnault@gmail.com"
             />
             <TextInput
-              style={styles.input}
               onChangeText={val => this.setState({ postcode: val })}
               placeholder="Postcode/Zip Code"
               placeholderTextColor="rgba(225,225,225,0.7)"
@@ -156,7 +150,6 @@ class Registration extends React.Component {
             />
 
             <TextInput
-              style={styles.input}
               onChangeText={val => this.setState({ password: val })}
               returnKeyType="go"
               placeholder="Password"
@@ -166,10 +159,9 @@ class Registration extends React.Component {
               defaultValue="password"
             />
             <TouchableOpacity
-              style={styles.buttonContainer}
               onPress={this.onRegistrationButtonPress}
             >
-              <Text style={styles.buttonText}>
+              <Text>
 CONTINUE
               </Text>
             </TouchableOpacity>

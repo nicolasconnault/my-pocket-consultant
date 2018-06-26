@@ -10,8 +10,6 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 
-import styles from '../components/Forms/styles'
-
 import { Logo } from '../components/Logo'
 import { OAUTH_URL, ACCESS_TOKEN } from '../config'
 import { fetchUser } from '../actions/authActions'
@@ -105,13 +103,12 @@ class Login extends React.Component {
     }
 
     return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <KeyboardAvoidingView behavior="padding">
         <StatusBar translucent={false} barStyle="light-content" />
         <Logo />
         <View>
           { errorMessage }
           <TextInput
-            style={styles.input}
             onChangeText={val => this.setState({ username: val })}
             keyboardType="email-address"
             placeholder="Email or Mobile Num"
@@ -121,7 +118,6 @@ class Login extends React.Component {
           />
 
           <TextInput
-            style={styles.input}
             onChangeText={val => this.setState({ password: val })}
             placeholder="Password"
             placeholderTextColor="rgba(225,225,225,0.7)"
@@ -130,10 +126,9 @@ class Login extends React.Component {
           />
 
           <TouchableOpacity
-            style={styles.buttonContainer}
             onPress={this.onLoginButtonPress}
           >
-            <Text style={styles.buttonText}>
+            <Text>
 LOGIN
             </Text>
           </TouchableOpacity>
@@ -141,10 +136,9 @@ LOGIN
             OR
           </Text>
           <TouchableOpacity
-            style={styles.buttonContainer}
             onPress={this.onRegisterButtonPress}
           >
-            <Text style={styles.buttonText}>
+            <Text>
 REGISTER
             </Text>
           </TouchableOpacity>
