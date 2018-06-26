@@ -6,6 +6,7 @@ import { Toolbar } from 'react-native-material-ui'
 
 import Container from '../../../components/Container'
 import Nav from '../CustomerNav'
+import MyIcon from '../../../components/MyIcon'
 
 const styles = {
   headingStyle: {
@@ -19,6 +20,7 @@ export default class Settings extends React.Component {
   static navigationOptions = {
     title: 'Settings',
     drawerLabel: 'Settings',
+    drawerIcon: <MyIcon iconKey="settings" />,
   };
 
   render() {

@@ -6,6 +6,7 @@ import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui'
 
 import Container from '../../../components/Container'
 import Nav from '../ConsultantNav'
+import MyIcon from '../../../components/MyIcon'
 
 export default class TodoList extends React.Component {
   state = { menuVisible: false };
@@ -13,6 +14,7 @@ export default class TodoList extends React.Component {
   static navigationOptions = {
     title: 'To-do List',
     drawerLabel: 'To-do List',
+    drawerIcon: <MyIcon iconKey="list" />,
   };
 
   render() {

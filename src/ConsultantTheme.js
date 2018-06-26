@@ -1,8 +1,8 @@
-import { COLOR } from 'react-native-material-ui'
+import { CONSULTANT_MODE_COLOR } from './config'
 
 const uiTheme = {
   palette: {
-    primaryColor: COLOR.purple500,
+    primaryColor: CONSULTANT_MODE_COLOR,
   },
   toolbar: {
     container: {

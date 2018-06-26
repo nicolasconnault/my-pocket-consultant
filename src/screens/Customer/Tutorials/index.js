@@ -8,10 +8,12 @@ import Container from '../../../components/Container'
 import TutorialList from '../../../components/TutorialList'
 import Nav from '../CustomerNav'
 import { TutorialListPropType } from '../../../proptypes'
+import MyIcon from '../../../components/MyIcon'
 
 class Tutorials extends React.Component {
   static navigationOptions = {
     title: 'Tutorials',
+    drawerIcon: <MyIcon iconKey="school" />,
   }
 
   render() {

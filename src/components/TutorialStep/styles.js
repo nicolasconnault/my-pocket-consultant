@@ -1,9 +1,9 @@
-import { COLOR } from 'react-native-material-ui'
+import { CUSTOMER_MODE_COLOR } from '../../config'
 
 export default {
   avatarStyle: {
     content: { fontSize: 16 },
-    container: { backgroundColor: COLOR.pink500 },
+    container: { backgroundColor: CUSTOMER_MODE_COLOR },
   },
   stepContainerStyle: {
     flex: 1,

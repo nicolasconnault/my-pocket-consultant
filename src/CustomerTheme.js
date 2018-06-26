@@ -1,8 +1,8 @@
-import { COLOR } from 'react-native-material-ui'
+import { CUSTOMER_MODE_COLOR } from './config'
 
 const uiTheme = {
   palette: {
-    primaryColor: COLOR.pink500,
+    primaryColor: CUSTOMER_MODE_COLOR,
   },
   toolbar: {
     container: {

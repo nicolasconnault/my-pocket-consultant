@@ -4,6 +4,7 @@ import { Toolbar } from 'react-native-material-ui'
 import Container from '../../../components/Container'
 import CompanyList from '../../../components/CompanyList'
 import Nav from '../CustomerNav'
+import MyIcon from '../../../components/MyIcon'
 
 const styles = {
   headingStyle: {
@@ -17,6 +18,7 @@ export default class MyCompanies extends React.Component {
   static navigationOptions = {
     title: 'My Companies',
     drawerLabel: 'My Companies',
+    drawerIcon: <MyIcon iconKey="subscriptions" />,
   }
 
   render() {

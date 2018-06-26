@@ -6,13 +6,13 @@ import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui'
 
 import Container from '../../../components/Container'
 import Nav from '../ConsultantNav'
+import MyIcon from '../../../components/MyIcon'
 
 export default class Settings extends React.Component {
-  state = { menuVisible: false };
-
   static navigationOptions = {
     title: 'Settings',
     drawerLabel: 'Settings',
+    drawerIcon: <MyIcon iconKey="settings" />,
   };
 
   render() {

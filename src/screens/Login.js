@@ -63,11 +63,11 @@ class Login extends React.Component {
       if (response.status >= 200 && response.status < 300) {
         this.setState({ error: '' })
         const accessToken = res.access_token
-        this.storeToken(accessToken)
 
         if (!accessToken) {
           navigation.navigate('Login')
         } else {
+          await AsyncStorage.setItem(ACCESS_TOKEN, accessToken)
           dispatch(fetchUser(accessToken))
         }
       } else {
@@ -83,30 +83,12 @@ class Login extends React.Component {
     }
   }
 
-  getToken = async () => {
-    try {
-      const token = await AsyncStorage.getItem(ACCESS_TOKEN)
-      console.log(`token is:${token}`)
-    } catch (error) {
-      console.log('Something went wrong')
-    }
-  }
-
+  // If we already have a token in storage, it means the user hasn't logged out
   loadInitialState = async () => {
     const token = await AsyncStorage.getItem(ACCESS_TOKEN)
     const { dispatch } = this.props
     if (token !== null) {
       dispatch(fetchUser(token))
-    }
-  }
-
-  async storeToken(accessToken) {
-    try {
-      await AsyncStorage.setItem(ACCESS_TOKEN, accessToken)
-      const token = await AsyncStorage.getItem(ACCESS_TOKEN)
-      this.getToken()
-    } catch (error) {
-      console.log('Something went wrong')
     }
   }
 

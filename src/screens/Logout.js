@@ -3,8 +3,13 @@ import {
   AsyncStorage,
 } from 'react-native'
 import { ACCESS_TOKEN } from '../config'
+import MyIcon from '../components/MyIcon'
 
 class Logout extends React.Component {
+  static navigationOptions = {
+    drawerIcon: <MyIcon iconKey="logOut" />,
+  }
+
   componentDidMount() {
     this.loadInitialState().done()
   }

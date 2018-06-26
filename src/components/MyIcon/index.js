@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, Platform } from 'react-native'
-import { COLOR } from 'react-native-material-ui'
 import { IonIcons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { IconSizePropType, IconColorPropType, IconKeyPropType } from '../../proptypes'
+import { CUSTOMER_MODE_COLOR } from '../../config'
 
 class MyIcon extends React.Component {
   render() {
@@ -12,7 +12,7 @@ class MyIcon extends React.Component {
     const iconTable = {
       cart: { ios: 'ios-cart', android: 'shopping-cart' },
       chat: { ios: 'ios-chatbubbles', android: 'chat' },
-      document: { ios: 'ios-document', android: ['IonIcons', 'md-document'] },
+      document: { ios: 'ios-document', android: [MaterialCommunityIcons, 'file-document'] },
       download: { ios: 'ios-download', android: 'download' },
       edit: { ios: 'ios-create', android: 'md-create' },
       email: { ios: 'ios-mail', android: 'mail' },
@@ -20,13 +20,14 @@ class MyIcon extends React.Component {
       filter: { ios: [MaterialIcons, 'filter-list'], android: 'filter-list' },
       globe: { ios: 'ios-globe-outline', android: [IonIcons, 'md-globe'] },
       heart: { ios: 'ios-heart', android: [IonIcons, 'md-heart'] },
+      help: { ios: 'ios-help-circle', android: 'help' },
       hide: { ios: 'ios-eye-off', android: [IonIcons, 'md-eye-off'] },
       history: { ios: [MaterialIcons, 'history'], android: 'history' },
       home: { ios: 'ios-home', android: 'home' },
       infoCircle: { ios: 'ios-information-circle-outline', android: 'info-outline' },
       list: { ios: 'ios-list', android: 'list' },
       lock: { ios: 'ios-lock', android: 'lock' },
-      logOut: { ios: 'ios-log-out', android: [IonIcons, 'md-log-out'] },
+      logOut: { ios: 'ios-log-out', android: [MaterialCommunityIcons, 'logout-variant'] },
       menu: { ios: 'ios-menu', android: 'menu' },
       newMessage: { ios: 'ios-chatboxes', android: [MaterialCommunityIcons, 'message-alert'] },
       news: {
@@ -87,7 +88,7 @@ MyIcon.propTypes = {
 }
 MyIcon.defaultProps = {
   size: 20,
-  color: COLOR.pink500,
+  color: CUSTOMER_MODE_COLOR,
   iconKey: null,
 }
 

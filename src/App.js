@@ -61,9 +61,10 @@ class Main extends React.Component {
     })
 
     if (appMode === 'consultant') {
-      Drawer = createDrawerNavigator({        
-        TodoList: { label: 'To-do List', screen: TodoList },
-        Customers: { label: 'My Customers', screen: Customers },
+      Drawer = createDrawerNavigator({
+        TodoList: { screen: TodoList },
+        Subscriptions: { screen: Subscriptions },
+        Customers: { screen: Customers },
         News: { screen: News },
         Settings: { screen: ConsultantSettings },
         Logout: { screen: Logout },
@@ -73,6 +74,15 @@ class Main extends React.Component {
         initialRouteName: 'Customers',
         backBehavior: 'initialRoute',
         contentComponent: props => <ConsultantDrawer {...props} />,
+        contentOptions: {
+          activeTintColor: '#e90000',
+          itemsContainerStyle: {
+            marginVertical: 15,
+          },
+          iconContainerStyle: {
+            opacity: 1
+          }
+        }
       })
     }
 

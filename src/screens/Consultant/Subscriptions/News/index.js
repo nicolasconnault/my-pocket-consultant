@@ -1,18 +1,18 @@
 import React from 'react'
 import {
-  Text, StatusBar, View, ScrollView,
+  Text, StatusBar, View,
 } from 'react-native'
-import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui'
+import { Toolbar } from 'react-native-material-ui'
 
 import Container from '../../../../components/Container'
 import Nav from '../../ConsultantNav'
+import MyIcon from '../../../../components/MyIcon'
 
 export default class Notifications extends React.Component {
-  state = { menuVisible: false };
-
   static navigationOptions = {
-    title: 'Notifications',
-    drawerLabel: 'Notifications',
+    title: 'News',
+    drawerLabel: 'News',
+    drawerIcon: <MyIcon iconKey="news" />,
   };
 
   render() {

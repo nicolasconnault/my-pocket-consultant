@@ -5,6 +5,7 @@ import {
 import { Toolbar } from 'react-native-material-ui'
 
 import Container from '../../../components/Container'
+import MyIcon from '../../../components/MyIcon'
 import Nav from '../CustomerNav'
 
 const styles = {
@@ -19,6 +20,7 @@ export default class Help extends React.Component {
   static navigationOptions = {
     title: 'Help & Feedback',
     drawerLabel: 'Help & Feedback',
+    drawerIcon: <MyIcon iconKey="help" />,
   };
 
   render() {
