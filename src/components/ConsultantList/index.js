@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { FlatList, View } from 'react-native'
 import { connect } from 'react-redux'
-import ConsultantCard from './ConsultantCard'
-import { UserListPropType, IdPropType, ListTypePropType } from '../proptypes'
+import ConsultantCard from '../ConsultantCard'
+import { UserListPropType, IdPropType, ListTypePropType } from '../../proptypes'
 
 class ConsultantList extends Component {
   render() {

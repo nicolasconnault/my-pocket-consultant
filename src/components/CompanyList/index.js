@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { View, FlatList } from 'react-native'
 import { connect } from 'react-redux'
-import CompanyCard from './CompanyCard'
-import { CompanyListPropType, ListTypePropType } from '../proptypes'
+import CompanyCard from '../CompanyCard'
+import { CompanyListPropType, ListTypePropType } from '../../proptypes'
 
 class CompanyList extends Component {
   render() {
@@ -17,7 +17,6 @@ class CompanyList extends Component {
       })
     }
 
-    console.log(finalCompanies)
     return (
       <View>
         <FlatList

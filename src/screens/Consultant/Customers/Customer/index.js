@@ -4,8 +4,8 @@ import {
 } from 'react-native'
 import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui'
 
-import Container from '../../../../components/Container.js'
-import Nav from '../../ConsultantNav.js'
+import Container from '../../../../components/Container'
+import Nav from '../../ConsultantNav'
 
 export default class Customer extends React.Component {
   state = { menuVisible: false };

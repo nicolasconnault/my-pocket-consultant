@@ -44,7 +44,7 @@ export const UserPropType = PropTypes.shape({
 export const TutorialStepPropType = PropTypes.shape({
   id: PropTypes.number,
   title: PropTypes.string,
-  number: PropTypes.number,
+  number: PropTypes.string,
   description: PropTypes.string,
 })
 
@@ -59,7 +59,7 @@ export const UserListPropType = PropTypes.oneOfType([
 export const TutorialListPropType = PropTypes.oneOfType([
   PropTypes.arrayOf(TutorialPropType), PropTypes.shape({}),
 ])
-export const ListTypePropType = PropTypes.oneOf(['singleCard', 'customerCompanies', 'withConsultants', 'selectConsultant'])
+export const ListTypePropType = PropTypes.oneOf(['singleCard', 'customerCompanies', 'withConsultants', 'selectAConsultant'])
 export const IconSizePropType = PropTypes.number
 export const IconColorPropType = PropTypes.string
 export const IconKeyPropType = PropTypes.string

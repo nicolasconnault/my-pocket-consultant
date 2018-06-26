@@ -1,17 +1,8 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList } from 'react-native'
-import TutorialCard from './TutorialCard'
-import { TutorialListPropType, CompanyPropType, TitlePropType } from '../proptypes'
-
-const styles = {
-  titleStyle: {
-    fontSize: 20,
-    paddingLeft: 8,
-    paddingTop: 8,
-    paddingBottom: 8,
-    fontWeight: 'bold',
-  },
-}
+import TutorialCard from '../TutorialCard'
+import { TutorialListPropType, CompanyPropType, TitlePropType } from '../../proptypes'
+import styles from './styles'
 
 class TutorialList extends Component {
   render() {

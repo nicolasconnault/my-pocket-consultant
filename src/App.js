@@ -20,11 +20,18 @@ import Tutorials from './screens/Customer/Tutorials'
 import Tutorial from './screens/Customer/Tutorial'
 import MyNews from './screens/Customer/MyNews'
 import Settings from './screens/Customer/Settings'
+import SelectAConsultant from './screens/Customer/SelectAConsultant'
+import Help from './screens/Customer/Help'
+import CustomerDrawer from './screens/Customer/Drawer'
 
 import Customers from './screens/Consultant/Customers'
-import Help from './screens/Customer/Help'
-import SelectAConsultant from './screens/Customer/SelectAConsultant'
-import CustomerDrawer from './screens/Customer/Drawer'
+import TodoList from './screens/Consultant/TodoList'
+import Subscriptions from './screens/Consultant/Subscriptions'
+import ConsultantSettings from './screens/Consultant/Settings'
+import Terms from './screens/Consultant/Terms'
+import ConsultantHelp from './screens/Consultant/Help'
+import News from './screens/Consultant/Subscriptions/News'
+
 import ConsultantDrawer from './screens/Consultant/Drawer'
 
 import ConsultantTheme from './ConsultantTheme'
@@ -32,13 +39,7 @@ import CustomerTheme from './CustomerTheme'
 
 import { UserPropType } from './proptypes'
 
-export let navigatorRef
-
 class Main extends React.Component {
-  componentDidMount() {
-    navigatorRef = this.navigator
-  }
-
   render() {
     const { appMode } = this.props || 'consultant'
     const { user } = this.props
@@ -60,14 +61,14 @@ class Main extends React.Component {
     })
 
     if (appMode === 'consultant') {
-      Drawer = createDrawerNavigator({
-        Customers: { screen: Customers },
-        MyConsultants: { screen: MyConsultants },
-        MyCompanies: { screen: MyCompanies },
-        MyNews: { screen: MyNews },
-        Settings: { screen: Settings },
-        Help: { screen: Help },
+      Drawer = createDrawerNavigator({        
+        TodoList: { label: 'To-do List', screen: TodoList },
+        Customers: { label: 'My Customers', screen: Customers },
+        News: { screen: News },
+        Settings: { screen: ConsultantSettings },
         Logout: { screen: Logout },
+        Help: { screen: Help },
+        Terms: { label: 'Terms & conditions', screen: Terms },
       }, {
         initialRouteName: 'Customers',
         backBehavior: 'initialRoute',
@@ -110,7 +111,7 @@ class Main extends React.Component {
     return (
       <ThemeProvider uiTheme={uiTheme}>
         <Root>
-          <StackNavigation ref={(nav) => { this.navigator = nav }} />
+          <StackNavigation />
         </Root>
       </ThemeProvider>
     )

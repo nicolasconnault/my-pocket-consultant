@@ -30,7 +30,7 @@ class Tutorial extends React.Component {
     // Add counter to steps here, just in case they're mis-numbered in the backend
     let counter = 1
     tutorial.steps.forEach((step, index) => {
-      tutorial.steps[index] = counter
+      tutorial.steps[index].number = counter
       counter += 1
     })
 

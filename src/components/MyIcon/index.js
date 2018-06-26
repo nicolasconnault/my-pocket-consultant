@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Platform } from 'react-native'
 import { COLOR } from 'react-native-material-ui'
 import { IonIcons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { IconSizePropType, IconColorPropType, IconKeyPropType } from '../proptypes'
+import { IconSizePropType, IconColorPropType, IconKeyPropType } from '../../proptypes'
 
 class MyIcon extends React.Component {
   render() {

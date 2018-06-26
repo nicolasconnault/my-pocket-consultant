@@ -9,20 +9,12 @@ import {
   AsyncStorage,
 } from 'react-native'
 import { connect } from 'react-redux'
-import { StackActions, NavigationActions } from 'react-navigation'
 
 import styles from '../components/Forms/styles'
 
 import { Logo } from '../components/Logo'
 import { OAUTH_URL, ACCESS_TOKEN } from '../config'
 import { fetchUser } from '../actions/authActions'
-
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({ routeName: 'MyConsultants' }),
-  ],
-})
 
 class Login extends React.Component {
   constructor(props) {
@@ -76,7 +68,6 @@ class Login extends React.Component {
         if (!accessToken) {
           navigation.navigate('Login')
         } else {
-          navigation.dispatch(resetAction)
           dispatch(fetchUser(accessToken))
         }
       } else {

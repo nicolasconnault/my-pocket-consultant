@@ -2,44 +2,12 @@ import React, { Component } from 'react'
 import {
   View, Text, TouchableOpacity, Linking,
 } from 'react-native'
-import { COLOR, Avatar } from 'react-native-material-ui'
+import { Avatar } from 'react-native-material-ui'
 import { withNavigation } from 'react-navigation'
-import { STORAGE_URL } from '../config'
-import MyIcon from './MyIcon'
-import { TutorialStepPropType } from '../proptypes'
-
-const styles = {
-  avatarStyle: {
-    content: { fontSize: 16 },
-    container: { backgroundColor: COLOR.pink500 },
-  },
-  stepContainerStyle: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    padding: 10,
-  },
-  counterContainerStyle: {
-    flexDirection: 'column',
-    flex: 0.2,
-  },
-  stepTitleStyle: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  stepDescriptionStyle: {
-    fontSize: 14,
-  },
-  descriptionContainerStyle: {
-    flexDirection: 'column',
-    flex: 0.7,
-  },
-  playIconContainerStyle: {
-    paddingRight: 5,
-    flex: 0.1,
-  },
-}
+import { STORAGE_URL } from '../../config'
+import MyIcon from '../MyIcon'
+import { TutorialStepPropType } from '../../proptypes'
+import styles from './styles'
 
 class TutorialStep extends Component {
   render() {

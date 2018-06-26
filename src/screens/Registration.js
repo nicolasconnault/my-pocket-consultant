@@ -11,18 +11,10 @@ import {
   AsyncStorage,
 } from 'react-native'
 
-import { StackActions, NavigationActions } from 'react-navigation'
 import { styles } from '../components/Forms'
 
 import { ACCESS_TOKEN, API_URL } from '../config'
 import { fetchUser } from '../actions/authActions'
-
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({ routeName: 'Main' }),
-  ],
-})
 
 class Registration extends React.Component {
   constructor(props) {
@@ -67,7 +59,6 @@ class Registration extends React.Component {
       })
 
       const res = await response.json()
-      console.log(res)
       // Possible problems: Email already taken
       // If successful, automatically log in and get access token
       // TODO Email verification step (or SMS code)
@@ -79,7 +70,6 @@ class Registration extends React.Component {
         if (!accessToken) {
           navigation.navigate('Login')
         } else {
-          navigation.dispatch(resetAction)
           dispatch(fetchUser(accessToken))
         }
       } else {
@@ -105,7 +95,7 @@ class Registration extends React.Component {
   }
 
   loadingInitialState = async () => {
-    const { navigation, dispatch } = this.props
+    const { dispatch } = this.props
     const token = await AsyncStorage.getItem(ACCESS_TOKEN)
     if (token !== null) {
       dispatch(fetchUser(token))
@@ -158,7 +148,7 @@ class Registration extends React.Component {
             />
             <TextInput
               style={styles.input}
-              onChangeText={val => this.setState({ poastcode: val })}
+              onChangeText={val => this.setState({ postcode: val })}
               placeholder="Postcode/Zip Code"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
@@ -169,7 +159,6 @@ class Registration extends React.Component {
               style={styles.input}
               onChangeText={val => this.setState({ password: val })}
               returnKeyType="go"
-              ref={input => this.passwordInput = input}
               placeholder="Password"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"

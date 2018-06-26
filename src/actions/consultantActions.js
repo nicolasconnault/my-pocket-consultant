@@ -1,7 +1,5 @@
-import { NavigationActions } from 'react-navigation'
 import { AsyncStorage } from 'react-native'
 import { API_URL, ACCESS_TOKEN } from '../config'
-import { navigatorRef } from '../App'
 import { RECEIVE_CONSULTANTS, SELECT_CONSULTANT, UNDO_SELECT_CONSULTANT } from './constants'
 import { receiveCustomerCompanies } from './companyActions'
 
@@ -63,7 +61,7 @@ export const selectConsultant = (
 ) => async (dispatch) => {
   try {
     dispatch(optimisticSelectConsultant(companies, companyId, consultantId))
-    navigatorRef.dispatch(NavigationActions.navigate({ routeName: 'MyConsultants' }))
+
     const token = await AsyncStorage.getItem(ACCESS_TOKEN)
     await sendSelectConsultant(companyId, consultantId, dispatch, token)
   } catch (e) {

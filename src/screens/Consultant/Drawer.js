@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-  Button, Text, View, ScrollView, StyleSheet,
+  Button, View, ScrollView, StyleSheet,
 } from 'react-native'
 import { DrawerItems, SafeAreaView } from 'react-navigation'
-import { changeAppMode } from '../../actions/appModeActions'
+import changeAppMode from '../../actions/appModeActions'
 
-class Drawer extends React.Component {
+class Drawer extends Component {
   switchToCustomer() {
-    this.props.dispatch(changeAppMode('customer'))
+    const { dispatch } = this.props
+    dispatch(changeAppMode('customer'))
   }
 
   render() {
