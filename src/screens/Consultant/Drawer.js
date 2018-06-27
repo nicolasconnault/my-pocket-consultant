@@ -1,31 +1,46 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import {
-  Button, View, ScrollView, StyleSheet,
-} from 'react-native'
+import { View, ScrollView } from 'react-native'
+import { COLOR } from 'react-native-material-ui'
 import { DrawerItems, SafeAreaView } from 'react-navigation'
-import changeAppMode from '../../actions/appModeActions'
 
-class Drawer extends Component {
-  switchToCustomer() {
-    const { dispatch } = this.props
-    dispatch(changeAppMode('customer'))
-  }
+import { CONSULTANT_MODE_COLOR } from '../../config'
+import SwitchAppModeButton from '../../components/SwitchAppModeButton'
 
+const styles = {
+  headerStyle: {
+    backgroundColor: CONSULTANT_MODE_COLOR,
+    padding: 0,
+    top: 0,
+  },
+  listStyle: {
+    backgroundColor: COLOR.grey300,
+  },
+  containerStyle: {
+    backgroundColor: COLOR.grey300,
+    flex: 1,
+    padding: 0,
+  },
+}
+
+class Drawer extends React.Component {
   render() {
-    const styles = StyleSheet.create({
-      container: {
-        flex: 1,
-      },
-    })
+    const {
+      containerStyle,
+      headerStyle,
+      listStyle,
+    } = styles
+
     const props = this.props
     return (
-      <ScrollView>
-        <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
-          <View style={{ alignSelf: 'flex-end' }}>
-            <Button onPress={() => this.switchToCustomer()} title="Switch to Customer" />
+      <ScrollView style={containerStyle}>
+        <SafeAreaView style={headerStyle} forceInset={{ top: 'always', horizontal: 'never' }}>
+          <View style={headerStyle}>
+            <SwitchAppModeButton newAppMode="Customer" />
           </View>
-          <DrawerItems {...props} />
+          <View style={listStyle}>
+            <DrawerItems {...props} />
+          </View>
         </SafeAreaView>
       </ScrollView>
     )

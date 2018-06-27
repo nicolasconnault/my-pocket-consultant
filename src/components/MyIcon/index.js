@@ -1,12 +1,14 @@
 import React from 'react'
 import { View, Platform } from 'react-native'
 import { IonIcons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { IconSizePropType, IconColorPropType, IconKeyPropType } from '../../proptypes'
+import {
+  IconSizePropType, IconColorPropType, IconKeyPropType, StylesPropType,
+} from '../../proptypes'
 import { CUSTOMER_MODE_COLOR } from '../../config'
 
 class MyIcon extends React.Component {
   render() {
-    const { size, color } = this.props
+    const { size, color, style } = this.props
     let { iconKey } = this.props
 
     const iconTable = {
@@ -73,7 +75,7 @@ class MyIcon extends React.Component {
 
       return (
         <View>
-          <MyComponent name={iconKey} size={size} color={color} />
+          <MyComponent name={iconKey} size={size} color={color} style={style} />
         </View>
       )
     }
@@ -82,11 +84,13 @@ class MyIcon extends React.Component {
 }
 
 MyIcon.propTypes = {
+  style: StylesPropType,
   size: IconSizePropType,
   color: IconColorPropType,
   iconKey: IconKeyPropType,
 }
 MyIcon.defaultProps = {
+  style: {},
   size: 20,
   color: CUSTOMER_MODE_COLOR,
   iconKey: null,

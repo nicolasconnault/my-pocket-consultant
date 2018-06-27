@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { ViewPropTypes } from 'react-native'
 
 export const Company = class {
   constructor(id, name, label) {
@@ -48,6 +49,8 @@ export const TutorialStepPropType = PropTypes.shape({
   description: PropTypes.string,
 })
 
+export const AppModePropType = PropTypes.oneOf(['consultant', 'customer'])
+export const StylesPropType = ViewPropTypes.style
 export const TitlePropType = PropTypes.string
 export const IdPropType = PropTypes.number
 export const CompanyListPropType = PropTypes.oneOfType([

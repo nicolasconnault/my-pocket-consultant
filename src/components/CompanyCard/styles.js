@@ -20,16 +20,6 @@ export default {
     width: 41,
     height: 41,
   },
-  consultantImageStyle: {
-    width: 41,
-    height: 41,
-  },
-  consultantImageContainerStyle: {
-    justifyContent: 'space-around',
-    flex: 1,
-    paddingLeft: 40,
-    flexDirection: 'row',
-  },
   switchContainerStyle: {
     flex: 1,
     justifyContent: 'flex-end',

@@ -9,6 +9,8 @@ import { withNavigation } from 'react-navigation'
 import { toggleCompany } from '../../actions/companyActions'
 import { STORAGE_URL } from '../../config'
 import { CompanyPropType, CompanyListPropType, ListTypePropType } from '../../proptypes'
+import UserAvatar from '../UserAvatar'
+
 import styles from './styles'
 
 class CompanyCard extends Component {
@@ -90,14 +92,7 @@ class CompanyCard extends Component {
             />
           </View>
         )
-        consultantImage = (
-          <View style={consultantImageContainerStyle}>
-            <Image
-              style={consultantImageStyle}
-              source={{ uri: `${STORAGE_URL}images/consultants/${consultantId}.png` }}
-            />
-          </View>
-        )
+        consultantImage = <UserAvatar userId={consultantId} />
       }
     } else if (listType === 'customerCompanies') {
       switchContainer = (
@@ -116,14 +111,7 @@ class CompanyCard extends Component {
           {lastName}
         </Text>
       )
-      consultantImage = (
-        <View style={consultantImageContainerStyle}>
-          <Image
-            style={consultantImageStyle}
-            source={{ uri: `${STORAGE_URL}images/consultants/${consultantId}.png` }}
-          />
-        </View>
-      )
+      consultantImage = <UserAvatar userId={consultantId} />
     }
 
     return (

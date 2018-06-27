@@ -1,23 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { View, ScrollView } from 'react-native'
 import { COLOR } from 'react-native-material-ui'
-
-import {
-  Button, View, ScrollView,
-} from 'react-native'
 import { DrawerItems, SafeAreaView } from 'react-navigation'
 
 import { CUSTOMER_MODE_COLOR } from '../../config'
-import changeAppMode from '../../actions/appModeActions'
+import SwitchAppModeButton from '../../components/SwitchAppModeButton'
 
 const styles = {
   headerStyle: {
     backgroundColor: CUSTOMER_MODE_COLOR,
     padding: 0,
     top: 0,
-  },
-  switchStyle: {
-    alignSelf: 'flex-end',
   },
   listStyle: {
     backgroundColor: COLOR.grey300,
@@ -30,15 +24,9 @@ const styles = {
 }
 
 class Drawer extends React.Component {
-  switchToConsultant() {
-    const { dispatch } = this.props
-    dispatch(changeAppMode('consultant'))
-  }
-
   render() {
     const {
       containerStyle,
-      switchStyle,
       headerStyle,
       listStyle,
     } = styles
@@ -48,9 +36,7 @@ class Drawer extends React.Component {
       <ScrollView style={containerStyle}>
         <SafeAreaView style={headerStyle} forceInset={{ top: 'always', horizontal: 'never' }}>
           <View style={headerStyle}>
-            <View style={switchStyle}>
-              <Button onPress={() => this.switchToConsultant()} title="Switch to Consultant" />
-            </View>
+            <SwitchAppModeButton newAppMode="Consultant" />
           </View>
           <View style={listStyle}>
             <DrawerItems {...props} />

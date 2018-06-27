@@ -6,9 +6,8 @@ import {
 import { ListItem } from 'react-native-material-ui'
 import { withNavigation } from 'react-navigation'
 import { selectConsultant } from '../../actions/consultantActions'
-import { STORAGE_URL } from '../../config'
+import UserAvatar from '../UserAvatar'
 import { UserPropType, CompanyListPropType, IdPropType } from '../../proptypes'
-import styles from './styles'
 
 class ConsultantCard extends Component {
   componentWillUpdate() {
@@ -16,7 +15,6 @@ class ConsultantCard extends Component {
   }
 
   render() {
-    const { avatarStyle } = styles
     const {
       navigation, consultant, companies, companyId, currentConsultantId, dispatch,
     } = this.props
@@ -28,10 +26,7 @@ class ConsultantCard extends Component {
       <View>
         <ListItem
           leftElement={(
-            <Image
-              style={avatarStyle}
-              source={{ uri: `${STORAGE_URL}images/consultants/${id}.png` }}
-            />
+            <UserAvatar userId={id} />
           )}
           divider
           centerElement={(

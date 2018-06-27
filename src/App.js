@@ -22,7 +22,6 @@ import MyNews from './screens/Customer/MyNews'
 import Settings from './screens/Customer/Settings'
 import SelectAConsultant from './screens/Customer/SelectAConsultant'
 import Help from './screens/Customer/Help'
-import CustomerDrawer from './screens/Customer/Drawer'
 
 import Customers from './screens/Consultant/Customers'
 import TodoList from './screens/Consultant/TodoList'
@@ -32,20 +31,21 @@ import Terms from './screens/Consultant/Terms'
 import ConsultantHelp from './screens/Consultant/Help'
 import News from './screens/Consultant/Subscriptions/News'
 
-import ConsultantDrawer from './screens/Consultant/Drawer'
+import Drawer from './screens/Drawer'
 
 import ConsultantTheme from './ConsultantTheme'
 import CustomerTheme from './CustomerTheme'
 
-import { UserPropType } from './proptypes'
+import { UserPropType, AppModePropType } from './proptypes'
 
 class Main extends React.Component {
   render() {
-    const { appMode } = this.props || 'consultant'
+    let { appMode } = this.props
     const { user } = this.props
     const uiTheme = (appMode === 'consultant') ? ConsultantTheme : CustomerTheme
+    appMode = (appMode === null) ? 'customer' : appMode
 
-    let Drawer = createDrawerNavigator({
+    let DrawerNavigation = createDrawerNavigator({
       Notifications: { screen: Notifications },
       MyConsultants: { screen: MyConsultants },
       MyCompanies: { screen: MyCompanies },
@@ -57,37 +57,37 @@ class Main extends React.Component {
     }, {
       backBehavior: 'initialRoute',
       initialRouteName: 'MyConsultants',
-      contentComponent: props => <CustomerDrawer {...props} />,
+      contentComponent: props => <Drawer appMode={appMode} {...props} />,
     })
 
     if (appMode === 'consultant') {
-      Drawer = createDrawerNavigator({
+      DrawerNavigation = createDrawerNavigator({
         TodoList: { screen: TodoList },
         Subscriptions: { screen: Subscriptions },
         Customers: { screen: Customers },
         News: { screen: News },
         Settings: { screen: ConsultantSettings },
         Logout: { screen: Logout },
-        Help: { screen: Help },
+        Help: { screen: ConsultantHelp },
         Terms: { label: 'Terms & conditions', screen: Terms },
       }, {
         initialRouteName: 'Customers',
         backBehavior: 'initialRoute',
-        contentComponent: props => <ConsultantDrawer {...props} />,
+        contentComponent: props => <Drawer appMode={appMode} {...props} />,
         contentOptions: {
           activeTintColor: '#e90000',
           itemsContainerStyle: {
             marginVertical: 15,
           },
           iconContainerStyle: {
-            opacity: 1
-          }
-        }
+            opacity: 1,
+          },
+        },
       })
     }
 
     let StackNavigation = createStackNavigator({
-      Drawer: { screen: Drawer },
+      Drawer: { screen: DrawerNavigation },
       Login: { screen: Login },
       Registration: { screen: Registration },
       Home: { screen: Home },
@@ -100,6 +100,7 @@ class Main extends React.Component {
       ContactMe: { screen: ContactMe },
       CompanyNews: { screen: CompanyNews },
       MyNews: { screen: MyNews },
+      ConsultantHelp: { screen: ConsultantHelp },
       SelectAConsultant: { screen: SelectAConsultant },
     }, {
       initialRouteName: 'Drawer',
@@ -130,9 +131,11 @@ class Main extends React.Component {
 
 Main.propTypes = {
   user: UserPropType,
+  appMode: AppModePropType,
 }
 Main.defaultProps = {
   user: null,
+  appMode: 'customer',
 }
 const mapStateToProps = state => ({
   appMode: state.appMode,
