@@ -4,31 +4,38 @@ import { connect } from 'react-redux'
 import { Root } from 'native-base'
 import { ThemeProvider } from 'react-native-material-ui'
 
-import Home from './screens/Home'
-import Login from './screens/Login'
-import Logout from './screens/Logout'
-import Registration from './screens/Registration'
-import MainScreen from './screens/Main'
+import {
+  Home,
+  Login,
+  Logout,
+  Registration,
+  MainScreen,
+} from './screens'
 
-import Notifications from './screens/Customer/Notifications'
-import MyConsultants from './screens/Customer/MyConsultants'
-import MyCompanies from './screens/Customer/MyCompanies'
-import CompanyMenu from './screens/Customer/CompanyMenu'
-import ContactMe from './screens/Customer/ContactMe'
-import CompanyNews from './screens/Customer/CompanyNews'
-import Tutorials from './screens/Customer/Tutorials'
-import Tutorial from './screens/Customer/Tutorial'
-import MyNews from './screens/Customer/MyNews'
-import Settings from './screens/Customer/Settings'
-import SelectAConsultant from './screens/Customer/SelectAConsultant'
-import Help from './screens/Customer/Help'
+import {
+  Notifications,
+  MyConsultants,
+  MyCompanies,
+  CompanyMenu,
+  ContactMe,
+  CompanyNews,
+  Tutorials,
+  Tutorial,
+  MyNews,
+  Settings,
+  SelectAConsultant,
+  Help,
+} from './screens/Customer'
 
-import Customers from './screens/Consultant/Customers'
-import TodoList from './screens/Consultant/TodoList'
-import Subscriptions from './screens/Consultant/Subscriptions'
-import ConsultantSettings from './screens/Consultant/Settings'
-import Terms from './screens/Consultant/Terms'
-import ConsultantHelp from './screens/Consultant/Help'
+import {
+  Customers,
+  TodoList,
+  Subscriptions,
+  ConsultantSettings,
+  Terms,
+  ConsultantHelp,
+} from './screens/Consultant'
+
 import News from './screens/Consultant/Subscriptions/News'
 
 import Drawer from './screens/Drawer'
@@ -113,9 +120,9 @@ class Main extends React.Component {
       StackNavigation = createStackNavigator({
         Login: { screen: Login },
         Registration: { screen: Registration },
-
       }, {
         initialRouteName: 'Login',
+        headerMode: 'none',
       })
     }
 
