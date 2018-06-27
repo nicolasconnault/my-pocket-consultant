@@ -2,7 +2,6 @@ import React from 'react'
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
   StatusBar,
@@ -11,38 +10,18 @@ import {
   Image,
   Dimensions,
 } from 'react-native'
+import { TextField } from 'react-native-material-textfield'
 import { connect } from 'react-redux'
+import { Button } from 'react-native-material-ui'
 
-import { OAUTH_URL, ACCESS_TOKEN, ASSETS_URL } from '../config'
-import { fetchUser } from '../actions/authActions'
+import { OAUTH_URL, ACCESS_TOKEN } from '../../config'
+import { fetchUser } from '../../actions/authActions'
+import { landscapeStyles, portraitStyles } from './styles'
 
 const logoImage = require('./white_logo.png')
+const landscapeBackground = require('./LandscapeBackground.jpg')
+const portraitBackground = require('./PortraitBackground.jpg')
 
-const styles = {
-  imageBackgroundStyle: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-
-    flexDirection: 'column',
-  },
-  logoStyle: {
-    height: '90%',
-    flex: 1,
-  },
-  logoContainerStyle: {
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    height: 100,
-    alignSelf: 'flex-start',
-    marginTop: 20,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-}
-// TODO Use onLayout orientation detection to resize the main logo correctly
 class Login extends React.Component {
   constructor(props) {
     super(props)
@@ -51,6 +30,7 @@ class Login extends React.Component {
       username: '',
       password: '',
       error: '',
+      orientation: null,
     }
 
     this.onLoginButtonPress = this.onLoginButtonPress.bind(this)
@@ -62,9 +42,13 @@ class Login extends React.Component {
     this.loadInitialState().done()
   }
 
-  onLayout(e) {
-    const {width, height} = Dimensions.get('window')
-    console.log(width, height)
+  onLayout() {
+    const { width, height } = Dimensions.get('window')
+    if (width > height) {
+      this.setState({ orientation: 'landscape' })
+    } else {
+      this.setState({ orientation: 'portrait' })
+    }
   }
 
   onRegisterButtonPress = () => {
@@ -126,12 +110,19 @@ class Login extends React.Component {
   }
 
   render() {
-    const { error, username } = this.state
+    const { error, username, orientation } = this.state
+    const { navigation } = this.props
     const {
       imageBackgroundStyle,
       logoStyle,
       logoContainerStyle,
-    } = styles
+      mainContainerStyle,
+      passwordReminderContainerStyle,
+      passwordReminderStyle,
+      buttonStyle,
+      signUpButtonStyle,
+      buttonContainerStyle,
+    } = (orientation === 'landscape') ? landscapeStyles : portraitStyles
 
     let errorMessage = null
 
@@ -145,51 +136,57 @@ class Login extends React.Component {
 
     return (
       <ImageBackground
-        source={{ uri: `${ASSETS_URL}Background.jpg` }}
+        source={(orientation === 'landscape') ? landscapeBackground : portraitBackground}
         style={imageBackgroundStyle}
       >
         <StatusBar hidden />
         <KeyboardAvoidingView behavior="padding">
+          <View style={mainContainerStyle}>
+            <View style={logoContainerStyle} onLayout={this.onLayout}>
+              <Image source={logoImage} style={logoStyle} />
+            </View>
 
-          <View
-            style={logoContainerStyle}
-            onLayout={this.onLayout}
-          >
-            <Image source={logoImage} style={logoStyle} />
-          </View>
+            <View>
+              { errorMessage }
+              <TextField
+                onChangeText={val => this.setState({ username: val })}
+                label="Email"
+                keyboardType="email-address"
+                baseColor="#FFFFFF"
+                textColor="#FFFFFF"
+                tintColor="#FFFFFF"
+                defaultValue={username}
+              />
 
-          <View>
-            { errorMessage }
-            <TextInput
-              onChangeText={val => this.setState({ username: val })}
-              keyboardType="email-address"
-              placeholder="Email or Mobile Num"
-              defaultValue={username}
-            />
-
-            <TextInput
-              onChangeText={val => this.setState({ password: val })}
-              placeholder="Password"
-              secureTextEntry
-            />
-
-            <TouchableOpacity
-              onPress={this.onLoginButtonPress}
-            >
-              <Text>
-  LOGIN
-              </Text>
-            </TouchableOpacity>
-            <Text>
-              OR
-            </Text>
-            <TouchableOpacity
-              onPress={this.onRegisterButtonPress}
-            >
-              <Text>
-  REGISTER
-              </Text>
-            </TouchableOpacity>
+              <TextField
+                onChangeText={val => this.setState({ password: val })}
+                label="Password"
+                labelHeight={16}
+                baseColor="#FFFFFF"
+                textColor="#FFFFFF"
+                tintColor="#FFFFFF"
+                secureTextEntry
+              />
+              <TouchableOpacity style={passwordReminderContainerStyle} onPress={() => { navigation.navigate('PasswordReminder') }}>
+                <Text style={passwordReminderStyle}>
+                  forgot your password?
+                </Text>
+              </TouchableOpacity>
+              <View style={buttonContainerStyle}>
+                <Button
+                  style={buttonStyle}
+                  onPress={this.onLoginButtonPress}
+                  text="SIGN IN"
+                  primary
+                  raised
+                />
+                <Button
+                  style={{ ...buttonStyle, signUpButtonStyle }}
+                  onPress={this.onRegisterButtonPress}
+                  text="NEW SIGN UP"
+                />
+              </View>
+            </View>
           </View>
         </KeyboardAvoidingView>
       </ImageBackground>

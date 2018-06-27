@@ -5,16 +5,20 @@ import {
   View,
   Text,
   KeyboardAvoidingView,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
   AsyncStorage,
 } from 'react-native'
+import { Toolbar, Button } from 'react-native-material-ui'
+import { TextField } from 'react-native-material-textfield'
 
-import { ACCESS_TOKEN, API_URL } from '../config'
-import { fetchUser } from '../actions/authActions'
+import Container from '../../components/Container'
+import { ACCESS_TOKEN, API_URL } from '../../config'
+import { fetchUser } from '../../actions/authActions'
 
 class Registration extends React.Component {
+  static navigationOptions = {
+    title: 'Sign Up',
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -25,6 +29,8 @@ class Registration extends React.Component {
       password: '',
       errors: [],
     }
+    this.focusNextField = this.focusNextField.bind(this)
+    this.inputs = {}
     this.onRegistrationButtonPress = this.onRegistrationButtonPress.bind(this)
   }
 
@@ -100,6 +106,10 @@ class Registration extends React.Component {
     }
   }
 
+  focusNextField(id) {
+    this.inputs[id].focus()
+  }
+
   async storeToken(accessToken) {
     try {
       await AsyncStorage.setItem(ACCESS_TOKEN, accessToken)
@@ -110,64 +120,104 @@ class Registration extends React.Component {
   }
 
   render() {
+    const { navigation } = this.props
+
     return (
-      <KeyboardAvoidingView behavior="padding">
-        <ScrollView>
-          <StatusBar translucent={false} barStyle="light-content" />
-          <View>
-            <TextInput
+      <Container>
+        <KeyboardAvoidingView enabled>
+          <StatusBar hidden />
+          <Toolbar
+            leftElement="arrow-back"
+            onLeftElementPress={() => navigation.navigate('Login')}
+            centerElement="Sign Up"
+          />
+          <View style={{ padding: 10 }}>
+            <TextField
               onChangeText={val => this.setState({ firstName: val })}
-              placeholder="First Name"
+              label="First Name"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
               defaultValue="Anne-Marie"
+              blurOnSubmit={false}
+              onSubmitEditing={() => {
+                this.focusNextField('two')
+              }}
+              returnKeyType="next"
+              ref={(input) => {
+                this.inputs['one'] = input
+              }}
             />
-            <TextInput
+            <TextField
               onChangeText={val => this.setState({ lastName: val })}
-              placeholder="Last Name"
+              label="Last Name"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
               defaultValue="Connault"
+              blurOnSubmit={false}
+              onSubmitEditing={() => {
+                this.focusNextField('three')
+              }}
+              returnKeyType="next"
+              ref={(input) => {
+                this.inputs['two'] = input
+              }}
             />
-            <TextInput
+            <TextField
               onChangeText={val => this.setState({ username: val })}
               autoCapitalize="none"
-              onSubmitEditing={() => this.passwordInput.focus()}
               autoCorrect={false}
               keyboardType="email-address"
-              returnKeyType="next"
-              placeholder="Email Address"
+              label="Email Address"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
               defaultValue="amlconnault@gmail.com"
+              blurOnSubmit={false}
+              onSubmitEditing={() => {
+                this.focusNextField('four')
+              }}
+              returnKeyType="next"
+              ref={(input) => {
+                this.inputs['three'] = input
+              }}
             />
-            <TextInput
+            <TextField
               onChangeText={val => this.setState({ postcode: val })}
-              placeholder="Postcode/Zip Code"
+              label="Postcode/Zip Code"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
               defaultValue="6220"
+              blurOnSubmit={false}
+              onSubmitEditing={() => {
+                this.focusNextField('five')
+              }}
+              returnKeyType="next"
+              ref={(input) => {
+                this.inputs['four'] = input
+              }}
             />
 
-            <TextInput
+            <TextField
               onChangeText={val => this.setState({ password: val })}
-              returnKeyType="go"
-              placeholder="Password"
+              label="Password"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
               secureTextEntry
               defaultValue="password"
+              blurOnSubmit
+              returnKeyType="done"
+              ref={(input) => {
+                this.inputs['five'] = input
+              }}
             />
-            <TouchableOpacity
+            <Button
+              primary
+              raised
               onPress={this.onRegistrationButtonPress}
-            >
-              <Text>
-CONTINUE
-              </Text>
-            </TouchableOpacity>
+              text="CONTINUE"
+            />
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </Container>
     )
   }
 }
