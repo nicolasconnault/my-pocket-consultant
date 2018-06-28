@@ -10,10 +10,7 @@ export default {
     fontSize: 14,
   },
   logoContainerStyle: {
-    paddingLeft: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingRight: 10,
+    padding: 20,
     alignSelf: 'flex-start',
   },
   logoStyle: {
@@ -25,9 +22,14 @@ export default {
     justifyContent: 'flex-end',
     paddingRight: 3,
   },
+  avatarStyle: {
+    padding: 20,
+    alignSelf: 'flex-end',
+  },
   mainContainerStyle: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
 }

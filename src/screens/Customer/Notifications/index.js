@@ -7,14 +7,7 @@ import { Toolbar } from 'react-native-material-ui'
 import Container from '../../../components/Container'
 import Nav from '../CustomerNav'
 import MyIcon from '../../../components/MyIcon'
-
-const styles = {
-  headingStyle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    padding: 10,
-  },
-}
+import styles from '../../styles'
 
 export default class Notifications extends React.Component {
   static navigationOptions = {

@@ -76,6 +76,7 @@ class CompanyMenu extends React.Component {
             renderItem={({ item }) => <CompanyCard company={item} listType="singleCard" />}
           />
           <FlatList
+            style={{ alignSelf: 'flex-start' }}
             data={menuItems}
             keyExtractor={item => item.iconKey}
             renderItem={({ item }) => (

@@ -2,11 +2,9 @@ export default {
   consultantImageStyle: {
     width: 41,
     height: 41,
+    borderRadius: 20,
   },
   consultantImageContainerStyle: {
-    justifyContent: 'space-around',
-    flex: 1,
-    paddingLeft: 40,
-    flexDirection: 'row',
+
   },
 }

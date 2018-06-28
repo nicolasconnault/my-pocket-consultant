@@ -6,14 +6,7 @@ import { Toolbar } from 'react-native-material-ui'
 import Container from '../../../components/Container'
 import Nav from '../CustomerNav'
 import TutorialStep from '../../../components/TutorialStep'
-
-const styles = {
-  headingStyle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    padding: 10,
-  },
-}
+import styles from '../../styles'
 
 class Tutorial extends React.Component {
   static navigationOptions = {

@@ -1,6 +1,7 @@
 import { COLOR } from 'react-native-material-ui'
 
-const localhost = this.Expo.Constants.experienceUrl.match(/192/)
+// const localhost = this.Expo.Constants.experienceUrl.match(/192/)
+const localhost = true
 export const API_URL = (localhost) ? 'http://192.168.0.11/customer/' : 'http://mpc.smbstreamline.com.au/customer/'
 export const REGISTRATION_URL = (localhost) ? 'http://192.168.0.11/registrations/user' : 'http://mpc.smbstreamline.com.au/registrations/user'
 export const OAUTH_URL = (localhost) ? 'http://192.168.0.11/oauth/' : 'http://mpc.smbstreamline.com.au/oauth/'

@@ -7,6 +7,7 @@ import { ACCESS_TOKEN } from '../config'
 import { fetchCustomerCompanies } from '../actions/companyActions'
 import { fetchConsultants } from '../actions/consultantActions'
 import fetchTutorials from '../actions/tutorialActions'
+import setDeviceSize from '../actions/deviceActions'
 import { fetchUser } from '../actions/authActions'
 
 /*
@@ -28,6 +29,8 @@ export default function configureStore(onCompletion: () => void): any {
   )
 
   const store = createStore(reducers, enhancer)
+  store.dispatch(setDeviceSize())
+
   AsyncStorage.getItem(ACCESS_TOKEN).then((token) => {
     // let store = createStore(persistedReducer, enhancer)
     // let persistor = persistStore(store)

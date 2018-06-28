@@ -23,15 +23,14 @@ class CompanyCard extends Component {
       navigation, listType, company, companies, dispatch,
     } = this.props
     const {
+      avatarStyle,
       titleStyle,
       logoStyle,
       mainContainerStyle,
       logoContainerStyle,
       buttonContainerStyle,
       buttonStyle,
-      consultantImageStyle,
       switchContainerStyle,
-      consultantImageContainerStyle,
     } = styles
     const {
       id, name, label, consultantId, firstName, lastName, enabled,
@@ -92,7 +91,7 @@ class CompanyCard extends Component {
             />
           </View>
         )
-        consultantImage = <UserAvatar userId={consultantId} />
+        consultantImage = <View style={avatarStyle}><UserAvatar userId={consultantId} /></View>
       }
     } else if (listType === 'customerCompanies') {
       switchContainer = (
@@ -111,7 +110,7 @@ class CompanyCard extends Component {
           {lastName}
         </Text>
       )
-      consultantImage = <UserAvatar userId={consultantId} />
+      consultantImage = <View style={avatarStyle}><UserAvatar userId={consultantId} /></View>
     }
 
     return (

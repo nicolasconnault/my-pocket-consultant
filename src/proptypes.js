@@ -63,6 +63,7 @@ export const TutorialListPropType = PropTypes.oneOfType([
   PropTypes.arrayOf(TutorialPropType), PropTypes.shape({}),
 ])
 export const ListTypePropType = PropTypes.oneOf(['singleCard', 'customerCompanies', 'withConsultants', 'selectAConsultant'])
+export const DeviceSizePropType = PropTypes.oneOf(['small', 'medium', 'large', 'huge'])
 export const IconSizePropType = PropTypes.number
 export const IconColorPropType = PropTypes.string
 export const IconKeyPropType = PropTypes.string

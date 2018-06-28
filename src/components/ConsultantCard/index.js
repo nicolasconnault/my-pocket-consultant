@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-  LayoutAnimation, Image, Text, View,
+  LayoutAnimation, Text, View,
 } from 'react-native'
 import { ListItem } from 'react-native-material-ui'
 import { withNavigation } from 'react-navigation'
 import { selectConsultant } from '../../actions/consultantActions'
 import UserAvatar from '../UserAvatar'
 import { UserPropType, CompanyListPropType, IdPropType } from '../../proptypes'
+import styles from '../../screens/styles'
 
 class ConsultantCard extends Component {
   componentWillUpdate() {
@@ -15,6 +16,7 @@ class ConsultantCard extends Component {
   }
 
   render() {
+    const { mainTextStyle } = styles
     const {
       navigation, consultant, companies, companyId, currentConsultantId, dispatch,
     } = this.props
@@ -25,26 +27,35 @@ class ConsultantCard extends Component {
     return (
       <View>
         <ListItem
+          style={{
+            leftElement: {
+              margin: 16, // Default 16
+            },
+            container: {
+              height: 100, // Default 56
+            },
+            contentViewContainer: {
+              flex: 1, // default 1
+              flexDirection: 'row', // default row
+              alignItems: 'center', // default center
+            },
+            leftElementContainer: {
+              width: 90, // Default 56
+              marginLeft: 16, // Default 16
+            },
+            centerElementContainer: {
+              flex: 1, // default 1
+            },
+          }}
           leftElement={(
             <UserAvatar userId={id} />
           )}
+          dense={false}
           divider
-          centerElement={(
-            <View>
-              <Text>
-                {firstName}
-                {' '}
-                {lastName}
-              </Text>
-              <Text>
-                {suburb}
-                {' '}
-                {state}
-                {' '}
-                {country}
-              </Text>
-            </View>
-)}
+          centerElement={{
+            primaryText: `${firstName} ${lastName}`,
+            secondaryText: `${suburb} ${state} ${country}`,
+          }}
           onPress={() => {
             dispatch(selectConsultant(companies, companyId, id, currentConsultantId))
             navigation.navigate('MyConsultants')

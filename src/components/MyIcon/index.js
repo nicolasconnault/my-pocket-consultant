@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Platform } from 'react-native'
-import { IonIcons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 import {
   IconSizePropType, IconColorPropType, IconKeyPropType, StylesPropType,
 } from '../../proptypes'
@@ -10,6 +10,7 @@ class MyIcon extends React.Component {
   render() {
     const { size, color, style } = this.props
     let { iconKey } = this.props
+    let MyComponent = Platform.OS === 'ios' ? Ionicons : MaterialIcons
 
     const iconTable = {
       cart: { ios: 'ios-cart', android: 'shopping-cart' },
@@ -20,10 +21,10 @@ class MyIcon extends React.Component {
       email: { ios: 'ios-mail', android: 'mail' },
       facebook: { ios: 'logo-facebook', android: [MaterialCommunityIcons, 'facebook'] },
       filter: { ios: [MaterialIcons, 'filter-list'], android: 'filter-list' },
-      globe: { ios: 'ios-globe-outline', android: [IonIcons, 'md-globe'] },
-      heart: { ios: 'ios-heart', android: [IonIcons, 'md-heart'] },
+      globe: { ios: 'ios-globe-outline', android: [Ionicons, 'md-globe'] },
+      heart: { ios: 'ios-heart', android: [Ionicons, 'md-heart'] },
       help: { ios: 'ios-help-circle', android: 'help' },
-      hide: { ios: 'ios-eye-off', android: [IonIcons, 'md-eye-off'] },
+      hide: { ios: 'ios-eye-off', android: [Ionicons, 'md-eye-off'] },
       history: { ios: [MaterialIcons, 'history'], android: 'history' },
       home: { ios: 'ios-home', android: 'home' },
       infoCircle: { ios: 'ios-information-circle-outline', android: 'info-outline' },
@@ -36,7 +37,7 @@ class MyIcon extends React.Component {
         ios: [MaterialCommunityIcons, 'newspaper'],
         android: [MaterialCommunityIcons, 'newspaper'],
       },
-      note: { ios: 'ios-clipboard-outline', android: [IonIcons, 'md-clipboard'] },
+      note: { ios: 'ios-clipboard-outline', android: [Ionicons, 'md-clipboard'] },
       notifications: { ios: 'ios-notifications', android: 'notifications' },
       parcel: {
         ios: [MaterialCommunityIcons, 'package-variant'],
@@ -51,13 +52,13 @@ class MyIcon extends React.Component {
       school: { ios: 'ios-school', android: 'school' },
       security: { ios: 'ios-play', android: 'play-circle-filled' },
       settings: { ios: 'ios-settings', android: 'settings' },
-      show: { ios: 'ios-eye', android: [IonIcons, 'md-eye'] },
+      show: { ios: 'ios-eye', android: [Ionicons, 'md-eye'] },
       sort: { ios: [MaterialIcons, 'sort'], android: 'sort' },
       subscriptions: { ios: [MaterialIcons, 'business'], android: 'business' },
       sync: { ios: 'ios-sync', android: 'sync' },
       thumbDown: { ios: 'ios-thumbs-down', android: 'thumb-down' },
       thumbUp: { ios: 'ios-thumbs-up', android: 'thumb-up' },
-      trash: { ios: 'ios-trash', android: [IonIcons, 'md-trash'] },
+      trash: { ios: 'ios-trash', android: [Ionicons, 'md-trash'] },
       twitter: { ios: 'logo-twitter', android: [MaterialCommunityIcons, 'twitter'] },
       warning: { ios: 'ios-warning', android: 'warning' },
     }
@@ -66,20 +67,18 @@ class MyIcon extends React.Component {
 
     if (iconEntry !== undefined) {
       iconKey = iconEntry[Platform.OS]
-      let MyComponent = Platform.OS === 'ios' ? IonIcons : MaterialIcons
 
       if (Array.isArray(iconKey) && iconKey.length === 2) {
         MyComponent = iconKey[0]
         iconKey = iconKey[1]
       }
-
-      return (
-        <View>
-          <MyComponent name={iconKey} size={size} color={color} style={style} />
-        </View>
-      )
     }
-    return <View />
+
+    return (
+      <View>
+        <MyComponent name={iconKey} size={size} color={color} style={style} />
+      </View>
+    )
   }
 }
 

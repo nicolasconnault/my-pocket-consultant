@@ -5,14 +5,7 @@ import Container from '../../../components/Container'
 import CompanyList from '../../../components/CompanyList'
 import Nav from '../CustomerNav'
 import MyIcon from '../../../components/MyIcon'
-
-const styles = {
-  headingStyle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    padding: 10,
-  },
-}
+import styles from '../../styles'
 
 export default class MyCompanies extends React.Component {
   static navigationOptions = {

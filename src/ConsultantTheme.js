@@ -1,13 +1,25 @@
+import store from './boot/configureStore'
 import { CONSULTANT_MODE_COLOR } from './config'
 
-const uiTheme = {
-  palette: {
-    primaryColor: CONSULTANT_MODE_COLOR,
-  },
-  toolbar: {
-    container: {
-      height: 50,
-    },
-  },
+const toolbarContainerHeights = {
+  small: 45,
+  medium: 50,
+  large: 60,
+  huge: 70,
 }
-export default uiTheme
+
+function buildStyle() {
+  const { deviceSize } = store().getState()
+  return {
+    palette: {
+      primaryColor: CONSULTANT_MODE_COLOR,
+    },
+    toolbar: {
+      container: {
+        height: toolbarContainerHeights[deviceSize],
+      },
+    },
+  }
+}
+store().subscribe(buildStyle)
+export default buildStyle()

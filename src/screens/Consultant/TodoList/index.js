@@ -7,6 +7,7 @@ import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui'
 import Container from '../../../components/Container'
 import Nav from '../ConsultantNav'
 import MyIcon from '../../../components/MyIcon'
+import styles from '../../styles'
 
 export default class TodoList extends React.Component {
   state = { menuVisible: false };
@@ -36,12 +37,4 @@ export default class TodoList extends React.Component {
       </Container>
     )
   }
-}
-
-const styles = {
-  headingStyle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    padding: 10,
-  },
 }

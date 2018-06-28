@@ -5,6 +5,7 @@ import ConsultantsReducer from './ConsultantsReducer'
 import SelectedAppModeReducer from './SelectedAppModeReducer'
 import TutorialsReducer from './TutorialsReducer'
 import AuthReducer from './AuthReducer'
+import DeviceReducer from './DeviceReducer'
 
 export default combineReducers({
   appMode: SelectedAppModeReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   tutorials: TutorialsReducer,
   modalMessage: ModalReducer,
   user: AuthReducer,
+  deviceSize: DeviceReducer,
 })
