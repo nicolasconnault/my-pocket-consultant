@@ -19,8 +19,9 @@ class MyConsultants extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      companies: [],
+      filteredCompanies: [],
     }
+    this.allCompanies = []
   }
 
   componentWillMount() {
@@ -34,16 +35,24 @@ class MyConsultants extends React.Component {
       })
     }
 
-    this.setState({ companies: finalCompanies })
+    this.allCompanies = finalCompanies
+    this.setState({ filteredCompanies: finalCompanies })
   }
 
   filterList = (search) => {
-    console.log(search)
+    const filteredList = []
+    const regexp = new RegExp(search)
+    this.allCompanies.forEach((company) => {
+      if (company.label.match(regexp)) {
+        filteredList.push(company)
+      }
+    })
+    this.setState({ filteredCompanies: filteredList })
   }
 
   render() {
     const { navigation } = this.props
-    const { companies } = this.state
+    const { filteredCompanies } = this.state
 
     return (
       <Container>
@@ -63,7 +72,7 @@ class MyConsultants extends React.Component {
             title="Set a consultant for each company"
             navigation={navigation}
             listType="withConsultants"
-            companies={companies}
+            companies={filteredCompanies}
           />
         </View>
         <Nav activeKey="consultants" />

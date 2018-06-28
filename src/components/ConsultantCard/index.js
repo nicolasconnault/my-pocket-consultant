@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-  LayoutAnimation, Text, View,
+  LayoutAnimation, View,
 } from 'react-native'
 import { ListItem } from 'react-native-material-ui'
 import { withNavigation } from 'react-navigation'
 import { selectConsultant } from '../../actions/consultantActions'
 import UserAvatar from '../UserAvatar'
 import { UserPropType, CompanyListPropType, IdPropType } from '../../proptypes'
-import styles from '../../screens/styles'
 
 class ConsultantCard extends Component {
   componentWillUpdate() {
@@ -16,7 +15,6 @@ class ConsultantCard extends Component {
   }
 
   render() {
-    const { mainTextStyle } = styles
     const {
       navigation, consultant, companies, companyId, currentConsultantId, dispatch,
     } = this.props
@@ -79,7 +77,4 @@ ConsultantCard.defaultProps = {
   companies: [],
 }
 
-const mapStateToProps = state => ({
-  companies: state.companies,
-})
-export default withNavigation(connect(mapStateToProps)(ConsultantCard))
+export default withNavigation(connect()(ConsultantCard))

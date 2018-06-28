@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { FlatList, View } from 'react-native'
-import { connect } from 'react-redux'
 import ConsultantCard from '../ConsultantCard'
 import { UserListPropType, IdPropType, ListTypePropType } from '../../proptypes'
 
@@ -53,8 +52,4 @@ ConsultantList.defaultProps = {
   consultants: [],
 }
 
-const mapStateToProps = state => ({
-  consultants: state.consultants,
-})
-
-export default connect(mapStateToProps)(ConsultantList)
+export default ConsultantList
