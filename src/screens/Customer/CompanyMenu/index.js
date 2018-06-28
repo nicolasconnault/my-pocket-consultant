@@ -9,6 +9,7 @@ import MyIcon from '../../../components/MyIcon'
 import CompanyCard from '../../../components/CompanyCard'
 import Nav from '../CustomerNav'
 import { TutorialListPropType } from '../../../proptypes'
+import styles from '../../styles'
 
 class CompanyMenu extends React.Component {
   static navigationOptions = {
@@ -18,6 +19,7 @@ class CompanyMenu extends React.Component {
   render() {
     const { navigation, tutorials } = this.props
     const company = navigation.getParam('company')
+    const { listMenuStyle } = styles
     const menuItems = [
       {
         iconKey: 'home',
@@ -76,7 +78,7 @@ class CompanyMenu extends React.Component {
             renderItem={({ item }) => <CompanyCard company={item} listType="singleCard" />}
           />
           <FlatList
-            style={{ alignSelf: 'flex-start' }}
+            style={listMenuStyle}
             data={menuItems}
             keyExtractor={item => item.iconKey}
             renderItem={({ item }) => (
@@ -89,7 +91,7 @@ class CompanyMenu extends React.Component {
                       {item.text}
                     </Text>
                   </View>
-)}
+                )}
                 onPress={() => item.onPress()}
               />
             )}

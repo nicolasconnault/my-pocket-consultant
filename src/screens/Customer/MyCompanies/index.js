@@ -1,11 +1,10 @@
 import React from 'react'
-import { Text, StatusBar, View } from 'react-native'
+import { StatusBar, View } from 'react-native'
 import { Toolbar } from 'react-native-material-ui'
 import Container from '../../../components/Container'
 import CompanyList from '../../../components/CompanyList'
 import Nav from '../CustomerNav'
 import MyIcon from '../../../components/MyIcon'
-import styles from '../../styles'
 
 export default class MyCompanies extends React.Component {
   static navigationOptions = {
@@ -16,7 +15,6 @@ export default class MyCompanies extends React.Component {
 
   render() {
     const { navigation } = this.props
-    const { headingStyle } = styles
     return (
       <Container>
         <StatusBar hidden />
@@ -30,10 +28,11 @@ export default class MyCompanies extends React.Component {
           }}
         />
         <View style={{ flex: 1 }}>
-          <Text style={headingStyle}>
-                    These are your companies
-          </Text>
-          <CompanyList navigation={navigation} listType="customerCompanies" />
+          <CompanyList
+            title="These are your companies"
+            navigation={navigation}
+            listType="customerCompanies"
+          />
         </View>
         <Nav activeKey="companies" />
       </Container>

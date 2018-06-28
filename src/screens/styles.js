@@ -26,6 +26,15 @@ function buildStyle() {
     mainTextStyle: {
       fontSize: mainTextFontSizes[deviceSize],
     },
+    listMenuStyle: {
+      height: '100%',
+      margin: 8,
+      elevation: 2,
+      marginTop: 0,
+      backgroundColor: '#FFFFFF',
+      borderTopWidth: 1,
+      borderTopColor: '#EEEEEE',
+    },
   }
 }
 

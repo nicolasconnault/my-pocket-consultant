@@ -1,3 +1,5 @@
+import { Platform } from 'react-native'
+
 export default {
   buttonStyle: {
     fontSize: 14,
@@ -31,5 +33,9 @@ export default {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  switchStyle: {
+    transform: (Platform.OS === 'ios') ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [], // Reduce size of iOS switches slightly
+    alignSelf: 'flex-end',
   },
 }

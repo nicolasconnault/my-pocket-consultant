@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {
   LayoutAnimation, Image, Text, View, Switch,
 } from 'react-native'
-import { Button, Card } from 'react-native-material-ui'
+import { Button, Card, COLOR } from 'react-native-material-ui'
 import { withNavigation } from 'react-navigation'
 
 import { toggleCompany } from '../../actions/companyActions'
@@ -22,6 +22,7 @@ class CompanyCard extends Component {
     const {
       navigation, listType, company, companies, dispatch,
     } = this.props
+
     const {
       avatarStyle,
       titleStyle,
@@ -31,7 +32,9 @@ class CompanyCard extends Component {
       buttonContainerStyle,
       buttonStyle,
       switchContainerStyle,
+      switchStyle,
     } = styles
+
     const {
       id, name, label, consultantId, firstName, lastName, enabled,
     } = company
@@ -91,12 +94,18 @@ class CompanyCard extends Component {
             />
           </View>
         )
-        consultantImage = <View style={avatarStyle}><UserAvatar userId={consultantId} /></View>
+        consultantImage = (
+          <View style={avatarStyle}>
+            <UserAvatar userId={consultantId} />
+          </View>)
       }
     } else if (listType === 'customerCompanies') {
       switchContainer = (
         <View style={switchContainerStyle}>
           <Switch
+            onTintColor={COLOR.pink300}
+            thumbTintColor={COLOR.grey300}
+            style={switchStyle}
             value={enabled}
             onValueChange={() => dispatch(toggleCompany(companies, id, enabled))}
           />
@@ -110,7 +119,11 @@ class CompanyCard extends Component {
           {lastName}
         </Text>
       )
-      consultantImage = <View style={avatarStyle}><UserAvatar userId={consultantId} /></View>
+
+      consultantImage = (
+        <View style={avatarStyle}>
+          <UserAvatar userId={consultantId} />
+        </View>)
     }
 
     return (

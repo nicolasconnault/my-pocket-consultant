@@ -16,6 +16,9 @@ import { Button } from 'react-native-material-ui'
 
 import { OAUTH_URL, ACCESS_TOKEN } from '../../config'
 import { fetchUser } from '../../actions/authActions'
+import { fetchCustomerCompanies } from '../../actions/companyActions'
+import { fetchConsultants } from '../../actions/consultantActions'
+import fetchTutorials from '../../actions/tutorialActions'
 import { landscapeStyles, portraitStyles } from './styles'
 
 const logoImage = require('./white_logo.png')
@@ -85,6 +88,9 @@ class Login extends React.Component {
           navigation.navigate('Login')
         } else {
           await AsyncStorage.setItem(ACCESS_TOKEN, accessToken)
+          dispatch(fetchCustomerCompanies(accessToken))
+          dispatch(fetchConsultants(accessToken))
+          dispatch(fetchTutorials(accessToken))
           dispatch(fetchUser(accessToken))
         }
       } else {

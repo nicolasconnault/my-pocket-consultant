@@ -8,6 +8,7 @@ import Container from '../../../components/Container'
 import MyIcon from '../../../components/MyIcon'
 import CompanyCard from '../../../components/CompanyCard'
 import Nav from '../CustomerNav'
+import styles from '../../styles'
 
 class ContactMe extends React.Component {
   static navigationOptions = {
@@ -17,6 +18,7 @@ class ContactMe extends React.Component {
   render() {
     const { navigation } = this.props
     const company = navigation.getParam('company')
+    const { listMenuStyle } = styles
     const menuItems = [
       { iconKey: 'chat', text: 'Text me', onPress: () => { Linking.openURL(`sms:${company.phone}`) } },
       { iconKey: 'email', text: 'Email me', onPress: () => { Linking.openURL(`mailto:${company.email}`) } },
@@ -47,6 +49,7 @@ class ContactMe extends React.Component {
             )}
           />
           <FlatList
+            style={listMenuStyle}
             data={menuItems}
             keyExtractor={item => item.iconKey}
             renderItem={({ item }) => (

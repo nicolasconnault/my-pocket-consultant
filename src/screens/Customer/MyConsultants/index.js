@@ -1,12 +1,10 @@
 import React from 'react'
-import { Text, StatusBar, View } from 'react-native'
+import { StatusBar, View } from 'react-native'
 import { Toolbar } from 'react-native-material-ui'
 import Container from '../../../components/Container'
 import CompanyList from '../../../components/CompanyList'
 import Nav from '../CustomerNav'
 import MyIcon from '../../../components/MyIcon'
-
-import styles from '../../styles'
 
 export default class MyConsultants extends React.Component {
   static navigationOptions = {
@@ -17,7 +15,6 @@ export default class MyConsultants extends React.Component {
 
   render() {
     const { navigation } = this.props
-    const { headingStyle } = styles
     return (
       <Container>
         <StatusBar hidden />
@@ -31,10 +28,11 @@ export default class MyConsultants extends React.Component {
           }}
         />
         <View style={{ flex: 1 }}>
-          <Text style={headingStyle}>
-                    Set a consultant for each company
-          </Text>
-          <CompanyList navigation={navigation} listType="withConsultants" />
+          <CompanyList
+            title="Set a consultant for each company"
+            navigation={navigation}
+            listType="withConsultants"
+          />
         </View>
         <Nav activeKey="consultants" />
       </Container>

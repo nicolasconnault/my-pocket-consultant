@@ -1,3 +1,8 @@
+import { Dimensions } from 'react-native'
+
+const { width, height } = Dimensions.get('window')
+const portraitWidth = (height > width) ? width : height
+
 const commonStyles = {
   imageBackgroundStyle: {
     flex: 1,
@@ -50,7 +55,7 @@ const portraitStyles = {
   },
   logoContainerStyle: {
     ...commonStyles.logoContainerStyle,
-    height: 100,
+    height: portraitWidth * 0.29,
   },
 }
 
