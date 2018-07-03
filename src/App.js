@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { Root } from 'native-base'
 import { ThemeProvider } from 'react-native-material-ui'
 
+import { CUSTOMER_MODE_COLOR, CONSULTANT_MODE_COLOR } from './config'
+
 import {
   Home,
   Login,
@@ -13,8 +15,7 @@ import {
 } from './screens'
 
 import {
-  Notifications,
-  MyConsultants,
+  CompanySettings,
   MyCompanies,
   CompanyMenu,
   ContactMe,
@@ -53,18 +54,19 @@ class Main extends React.Component {
     appMode = (appMode === null) ? 'customer' : appMode
 
     let DrawerNavigation = createDrawerNavigator({
-      Notifications: { screen: Notifications },
-      MyConsultants: { screen: MyConsultants },
       MyCompanies: { screen: MyCompanies },
-      Tutorials: { screen: Tutorials },
-      MyNews: { screen: MyNews },
+      CompanySettings: { screen: CompanySettings },
       Settings: { screen: Settings },
       Help: { screen: Help },
       Logout: { screen: Logout },
     }, {
       backBehavior: 'initialRoute',
-      initialRouteName: 'MyConsultants',
+      initialRouteName: 'MyCompanies',
       contentComponent: props => <Drawer appMode={appMode} {...props} />,
+      contentOptions: {
+        activeTintColor: CUSTOMER_MODE_COLOR,
+        inactiveTintColor: '#666666',
+      },
     })
 
     if (appMode === 'consultant') {
@@ -76,13 +78,14 @@ class Main extends React.Component {
         Settings: { screen: ConsultantSettings },
         Logout: { screen: Logout },
         Help: { screen: ConsultantHelp },
-        Terms: { label: 'Terms & conditions', screen: Terms },
+        Terms: { screen: Terms },
       }, {
         initialRouteName: 'Customers',
         backBehavior: 'initialRoute',
         contentComponent: props => <Drawer appMode={appMode} {...props} />,
         contentOptions: {
-          activeTintColor: '#e90000',
+          activeTintColor: CONSULTANT_MODE_COLOR,
+          inactiveTintColor: '#666666',
           itemsContainerStyle: {
             marginVertical: 15,
           },
@@ -100,7 +103,7 @@ class Main extends React.Component {
       Home: { screen: Home },
       Main: { screen: MainScreen },
       MyCompanies: { screen: MyCompanies },
-      MyConsultants: { screen: MyConsultants },
+      CompanySettings: { screen: CompanySettings },
       CompanyMenu: { screen: CompanyMenu },
       Tutorials: { screen: Tutorials },
       Tutorial: { screen: Tutorial },

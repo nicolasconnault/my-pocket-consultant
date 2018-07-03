@@ -15,7 +15,7 @@ export default class TodoList extends React.Component {
   static navigationOptions = {
     title: 'To-do List',
     drawerLabel: 'To-do List',
-    drawerIcon: <MyIcon iconKey="list" />,
+    drawerIcon: <MyIcon iconKey="list" appMode="consultant" />,
   };
 
   render() {

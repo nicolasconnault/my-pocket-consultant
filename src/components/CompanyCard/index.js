@@ -9,7 +9,7 @@ import { withNavigation } from 'react-navigation'
 import { toggleCompany } from '../../actions/companyActions'
 import { STORAGE_URL } from '../../config'
 import { CompanyPropType, CompanyListPropType, ListTypePropType } from '../../proptypes'
-import UserAvatar from '../UserAvatar'
+import CompanyMenu from './CompanyMenu'
 
 import styles from './styles'
 
@@ -20,86 +20,25 @@ class CompanyCard extends Component {
 
   render() {
     const {
-      navigation, listType, company, companies, dispatch,
+      listType, company, companies, dispatch,
     } = this.props
 
     const {
-      avatarStyle,
       titleStyle,
       logoStyle,
       mainContainerStyle,
       logoContainerStyle,
-      buttonContainerStyle,
-      buttonStyle,
       switchContainerStyle,
       switchStyle,
     } = styles
 
     const {
-      id, name, label, consultantId, firstName, lastName, enabled,
+      id, name, label, enabled,
     } = company
 
-    let consultantText = null
-    let buttons = null
     let switchContainer = null
-    let consultantImage = null
 
-    if (listType === 'withConsultants') {
-      if (enabled === false) {
-        return null
-      }
-
-      buttons = (
-        <View style={buttonContainerStyle}>
-          <Button
-            style={buttonStyle}
-            primary
-            text="Find a nearby Consultant"
-            onPress={() => navigation.navigate('SelectAConsultant', {
-              mode: 'findFirst',
-              companyId: id,
-              currentConsultantId: null,
-            })
-            }
-          />
-        </View>
-      )
-
-      if (consultantId != null) {
-        consultantText = (
-          <Text>
-            {firstName}
-            {' '}
-            {lastName}
-          </Text>
-        )
-        buttons = (
-          <View style={buttonContainerStyle}>
-            <Button
-              style={buttonStyle}
-              primary
-              text="Change Consultant"
-              onPress={() => navigation.navigate('SelectAConsultant', {
-                mode: 'replace',
-                companyId: id,
-                currentConsultantId: consultantId,
-              })
-              }
-            />
-            <Button
-              style={buttonStyle}
-              primary
-              text="View Profile"
-              onPress={() => navigation.navigate('CompanyMenu', { company })}
-            />
-          </View>
-        )
-        consultantImage = (
-          <View style={avatarStyle}>
-            <UserAvatar userId={consultantId} />
-          </View>)
-      }
-    } else if (listType === 'customerCompanies') {
+    if (listType === 'customerCompanies') {
       switchContainer = (
         <View style={switchContainerStyle}>
           <Switch
@@ -111,19 +50,6 @@ class CompanyCard extends Component {
           />
         </View>
       )
-    } else if (listType === 'singleCard') {
-      consultantText = (
-        <Text>
-          {firstName}
-          {' '}
-          {lastName}
-        </Text>
-      )
-
-      consultantImage = (
-        <View style={avatarStyle}>
-          <UserAvatar userId={consultantId} />
-        </View>)
     }
 
     return (
@@ -139,12 +65,10 @@ class CompanyCard extends Component {
             <Text style={titleStyle}>
               {label}
             </Text>
-            {consultantText}
           </View>
           {switchContainer}
-          {consultantImage}
+          <CompanyMenu />
         </View>
-        {buttons}
       </Card>
     )
   }

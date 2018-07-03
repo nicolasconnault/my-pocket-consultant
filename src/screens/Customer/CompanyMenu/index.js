@@ -7,7 +7,7 @@ import { Toolbar, ListItem } from 'react-native-material-ui'
 import Container from '../../../components/Container'
 import MyIcon from '../../../components/MyIcon'
 import CompanyCard from '../../../components/CompanyCard'
-import Nav from '../CustomerNav'
+
 import { TutorialListPropType } from '../../../proptypes'
 import styles from '../../styles'
 
@@ -97,7 +97,6 @@ class CompanyMenu extends React.Component {
             )}
           />
         </View>
-        <Nav activeKey="companies" />
       </Container>
     )
   }

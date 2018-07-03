@@ -78,6 +78,7 @@ class Login extends React.Component {
           grant_type: 'password',
         }),
       })
+
       const res = await response.json()
 
       if (response.status >= 200 && response.status < 300) {

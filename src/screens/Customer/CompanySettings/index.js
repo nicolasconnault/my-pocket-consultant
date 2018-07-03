@@ -6,15 +6,15 @@ import { Toolbar } from 'react-native-material-ui'
 import { CompanyListPropType, ListTypePropType } from '../../../proptypes'
 import Container from '../../../components/Container'
 import CompanyList from '../../../components/CompanyList'
-import Nav from '../CustomerNav'
+
 import MyIcon from '../../../components/MyIcon'
 
-class MyConsultants extends React.Component {
+class CompanySettings extends React.Component {
   static navigationOptions = {
-    title: 'My Consultants',
-    drawerLabel: 'My Consultants',
-    drawerIcon: <MyIcon iconKey="people" />,
-  };
+    title: 'Company Settings',
+    drawerLabel: 'Company Settings',
+    drawerIcon: <MyIcon iconKey="subscriptions" />,
+  }
 
   constructor(props) {
     super(props)
@@ -60,7 +60,7 @@ class MyConsultants extends React.Component {
         <Toolbar
           leftElement="menu"
           onLeftElementPress={() => navigation.toggleDrawer()}
-          centerElement="My Consultants"
+          centerElement="Company Settings"
           searchable={{
             autoFocus: true,
             placeholder: 'Search',
@@ -69,24 +69,22 @@ class MyConsultants extends React.Component {
         />
         <View style={{ flex: 1 }}>
           <CompanyList
-            title="Set a consultant for each company"
             navigation={navigation}
-            listType="withConsultants"
+            listType="customerCompanies"
             companies={filteredCompanies}
           />
         </View>
-        <Nav activeKey="consultants" />
       </Container>
     )
   }
 }
 
-MyConsultants.propTypes = {
+CompanySettings.propTypes = {
   listType: ListTypePropType,
   companies: CompanyListPropType,
 }
-MyConsultants.defaultProps = {
-  listType: 'withConsultants',
+CompanySettings.defaultProps = {
+  listType: 'customerCompanies',
   companies: [],
 }
 
@@ -94,4 +92,4 @@ const mapStateToProps = state => ({
   companies: state.companies,
 })
 
-export default connect(mapStateToProps)(MyConsultants)
+export default connect(mapStateToProps)(CompanySettings)

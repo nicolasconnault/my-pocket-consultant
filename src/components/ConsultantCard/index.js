@@ -56,7 +56,7 @@ class ConsultantCard extends Component {
           }}
           onPress={() => {
             dispatch(selectConsultant(companies, companyId, id, currentConsultantId))
-            navigation.navigate('MyConsultants')
+            navigation.navigate('MyCompanies')
           }}
         />
       </View>

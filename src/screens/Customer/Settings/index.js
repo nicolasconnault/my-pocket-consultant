@@ -5,7 +5,7 @@ import {
 import { Toolbar } from 'react-native-material-ui'
 
 import Container from '../../../components/Container'
-import Nav from '../CustomerNav'
+
 import MyIcon from '../../../components/MyIcon'
 import styles from '../../styles'
 

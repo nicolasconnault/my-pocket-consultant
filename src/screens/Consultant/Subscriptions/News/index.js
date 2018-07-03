@@ -13,7 +13,7 @@ export default class Notifications extends React.Component {
   static navigationOptions = {
     title: 'News',
     drawerLabel: 'News',
-    drawerIcon: <MyIcon iconKey="news" />,
+    drawerIcon: <MyIcon iconKey="news" appMode="consultant" />,
   };
 
   render() {

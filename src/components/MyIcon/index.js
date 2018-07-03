@@ -2,14 +2,22 @@ import React from 'react'
 import { View, Platform } from 'react-native'
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 import {
-  IconSizePropType, IconColorPropType, IconKeyPropType, StylesPropType,
+  IconSizePropType,
+  IconColorPropType,
+  IconKeyPropType,
+  StylesPropType,
+  AppModePropType,
 } from '../../proptypes'
-import { CUSTOMER_MODE_COLOR } from '../../config'
+import { CUSTOMER_MODE_COLOR, CONSULTANT_MODE_COLOR } from '../../config'
 
 class MyIcon extends React.Component {
   render() {
-    const { size, color, style } = this.props
-    let { iconKey } = this.props
+    const {
+      size,
+      style,
+      appMode,
+    } = this.props
+    let { color, iconKey } = this.props
     let MyComponent = Platform.OS === 'ios' ? Ionicons : MaterialIcons
 
     const iconTable = {
@@ -39,6 +47,7 @@ class MyIcon extends React.Component {
       },
       note: { ios: 'ios-clipboard-outline', android: [Ionicons, 'md-clipboard'] },
       notifications: { ios: 'ios-notifications', android: 'notifications' },
+      options: { ios: 'ios-options', android: [MaterialCommunityIcons, 'dots-vertical'] },
       parcel: {
         ios: [MaterialCommunityIcons, 'package-variant'],
         android: [MaterialCommunityIcons, 'package-variant'],
@@ -74,6 +83,9 @@ class MyIcon extends React.Component {
       }
     }
 
+    if (color.length !== CUSTOMER_MODE_COLOR && appMode === 'consultant') {
+      color = CONSULTANT_MODE_COLOR
+    }
     return (
       <View>
         <MyComponent name={iconKey} size={size} color={color} style={style} />
@@ -87,12 +99,14 @@ MyIcon.propTypes = {
   size: IconSizePropType,
   color: IconColorPropType,
   iconKey: IconKeyPropType,
+  appMode: AppModePropType,
 }
 MyIcon.defaultProps = {
   style: {},
   size: 20,
   color: CUSTOMER_MODE_COLOR,
   iconKey: null,
+  appMode: 'customer',
 }
 
 export default MyIcon

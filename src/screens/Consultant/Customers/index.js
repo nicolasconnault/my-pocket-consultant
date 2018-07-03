@@ -6,7 +6,7 @@ import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui'
 
 import Container from '../../../components/Container'
 import Nav from '../ConsultantNav'
-import MyIcon from '../../../components/MyIcon' 
+import MyIcon from '../../../components/MyIcon'
 import styles from '../../styles'
 
 export default class Customers extends React.Component {
@@ -15,7 +15,7 @@ export default class Customers extends React.Component {
   static navigationOptions = {
     title: 'Customers',
     drawerLabel: 'Customers',
-    drawerIcon: <MyIcon iconKey="people" />,
+    drawerIcon: <MyIcon iconKey="people" appMode="consultant" />,
   };
 
   render() {

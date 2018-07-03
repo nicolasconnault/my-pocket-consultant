@@ -13,7 +13,7 @@ export default class Settings extends React.Component {
   static navigationOptions = {
     title: 'Settings',
     drawerLabel: 'Settings',
-    drawerIcon: <MyIcon iconKey="settings" />,
+    drawerIcon: <MyIcon iconKey="settings" appMode="consultant" />,
   };
 
   render() {

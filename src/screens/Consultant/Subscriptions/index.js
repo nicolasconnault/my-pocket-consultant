@@ -1,8 +1,8 @@
 import React from 'react'
 import {
-  Text, StatusBar, View, ScrollView,
+  Text, StatusBar, View,
 } from 'react-native'
-import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui'
+import { Toolbar } from 'react-native-material-ui'
 
 import Container from '../../../components/Container'
 import Nav from '../ConsultantNav'
@@ -13,7 +13,7 @@ export default class Subscriptions extends React.Component {
   static navigationOptions = {
     title: 'Subscriptions',
     drawerLabel: 'Subscriptions',
-    drawerIcon: <MyIcon iconKey="subscriptions" />,
+    drawerIcon: <MyIcon iconKey="subscriptions" appMode="consultant" />,
   };
 
   render() {

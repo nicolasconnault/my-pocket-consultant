@@ -6,7 +6,7 @@ import {
 import { Toolbar, ListItem } from 'react-native-material-ui'
 import Container from '../../../components/Container'
 import MyIcon from '../../../components/MyIcon'
-import Nav from '../CustomerNav'
+
 
 class CompanyNews extends React.Component {
   static navigationOptions = {
@@ -64,7 +64,7 @@ class CompanyNews extends React.Component {
             )}
           />
         </View>
-        <Nav activeKey="companies" />
+        
       </Container>
     )
   }

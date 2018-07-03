@@ -13,7 +13,7 @@ export default class Help extends React.Component {
   static navigationOptions = {
     title: 'Help',
     drawerLabel: 'Help',
-    drawerIcon: <MyIcon iconKey="help" />,
+    drawerIcon: <MyIcon iconKey="help" appMode="consultant" />,
   };
 
   render() {

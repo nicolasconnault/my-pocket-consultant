@@ -9,7 +9,7 @@ class CompanyList extends Component {
     const { listType, title, companies } = this.props
     const { headingStyle } = styles
 
-    const listHeader = <Text style={headingStyle}>{title}</Text>
+    const listHeader = (title === null) ? null : <Text style={headingStyle}>{title}</Text>
 
     return (
       <View>
@@ -32,7 +32,7 @@ CompanyList.propTypes = {
 CompanyList.defaultProps = {
   listType: 'withConsultants',
   companies: [],
-  title: 'Set a consultant for each company',
+  title: null,
 }
 
 export default CompanyList

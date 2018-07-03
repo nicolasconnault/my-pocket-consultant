@@ -6,7 +6,7 @@ import {
 import { Toolbar } from 'react-native-material-ui'
 import Container from '../../../components/Container'
 import TutorialList from '../../../components/TutorialList'
-import Nav from '../CustomerNav'
+
 import { TutorialListPropType } from '../../../proptypes'
 import MyIcon from '../../../components/MyIcon'
 
@@ -40,7 +40,7 @@ class Tutorials extends React.Component {
         <View style={{ flex: 1 }}>
           {categories}
         </View>
-        <Nav activeKey="companies" />
+        
       </Container>
     )
   }

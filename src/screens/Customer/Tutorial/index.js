@@ -4,7 +4,7 @@ import {
 } from 'react-native'
 import { Toolbar } from 'react-native-material-ui'
 import Container from '../../../components/Container'
-import Nav from '../CustomerNav'
+
 import TutorialStep from '../../../components/TutorialStep'
 import styles from '../../styles'
 
@@ -45,7 +45,7 @@ class Tutorial extends React.Component {
             renderItem={({ item }) => (<TutorialStep step={item} />)}
           />
         </View>
-        <Nav activeKey="companies" />
+        
       </Container>
     )
   }

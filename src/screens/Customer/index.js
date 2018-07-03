@@ -3,7 +3,7 @@ import CompanyNews from './CompanyNews'
 import ContactMe from './ContactMe'
 import Help from './Help'
 import MyCompanies from './MyCompanies'
-import MyConsultants from './MyConsultants'
+import CompanySettings from './CompanySettings'
 import MyNews from './MyNews'
 import Notifications from './Notifications'
 import SelectAConsultant from './SelectAConsultant'
@@ -17,7 +17,7 @@ export {
   ContactMe,
   Help,
   MyCompanies,
-  MyConsultants,
+  CompanySettings,
   MyNews,
   Notifications,
   SelectAConsultant,

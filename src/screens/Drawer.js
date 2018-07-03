@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { View, ScrollView } from 'react-native'
 import { COLOR } from 'react-native-material-ui'
-import { DrawerItems, SafeAreaView } from 'react-navigation'
+import { DrawerItems } from 'react-navigation'
 
 import { CONSULTANT_MODE_COLOR, CUSTOMER_MODE_COLOR } from '../config'
 import SwitchAppModeButton from '../components/SwitchAppModeButton'
@@ -12,7 +12,7 @@ import { AppModePropType, UserPropType, DeviceSizePropType } from '../proptypes'
 class Drawer extends React.Component {
   render() {
     const props = this.props
-    const { appMode, user, deviceSize } = this.props
+    const { appMode, user } = this.props
 
     const newAppMode = (appMode === 'customer') ? 'consultant' : 'customer'
     const styles = {
@@ -45,21 +45,18 @@ class Drawer extends React.Component {
 
     return (
       <ScrollView style={containerStyle}>
-
-
-          <View style={headerStyle}>
-            <View style={avatarStyle}>
-              <UserAvatar userId={user.id} />
-            </View>
-            <View>
-              <SwitchAppModeButton newAppMode={newAppMode} />
-            </View>
+        <View style={headerStyle}>
+          <View style={avatarStyle}>
+            <UserAvatar userId={user.id} />
           </View>
-
-          <View style={listStyle}>
-            <DrawerItems {...props} />
+          <View>
+            <SwitchAppModeButton newAppMode={newAppMode} />
           </View>
+        </View>
 
+        <View style={listStyle}>
+          <DrawerItems {...props} />
+        </View>
       </ScrollView>
     )
   }
@@ -73,7 +70,7 @@ Drawer.propTypes = {
 Drawer.defaultProps = {
   appMode: 'customer',
   user: null,
-  deviceSize: 'medium,'
+  deviceSize: 'medium',
 }
 
 const mapStateToProps = state => ({

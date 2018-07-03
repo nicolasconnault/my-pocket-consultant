@@ -13,7 +13,7 @@ export default class Terms extends React.Component {
   static navigationOptions = {
     title: 'Terms',
     drawerLabel: 'Terms',
-    drawerIcon: <MyIcon iconKey="document" />,
+    drawerIcon: <MyIcon iconKey="document" appMode="consultant" />,
   };
 
   render() {

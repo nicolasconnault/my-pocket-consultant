@@ -1,20 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { StatusBar, View } from 'react-native'
-import { Toolbar } from 'react-native-material-ui'
+import {
+  StatusBar,
+  View,
+  FlatList,
+  Image,
+} from 'react-native'
+import { Toolbar, ListItem } from 'react-native-material-ui'
 
 import { CompanyListPropType, ListTypePropType } from '../../../proptypes'
 import Container from '../../../components/Container'
-import CompanyList from '../../../components/CompanyList'
-import Nav from '../CustomerNav'
+import { STORAGE_URL } from '../../../config'
 import MyIcon from '../../../components/MyIcon'
+import styles from '../../styles'
 
 class MyCompanies extends React.Component {
   static navigationOptions = {
     title: 'My Companies',
-    drawerLabel: 'My Companies',
-    drawerIcon: <MyIcon iconKey="subscriptions" />,
-  }
+    drawerIcon: <MyIcon iconKey="people" />,
+  };
 
   constructor(props) {
     super(props)
@@ -53,6 +57,7 @@ class MyCompanies extends React.Component {
   render() {
     const { navigation } = this.props
     const { filteredCompanies } = this.state
+    const { listMenuStyle } = styles
 
     return (
       <Container>
@@ -68,14 +73,26 @@ class MyCompanies extends React.Component {
           }}
         />
         <View style={{ flex: 1 }}>
-          <CompanyList
-            title="These are your companies"
-            navigation={navigation}
-            listType="customerCompanies"
-            companies={filteredCompanies}
+          <FlatList
+            style={listMenuStyle}
+            data={filteredCompanies}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <ListItem
+                divider
+                leftElement={(
+                  <Image
+                    style={{ width: 36, height: 36 }}
+                    source={{ uri: `${STORAGE_URL}images/companies/${item.name}_logo.png` }}
+                  />)
+                }
+                onLeftElementPress={() => navigation.navigate('CompanyMenu', { company: item })}
+                centerElement={{ primaryText: item.label, secondaryText: item.firstName }}
+                onPress={() => navigation.navigate('CompanyMenu', { company: item })}
+              />
+            )}
           />
         </View>
-        <Nav activeKey="companies" />
       </Container>
     )
   }
@@ -86,7 +103,7 @@ MyCompanies.propTypes = {
   companies: CompanyListPropType,
 }
 MyCompanies.defaultProps = {
-  listType: 'customerCompanies',
+  listType: 'withConsultants',
   companies: [],
 }
 

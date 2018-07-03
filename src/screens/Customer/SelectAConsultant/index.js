@@ -5,7 +5,7 @@ import { Toolbar } from 'react-native-material-ui'
 
 import Container from '../../../components/Container'
 import ConsultantList from '../../../components/ConsultantList'
-import Nav from '../CustomerNav'
+
 import { UserListPropType, CompanyListPropType } from '../../../proptypes'
 
 class SelectAConsultant extends React.Component {
@@ -71,7 +71,7 @@ class SelectAConsultant extends React.Component {
             currentConsultantId={navigation.getParam('currentConsultantId')}
           />
         </View>
-        <Nav activeKey="consultants" />
+        
       </Container>
     )
   }
