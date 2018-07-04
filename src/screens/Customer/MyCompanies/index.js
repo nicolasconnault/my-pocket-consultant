@@ -80,6 +80,7 @@ class MyCompanies extends React.Component {
             renderItem={({ item }) => (
               <ListItem
                 divider
+                ref={React.createRef()}
                 leftElement={(
                   <Image
                     style={{ width: 36, height: 36 }}

@@ -1,13 +1,15 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu'
+import { View, StatusBar } from 'react-native'
+import Menu, { MenuItem } from 'react-native-material-menu'
+import { withNavigation } from 'react-navigation'
+import MyIcon from '../MyIcon'
 
 class CompanyMenu extends React.PureComponent {
   menu = null
 
   setMenuRef = (ref) => {
     this.menu = ref
-  }
+  };
 
   hideMenu = () => {
     this.menu.hide()
@@ -15,26 +17,44 @@ class CompanyMenu extends React.PureComponent {
 
   showMenu = () => {
     this.menu.show()
+    StatusBar.setHidden(true)
+  }
+
+  changeConsultant = (companyId) => {
+    const { navigation } = this.props
+    this.menu.hide()
+    navigation.navigate('SelectAConsultant', { companyId })
+  }
+
+  goToNotifications = (companyId) => {
+    const { navigation } = this.props
+    this.menu.hide()
+    navigation.navigate('Notifications', { companyId })
   }
 
   render() {
+    const { companyId, enabled } = this.props
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <StatusBar hidden />
         <Menu
+          style={{ width: 180 }}
           ref={this.setMenuRef}
-          button={<Text onPress={this.showMenu}>Show menu</Text>}
+          button={<MyIcon onPress={this.showMenu} iconKey="options" />}
         >
-          <MenuItem onPress={this.hideMenu}>Menu item 1</MenuItem>
-          <MenuItem onPress={this.hideMenu}>Menu item 2</MenuItem>
-          <MenuItem onPress={this.hideMenu} disabled>
-            Menu item 3
+          { enabled === true && (
+            <MenuItem onPress={() => this.changeConsultant(companyId)}>
+              Change Consultant
+            </MenuItem>
+          )}
+
+          <MenuItem onPress={() => this.goToNotifications(companyId)}>
+            Notifications
           </MenuItem>
-          <MenuDivider />
-          <MenuItem onPress={this.hideMenu}>Menu item 4</MenuItem>
         </Menu>
       </View>
     )
   }
 }
 
-export default CompanyMenu
+export default withNavigation(CompanyMenu)

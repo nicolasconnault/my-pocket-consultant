@@ -3,71 +3,87 @@ import { connect } from 'react-redux'
 import {
   LayoutAnimation, Image, Text, View, Switch,
 } from 'react-native'
-import { Button, Card, COLOR } from 'react-native-material-ui'
+import { Card, COLOR } from 'react-native-material-ui'
 import { withNavigation } from 'react-navigation'
 
 import { toggleCompany } from '../../actions/companyActions'
 import { STORAGE_URL } from '../../config'
-import { CompanyPropType, CompanyListPropType, ListTypePropType } from '../../proptypes'
+import { CompanyPropType, CompanyListPropType } from '../../proptypes'
 import CompanyMenu from './CompanyMenu'
 
 import styles from './styles'
 
 class CompanyCard extends Component {
+  constructor(props) {
+    super(props)
+    this.enabled = true
+  }
+
+  componentWillMount() {
+    const { company } = this.props
+    this.setState({ enabled: company.enabled })
+  }
+
   componentWillUpdate() {
     LayoutAnimation.spring()
   }
 
-  render() {
+  toggleCompanyCallback(id, oldValue) {
     const {
-      listType, company, companies, dispatch,
+      companies, dispatch,
     } = this.props
+    this.setState({ enabled: !oldValue })
+    dispatch(toggleCompany(companies, id, oldValue))
+  }
+
+  render() {
+    const { company } = this.props
 
     const {
       titleStyle,
       logoStyle,
       mainContainerStyle,
       logoContainerStyle,
-      switchContainerStyle,
+      rightSectionStyle,
+      leftSectionStyle,
       switchStyle,
     } = styles
 
     const {
-      id, name, label, enabled,
+      id, name, label,
     } = company
 
-    let switchContainer = null
-
-    if (listType === 'customerCompanies') {
-      switchContainer = (
-        <View style={switchContainerStyle}>
-          <Switch
-            onTintColor={COLOR.pink300}
-            thumbTintColor={COLOR.grey300}
-            style={switchStyle}
-            value={enabled}
-            onValueChange={() => dispatch(toggleCompany(companies, id, enabled))}
-          />
-        </View>
-      )
-    }
+    const { enabled } = this.state
 
     return (
       <Card>
         <View style={mainContainerStyle}>
-          <View style={logoContainerStyle}>
-            <Image
-              style={logoStyle}
-              source={{ uri: `${STORAGE_URL}images/companies/${name}_logo.png` }}
+
+          <View style={leftSectionStyle}>
+            <View style={logoContainerStyle}>
+              <Image
+                style={logoStyle}
+                source={{ uri: `${STORAGE_URL}images/companies/${name}_logo.png` }}
+              />
+            </View>
+            <View style={{ flexDirection: 'column' }}>
+              <Text style={titleStyle}>
+                {label}
+              </Text>
+            </View>
+          </View>
+
+          <View style={rightSectionStyle}>
+            <Switch
+              onTintColor={COLOR.pink300}
+              thumbTintColor={COLOR.grey300}
+              style={switchStyle}
+              value={enabled}
+              onValueChange={() => this.toggleCompanyCallback(id, enabled)}
             />
+            <CompanyMenu companyId={id} enabled={enabled} />
           </View>
-          <View style={{ flexDirection: 'column' }}>
-            <Text style={titleStyle}>
-              {label}
-            </Text>
-          </View>
-          {switchContainer}
-          <CompanyMenu />
+
         </View>
       </Card>
     )
@@ -76,12 +92,10 @@ class CompanyCard extends Component {
 
 CompanyCard.propTypes = {
   company: CompanyPropType,
-  listType: ListTypePropType,
   companies: CompanyListPropType,
 }
 CompanyCard.defaultProps = {
   company: null,
-  listType: 'withConsultants',
   companies: [],
 }
 

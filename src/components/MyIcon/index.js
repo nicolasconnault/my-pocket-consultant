@@ -7,6 +7,7 @@ import {
   IconKeyPropType,
   StylesPropType,
   AppModePropType,
+  OnPressPropType,
 } from '../../proptypes'
 import { CUSTOMER_MODE_COLOR, CONSULTANT_MODE_COLOR } from '../../config'
 
@@ -16,6 +17,7 @@ class MyIcon extends React.Component {
       size,
       style,
       appMode,
+      onPress,
     } = this.props
     let { color, iconKey } = this.props
     let MyComponent = Platform.OS === 'ios' ? Ionicons : MaterialIcons
@@ -88,7 +90,7 @@ class MyIcon extends React.Component {
     }
     return (
       <View>
-        <MyComponent name={iconKey} size={size} color={color} style={style} />
+        <MyComponent name={iconKey} size={size} color={color} style={style} onPress={onPress} />
       </View>
     )
   }
@@ -100,6 +102,7 @@ MyIcon.propTypes = {
   color: IconColorPropType,
   iconKey: IconKeyPropType,
   appMode: AppModePropType,
+  onPress: OnPressPropType,
 }
 MyIcon.defaultProps = {
   style: {},
@@ -107,6 +110,7 @@ MyIcon.defaultProps = {
   color: CUSTOMER_MODE_COLOR,
   iconKey: null,
   appMode: 'customer',
+  onPress: null,
 }
 
 export default MyIcon

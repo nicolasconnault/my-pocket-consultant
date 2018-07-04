@@ -29,7 +29,6 @@ class SelectAConsultant extends React.Component {
   }
 
   filterList = (search) => {
-    console.log(search)
     const filteredList = []
     const regexp = new RegExp(search)
     this.allConsultants.forEach((consultant) => {
@@ -71,7 +70,7 @@ class SelectAConsultant extends React.Component {
             currentConsultantId={navigation.getParam('currentConsultantId')}
           />
         </View>
-        
+
       </Container>
     )
   }

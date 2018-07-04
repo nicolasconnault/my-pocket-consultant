@@ -19,9 +19,20 @@ export default {
     width: 41,
     height: 41,
   },
-  switchContainerStyle: {
-    flex: 1,
+  leftSectionStyle: {
+    flex: 0.5,
+    alignSelf: 'flex-start',
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 3,
+  },
+  rightSectionStyle: {
+    flex: 0.5,
+    alignSelf: 'center',
+    flexDirection: 'row',
     justifyContent: 'flex-end',
+    alignItems: 'center',
     paddingRight: 3,
   },
   avatarStyle: {

@@ -48,7 +48,7 @@ export const TutorialStepPropType = PropTypes.shape({
   number: PropTypes.string,
   description: PropTypes.string,
 })
-
+export const OnPressPropType = PropTypes.func
 export const AppModePropType = PropTypes.oneOf(['consultant', 'customer'])
 export const StylesPropType = ViewPropTypes.style
 export const TitlePropType = PropTypes.string
