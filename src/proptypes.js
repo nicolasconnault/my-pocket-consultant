@@ -55,6 +55,7 @@ export const AppModePropType = PropTypes.oneOf(['consultant', 'customer'])
 export const StylesPropType = ViewPropTypes.style
 export const TitlePropType = PropTypes.string
 export const IdPropType = PropTypes.number
+export const BooleanPropType = PropTypes.bool
 export const CompanyListPropType = PropTypes.oneOfType([
   PropTypes.arrayOf(CompanyPropType), PropTypes.shape({}),
 ])

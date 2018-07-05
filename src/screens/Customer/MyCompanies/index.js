@@ -76,7 +76,7 @@ class MyCompanies extends React.Component {
           <FlatList
             style={listMenuStyle}
             data={filteredCompanies}
-            keyExtractor={item => item.id}
+            keyExtractor={item => `${item.id}`}
             renderItem={({ item }) => (
               <ListItem
                 divider
@@ -88,7 +88,7 @@ class MyCompanies extends React.Component {
                   />)
                 }
                 onLeftElementPress={() => navigation.navigate('CompanyMenu', { company: item })}
-                centerElement={{ primaryText: item.label, secondaryText: item.firstName }}
+                centerElement={{ primaryText: item.label, secondaryText: `${item.firstName} ${item.lastName}` }}
                 onPress={() => navigation.navigate('CompanyMenu', { company: item })}
               />
             )}

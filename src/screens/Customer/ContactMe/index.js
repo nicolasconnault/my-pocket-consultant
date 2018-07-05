@@ -1,13 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  FlatList, Text, StatusBar, View, Linking,
+  FlatList, Text, StatusBar, View, Linking, Image,
 } from 'react-native'
 import { Toolbar, ListItem } from 'react-native-material-ui'
 import Container from '../../../components/Container'
 import MyIcon from '../../../components/MyIcon'
-import CompanyCard from '../../../components/CompanyCard'
-
+import { STORAGE_URL } from '../../../config'
 import styles from '../../styles'
 
 class ContactMe extends React.Component {
@@ -43,9 +42,19 @@ class ContactMe extends React.Component {
         <View style={{ flex: 1 }}>
           <FlatList
             data={[company]}
-            keyExtractor={item => item.id}
+            keyExtractor={item => `${item.id}`}
             renderItem={({ item }) => (
-              <CompanyCard company={item} listType="singleCard" />
+              <ListItem
+                divider
+                ref={React.createRef()}
+                leftElement={(
+                  <Image
+                    style={{ width: 36, height: 36 }}
+                    source={{ uri: `${STORAGE_URL}images/companies/${item.name}_logo.png` }}
+                  />)
+                }
+                centerElement={{ primaryText: item.label, secondaryText: `${item.firstName} ${item.lastName}` }}
+              />
             )}
           />
           <FlatList
@@ -62,13 +71,12 @@ class ContactMe extends React.Component {
                       {item.text}
                     </Text>
                   </View>
-)}
+                )}
                 onPress={() => item.onPress()}
               />
             )}
           />
         </View>
-        
       </Container>
     )
   }

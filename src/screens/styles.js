@@ -28,8 +28,8 @@ function buildStyle() {
     },
     listMenuStyle: {
       height: '100%',
-      margin: 8,
-      elevation: 2,
+      margin: 0,
+      elevation: 0,
       marginTop: 0,
       backgroundColor: '#FFFFFF',
       borderTopWidth: 1,

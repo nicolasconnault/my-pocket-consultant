@@ -2,6 +2,8 @@ import React from 'react'
 import { View, StatusBar } from 'react-native'
 import Menu, { MenuItem } from 'react-native-material-menu'
 import { withNavigation } from 'react-navigation'
+
+import { BooleanPropType, IdPropType } from '../../proptypes'
 import MyIcon from '../MyIcon'
 
 class CompanyMenu extends React.PureComponent {
@@ -35,7 +37,7 @@ class CompanyMenu extends React.PureComponent {
   render() {
     const { companyId, enabled } = this.props
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ width: 50, alignItems: 'flex-end', paddingRight: 10 }}>
         <StatusBar hidden />
         <Menu
           style={{ width: 180 }}
@@ -55,6 +57,16 @@ class CompanyMenu extends React.PureComponent {
       </View>
     )
   }
+}
+
+CompanyMenu.propTypes = {
+  companyId: IdPropType,
+  enabled: BooleanPropType,
+}
+
+CompanyMenu.defaultProps = {
+  companyId: null,
+  enabled: false,
 }
 
 export default withNavigation(CompanyMenu)

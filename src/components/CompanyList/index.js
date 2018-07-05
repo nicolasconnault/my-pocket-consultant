@@ -16,7 +16,7 @@ class CompanyList extends Component {
         <FlatList
           ListHeaderComponent={listHeader}
           data={companies}
-          keyExtractor={item => item.id}
+          keyExtractor={item => `${item.id}`}
           renderItem={({ item }) => <CompanyCard company={item} listType={listType} />}
         />
       </View>
