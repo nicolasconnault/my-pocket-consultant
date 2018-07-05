@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import { StatusBar, View } from 'react-native'
 import { Toolbar } from 'react-native-material-ui'
 
+import { selectConsultant } from '../../../actions/consultantActions'
 import Container from '../../../components/Container'
 import ConsultantList from '../../../components/ConsultantList'
-
+import ConfirmModal from '../../../components/ConsultantCard/ConfirmModal'
 import { UserListPropType, CompanyListPropType } from '../../../proptypes'
 
 class SelectAConsultant extends React.Component {
@@ -18,8 +19,14 @@ class SelectAConsultant extends React.Component {
     super(props)
     this.state = {
       filteredConsultants: [],
+      modalShown: false,
+      selectedConsultantName: '',
+      selectedConsultantId: '',
+      currentConsultantId: null,
     }
     this.allConsultants = []
+    this.modalHandler = this.modalHandler.bind(this)
+    this.dispatchSelectConsultant = this.dispatchSelectConsultant.bind(this)
   }
 
   componentWillMount() {
@@ -39,13 +46,52 @@ class SelectAConsultant extends React.Component {
     this.setState({ filteredConsultants: filteredList })
   }
 
+  // This prepares the modal for the selectConsultant action and displays the modal
+  modalHandler(selectedConsultantId, selectedConsultantName, currentConsultantId) {
+    this.setState({
+      selectedConsultantId,
+      selectedConsultantName,
+      currentConsultantId,
+      modalShown: true,
+    })
+  }
+
+  dispatchSelectConsultant(selectedConsultantId, currentConsultantId, action) {
+    const {
+      navigation,
+      companies,
+      dispatch,
+    } = this.props
+
+    if (action === 'confirm') {
+      dispatch(selectConsultant(companies, navigation.getParam('companyId'), selectedConsultantId, currentConsultantId))
+    }
+    navigation.navigate('CompanySettings', { companyId: navigation.getParam('companyId') })
+  }
+
   render() {
     const { navigation, companies } = this.props
-    const { filteredConsultants } = this.state
+    const {
+      filteredConsultants,
+      selectedConsultantId,
+      selectedConsultantName,
+      currentConsultantId,
+      modalShown,
+    } = this.state
+
     let title = 'Select a Consultant'
     if (navigation.getParam('mode') === 'replace') {
       title = 'Select a new Consultant'
     }
+
+    const modal = (modalShown === false) ? null : (
+      <ConfirmModal
+        name={selectedConsultantName}
+        selectedConsultantId={selectedConsultantId}
+        currentConsultantId={currentConsultantId}
+        dispatchFunction={this.dispatchSelectConsultant}
+      />
+    )
 
     return (
       <Container>
@@ -68,9 +114,10 @@ class SelectAConsultant extends React.Component {
             listType="selectAConsultant"
             companyId={navigation.getParam('companyId')}
             currentConsultantId={navigation.getParam('currentConsultantId')}
+            modalHandler={this.modalHandler}
           />
         </View>
-
+        {modal}
       </Container>
     )
   }

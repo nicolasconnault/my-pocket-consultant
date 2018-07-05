@@ -3,11 +3,13 @@ import { connect } from 'react-redux'
 import {
   LayoutAnimation, View,
 } from 'react-native'
-import { ListItem } from 'react-native-material-ui'
+import {
+  ListItem,
+} from 'react-native-material-ui'
 import { withNavigation } from 'react-navigation'
-import { selectConsultant } from '../../actions/consultantActions'
+
 import UserAvatar from '../UserAvatar'
-import { UserPropType, CompanyListPropType, IdPropType } from '../../proptypes'
+import { UserPropType, IdPropType, CallbackPropType } from '../../proptypes'
 
 class ConsultantCard extends Component {
   componentWillUpdate() {
@@ -16,7 +18,9 @@ class ConsultantCard extends Component {
 
   render() {
     const {
-      navigation, consultant, companies, companyId, currentConsultantId, dispatch,
+      consultant,
+      currentConsultantId,
+      modalHandler,
     } = this.props
     const {
       id, firstName, lastName, suburb, country, state,
@@ -55,8 +59,7 @@ class ConsultantCard extends Component {
             secondaryText: `${suburb} ${state} ${country}`,
           }}
           onPress={() => {
-            dispatch(selectConsultant(companies, companyId, id, currentConsultantId))
-            navigation.navigate('CompanySettings', { companyId })
+            modalHandler(id, `${firstName} ${lastName}`, currentConsultantId)
           }}
         />
       </View>
@@ -66,15 +69,13 @@ class ConsultantCard extends Component {
 
 ConsultantCard.propTypes = {
   currentConsultantId: IdPropType,
-  companyId: IdPropType,
   consultant: UserPropType,
-  companies: CompanyListPropType,
+  modalHandler: CallbackPropType,
 }
 ConsultantCard.defaultProps = {
   currentConsultantId: null,
-  companyId: null,
   consultant: null,
-  companies: [],
+  modalHandler: null,
 }
 
 export default withNavigation(connect()(ConsultantCard))
