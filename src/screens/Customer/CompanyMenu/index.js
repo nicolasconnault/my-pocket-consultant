@@ -1,13 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  FlatList, Text, StatusBar, View, Linking,
+  FlatList,
+  Text,
+  StatusBar,
+  View,
+  Linking,
+  Image,
 } from 'react-native'
 import { Toolbar, ListItem } from 'react-native-material-ui'
 import Container from '../../../components/Container'
 import MyIcon from '../../../components/MyIcon'
-import CompanyCard from '../../../components/CompanyCard'
 
+import { STORAGE_URL } from '../../../config'
 import { TutorialListPropType } from '../../../proptypes'
 import styles from '../../styles'
 
@@ -68,14 +73,26 @@ class CompanyMenu extends React.Component {
         <StatusBar hidden />
         <Toolbar
           leftElement="arrow-back"
-          onLeftElementPress={() => navigation.navigate('MyConsultants')}
+          onLeftElementPress={() => navigation.navigate('MyCompanies')}
           centerElement="Company Menu"
         />
         <View style={{ flex: 1 }}>
           <FlatList
             data={[company]}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => <CompanyCard company={item} listType="singleCard" />}
+            keyExtractor={item => `${item.id}`}
+            renderItem={({ item }) => (
+              <ListItem
+                divider
+                ref={React.createRef()}
+                leftElement={(
+                  <Image
+                    style={{ width: 36, height: 36 }}
+                    source={{ uri: `${STORAGE_URL}images/companies/${item.name}_logo.png` }}
+                  />)
+                }
+                centerElement={{ primaryText: item.label, secondaryText: `${item.firstName} ${item.lastName}` }}
+              />
+            )}
           />
           <FlatList
             style={listMenuStyle}
