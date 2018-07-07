@@ -6,6 +6,8 @@ import SelectedAppModeReducer from './SelectedAppModeReducer'
 import TutorialsReducer from './TutorialsReducer'
 import AuthReducer from './AuthReducer'
 import DeviceReducer from './DeviceReducer'
+import NewsTypesReducer from './NewsTypesReducer'
+import NotificationsReducer from './NotificationsReducer'
 
 export default combineReducers({
   appMode: SelectedAppModeReducer,
@@ -15,4 +17,6 @@ export default combineReducers({
   modalMessage: ModalReducer,
   user: AuthReducer,
   deviceSize: DeviceReducer,
+  newsTypes: NewsTypesReducer,
+  notifications: NotificationsReducer,
 })

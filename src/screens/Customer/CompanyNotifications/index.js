@@ -14,7 +14,7 @@ import { STORAGE_URL } from '../../../config'
 import MyIcon from '../../../components/MyIcon'
 import styles from '../../styles'
 
-class MyCompanies extends React.Component {
+class CompanyNotifications extends React.Component {
   static navigationOptions = {
     title: 'My Companies',
     drawerIcon: <MyIcon iconKey="people" />,
@@ -99,19 +99,17 @@ class MyCompanies extends React.Component {
   }
 }
 
-MyCompanies.propTypes = {
+CompanyNotifications.propTypes = {
   listType: ListTypePropType,
   companies: CompanyListPropType,
 }
-MyCompanies.defaultProps = {
+CompanyNotifications.defaultProps = {
   listType: 'withConsultants',
   companies: [],
 }
 
-function mapStateToProps(state) {
-  return {
-    companies: state.companies,
-  }
-}
+const mapStateToProps = state => ({
+  companies: state.companies,
+})
 
-export default connect(mapStateToProps)(MyCompanies)
+export default connect(mapStateToProps)(CompanyNotifications)

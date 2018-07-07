@@ -7,17 +7,10 @@ import { ACCESS_TOKEN } from '../config'
 import { fetchCustomerCompanies } from '../actions/companyActions'
 import { fetchConsultants } from '../actions/consultantActions'
 import fetchTutorials from '../actions/tutorialActions'
+import fetchNotifications from '../actions/notificationActions'
+import fetchNewsTypes from '../actions/newsTypesActions'
 import setDeviceSize from '../actions/deviceActions'
 import { fetchUser } from '../actions/authActions'
-
-/*
-const persistConfig = {
-    key: 'root',
-    storage
-}
-
-const persistedReducer = persistReducer(persistConfig, reducers)
-*/
 
 export default function configureStore(onCompletion: () => void): any {
   const enhancer = compose(
@@ -39,6 +32,8 @@ export default function configureStore(onCompletion: () => void): any {
       store.dispatch(fetchConsultants(token))
       store.dispatch(fetchTutorials(token))
       store.dispatch(fetchUser(token))
+      store.dispatch(fetchNotifications(token))
+      store.dispatch(fetchNewsTypes(token))
     }
     // return { store, persistor }
   })
