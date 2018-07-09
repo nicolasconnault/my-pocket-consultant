@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native'
-import { API_URL } from '../config'
+import { API_URL, ACCESS_TOKEN } from '../config'
 import {
   RECEIVE_NEWS_TYPES,
   TOGGLE_NEWS_TYPE,
@@ -54,19 +54,17 @@ function sendToggleNewsType(companyId, newsTypeId, oldValue, dispatch, token) {
 
 export const toggleNewsType = (companyId, newsTypeId, oldValue) => async (dispatch) => {
   try {
-    dispatch(optimisticToggleNewsType(companyId, newsTypeId, oldValue)(companyId, newsTypeId, oldValue))
+    dispatch(optimisticToggleNewsType(companyId, newsTypeId, oldValue))
     const token = await AsyncStorage.getItem(ACCESS_TOKEN)
-    await sendToggleNewsType(companyId, newsTypeId, oldValue, dispatch, token)(companyId, newsTypeId, oldValue, dispatch, token)
+    await sendToggleNewsType(companyId, newsTypeId, oldValue, dispatch, token)
   } catch (e) {
     // undo the state change
-    dispatch(undoToggleNewsType(companyId, newsTypeId, oldValue)(companyId, newsTypeId, oldValue))
+    dispatch(undoToggleNewsType(companyId, newsTypeId, oldValue))
 
     // then display the error
     // dispatch(toggleCompanyError(e))
   }
 }
-
-
 
 export default function fetchNewsTypes(token) {
   return dispatch => fetch(`${API_URL}news_types.json`, {

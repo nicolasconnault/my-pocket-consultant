@@ -4,11 +4,10 @@ import {
   StatusBar,
   View,
   FlatList,
-  Image,
   Switch,
+  LayoutAnimation,
 } from 'react-native'
 import { Toolbar, ListItem, COLOR } from 'react-native-material-ui'
-import update from 'immutability-helper'
 
 import { toggleNewsType } from '../../../actions/newsTypesActions'
 import { NewsTypesListPropType } from '../../../proptypes'
@@ -33,20 +32,25 @@ class CompanyNotifications extends React.Component {
     const companyNewsTypes = newsTypes[company.label]
     const newsTypeStatuses = {}
     companyNewsTypes.forEach((newsType) => {
-      newsTypeStatuses[newsType.id] = { status: newsType.status }
+      newsTypeStatuses[newsType.id] = newsType.status
     })
     this.setState({ newsTypeStatuses })
   }
 
+  componentWillUpdate() {
+    LayoutAnimation.spring()
+  }
+
+  // TODO The update of the switch is very slow, as if it's waiting for
+  // the AJAX to complete before it redraws.
+  // It should be instant, following optimistic UI pattern
   toggleNewsTypeCallback(newsTypeId, oldValue) {
     const { dispatch, navigation } = this.props
+    const { newsTypeStatuses } = this.state
     const company = navigation.getParam('company')
-    // TODO add a setState() call that updates the status of the toggled NewsType
-    this.setState((prevState) => {
-      update(prevState, {
-        newsTypeStatuses: { [newsTypeId]: { status: { $set: !oldValue } } },
-      })
-    })
+    const newStatuses = Object.assign({}, newsTypeStatuses)
+    newStatuses[newsTypeId] = !oldValue
+    this.setState({ newsTypeStatuses: newStatuses })
     dispatch(toggleNewsType(company.id, newsTypeId, oldValue))
   }
 
@@ -55,9 +59,7 @@ class CompanyNotifications extends React.Component {
     const company = navigation.getParam('company')
 
     const { newsTypeStatuses } = this.state
-    console.log(newsTypeStatuses)
     const companyNewsTypes = newsTypes[company.label]
-    console.log(companyNewsTypes)
     const { listMenuStyle, switchStyle } = styles
 
     return (
@@ -82,9 +84,9 @@ class CompanyNotifications extends React.Component {
                     onTintColor={COLOR.pink300}
                     thumbTintColor={COLOR.grey300}
                     style={switchStyle}
-                    value={newsTypeStatuses[item.id].status}
+                    value={newsTypeStatuses[item.id]}
                     onValueChange={() => this.toggleNewsTypeCallback(
-                      item.id, newsTypeStatuses[item.id].status,
+                      item.id, newsTypeStatuses[item.id],
                     )}
                   />
                 )}
