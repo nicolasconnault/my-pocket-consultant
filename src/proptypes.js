@@ -48,6 +48,13 @@ export const TutorialStepPropType = PropTypes.shape({
   number: PropTypes.string,
   description: PropTypes.string,
 })
+
+export const NewsTypePropType = PropTypes.shape({
+  id: PropTypes.number,
+  name: PropTypes.string,
+  label: PropTypes.string,
+})
+
 export const CallbackPropType = PropTypes.func
 export const NamePropType = PropTypes.string
 export const OnPressPropType = PropTypes.func
@@ -58,6 +65,9 @@ export const IdPropType = PropTypes.number
 export const BooleanPropType = PropTypes.bool
 export const CompanyListPropType = PropTypes.oneOfType([
   PropTypes.arrayOf(CompanyPropType), PropTypes.shape({}),
+])
+export const NewsTypesListPropType = PropTypes.oneOfType([
+  PropTypes.arrayOf(NewsTypePropType), PropTypes.shape({}),
 ])
 export const UserListPropType = PropTypes.oneOfType([
   PropTypes.arrayOf(UserPropType), PropTypes.shape({}),

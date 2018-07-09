@@ -5,91 +5,90 @@ import {
   View,
   FlatList,
   Image,
+  Switch,
 } from 'react-native'
-import { Toolbar, ListItem } from 'react-native-material-ui'
+import { Toolbar, ListItem, COLOR } from 'react-native-material-ui'
+import update from 'immutability-helper'
 
-import { CompanyListPropType, ListTypePropType } from '../../../proptypes'
+import { toggleNewsType } from '../../../actions/newsTypesActions'
+import { NewsTypesListPropType } from '../../../proptypes'
 import Container from '../../../components/Container'
-import { STORAGE_URL } from '../../../config'
-import MyIcon from '../../../components/MyIcon'
 import styles from '../../styles'
 
 class CompanyNotifications extends React.Component {
   static navigationOptions = {
-    title: 'My Companies',
-    drawerIcon: <MyIcon iconKey="people" />,
+    title: 'Notifications',
   };
 
   constructor(props) {
     super(props)
     this.state = {
-      filteredCompanies: [],
+      newsTypeStatuses: {},
     }
-    this.allCompanies = []
   }
 
   componentWillMount() {
-    const finalCompanies = []
-    const { companies, listType } = this.props
-    if (companies.length > 0) {
-      companies.forEach((company) => {
-        if (listType === 'customerCompanies' || company.enabled === true) {
-          finalCompanies.push(company)
-        }
-      })
-    }
-
-    this.allCompanies = finalCompanies
-    this.setState({ filteredCompanies: finalCompanies })
+    const { navigation, newsTypes } = this.props
+    const company = navigation.getParam('company')
+    const companyNewsTypes = newsTypes[company.label]
+    const newsTypeStatuses = {}
+    companyNewsTypes.forEach((newsType) => {
+      newsTypeStatuses[newsType.id] = { status: newsType.status }
+    })
+    this.setState({ newsTypeStatuses })
   }
 
-  filterList = (search) => {
-    const filteredList = []
-    const regexp = new RegExp(search)
-    this.allCompanies.forEach((company) => {
-      if (company.label.match(regexp)) {
-        filteredList.push(company)
-      }
+  toggleNewsTypeCallback(newsTypeId, oldValue) {
+    const { dispatch, navigation } = this.props
+    const company = navigation.getParam('company')
+    // TODO add a setState() call that updates the status of the toggled NewsType
+    this.setState((prevState) => {
+      update(prevState, {
+        newsTypeStatuses: { [newsTypeId]: { status: { $set: !oldValue } } },
+      })
     })
-    this.setState({ filteredCompanies: filteredList })
+    dispatch(toggleNewsType(company.id, newsTypeId, oldValue))
   }
 
   render() {
-    const { navigation } = this.props
-    const { filteredCompanies } = this.state
-    const { listMenuStyle } = styles
+    const { navigation, newsTypes } = this.props
+    const company = navigation.getParam('company')
+
+    const { newsTypeStatuses } = this.state
+    console.log(newsTypeStatuses)
+    const companyNewsTypes = newsTypes[company.label]
+    console.log(companyNewsTypes)
+    const { listMenuStyle, switchStyle } = styles
 
     return (
       <Container>
         <StatusBar hidden />
         <Toolbar
-          leftElement="menu"
-          onLeftElementPress={() => navigation.toggleDrawer()}
-          centerElement="My Companies"
-          searchable={{
-            autoFocus: true,
-            placeholder: 'Search',
-            onChangeText: this.filterList,
-          }}
+          leftElement="arrow-back"
+          onLeftElementPress={() => navigation.goBack()}
+          centerElement={`${company.label} Notifications`}
         />
         <View style={{ flex: 1 }}>
           <FlatList
             style={listMenuStyle}
-            data={filteredCompanies}
+            data={companyNewsTypes}
             keyExtractor={item => `${item.id}`}
             renderItem={({ item }) => (
               <ListItem
                 divider
                 ref={React.createRef()}
                 leftElement={(
-                  <Image
-                    style={{ width: 36, height: 36 }}
-                    source={{ uri: `${STORAGE_URL}images/companies/${item.name}_logo.png` }}
-                  />)
-                }
-                onLeftElementPress={() => navigation.navigate('CompanyMenu', { company: item })}
-                centerElement={{ primaryText: item.label, secondaryText: `${item.firstName} ${item.lastName}` }}
-                onPress={() => navigation.navigate('CompanyMenu', { company: item })}
+                  <Switch
+                    onTintColor={COLOR.pink300}
+                    thumbTintColor={COLOR.grey300}
+                    style={switchStyle}
+                    value={newsTypeStatuses[item.id].status}
+                    onValueChange={() => this.toggleNewsTypeCallback(
+                      item.id, newsTypeStatuses[item.id].status,
+                    )}
+                  />
+                )}
+                centerElement={{ primaryText: item.label }}
               />
             )}
           />
@@ -100,16 +99,16 @@ class CompanyNotifications extends React.Component {
 }
 
 CompanyNotifications.propTypes = {
-  listType: ListTypePropType,
-  companies: CompanyListPropType,
+  newsTypes: NewsTypesListPropType,
 }
 CompanyNotifications.defaultProps = {
-  listType: 'withConsultants',
-  companies: [],
+  newsTypes: [],
 }
 
-const mapStateToProps = state => ({
-  companies: state.companies,
-})
+function mapStateToProps(state) {
+  return {
+    newsTypes: state.newsTypes,
+  }
+}
 
 export default connect(mapStateToProps)(CompanyNotifications)

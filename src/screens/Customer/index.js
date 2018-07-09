@@ -4,6 +4,7 @@ import ContactMe from './ContactMe'
 import Help from './Help'
 import MyCompanies from './MyCompanies'
 import CompanySettings from './CompanySettings'
+import CompanyNotifications from './CompanyNotifications'
 import MyNews from './MyNews'
 import Notifications from './Notifications'
 import SelectAConsultant from './SelectAConsultant'
@@ -18,6 +19,7 @@ export {
   Help,
   MyCompanies,
   CompanySettings,
+  CompanyNotifications,
   MyNews,
   Notifications,
   SelectAConsultant,

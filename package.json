@@ -34,6 +34,7 @@
     "color": "^3.0.0",
     "eslint-plugin-react-native": "^3.2.1",
     "expo": "^28.0.0",
+    "immutability-helper": "^2.7.1",
     "moment": "^2.22.2",
     "native-base": "^2.5.1",
     "prop-types": "^15.6.2",
@@ -49,6 +50,7 @@
     "react-navigation-material-bottom-tabs": "^0.3.0",
     "react-redux": "^4.4.9",
     "redux": "^3.6.0",
+    "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "remote-redux-devtools": "^0.5.12"

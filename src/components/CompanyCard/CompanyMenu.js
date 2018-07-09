@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { View, StatusBar } from 'react-native'
 import Menu, { MenuItem } from 'react-native-material-menu'
 import { withNavigation } from 'react-navigation'
@@ -28,14 +29,21 @@ class CompanyMenu extends React.PureComponent {
     navigation.navigate('SelectAConsultant', { companyId })
   }
 
-  goToNotifications = (companyId) => {
+  goToNotifications = (company) => {
     const { navigation } = this.props
     this.menu.hide()
-    navigation.navigate('Notifications', { companyId })
+    navigation.push('CompanyNotifications', { company })
   }
 
   render() {
-    const { companyId, enabled } = this.props
+    const { companyId, enabled, companies } = this.props
+    let company = null
+    companies.forEach((c) => {
+      if (c.id === companyId) {
+        company = c
+      }
+    })
+
     return (
       <View style={{ width: 50, alignItems: 'flex-end', paddingRight: 10 }}>
         <StatusBar hidden />
@@ -50,7 +58,7 @@ class CompanyMenu extends React.PureComponent {
             </MenuItem>
           )}
 
-          <MenuItem onPress={() => this.goToNotifications(companyId)}>
+          <MenuItem onPress={() => this.goToNotifications(company)}>
             Notifications
           </MenuItem>
         </Menu>
@@ -69,4 +77,10 @@ CompanyMenu.defaultProps = {
   enabled: false,
 }
 
-export default withNavigation(CompanyMenu)
+function mapStateToProps(state) {
+  return {
+    newsTypes: state.newsTypes,
+    companies: state.companies
+  }
+}
+export default withNavigation(connect(mapStateToProps)(CompanyMenu))
