@@ -7,7 +7,12 @@ const headingFontSizes = {
   large: 16,
   huge: 20,
 }
-
+const subHeadingFontSizes = {
+  small: 11,
+  medium: 13,
+  large: 15,
+  huge: 18,
+}
 const mainTextFontSizes = {
   small: 10,
   medium: 12,
@@ -34,6 +39,49 @@ function buildStyle() {
       backgroundColor: '#FFFFFF',
       borderTopWidth: 1,
       borderTopColor: '#EEEEEE',
+    },
+    cardImageStyle: {
+      width: '100%',
+      height: 120,
+    },
+    cardBodyStyle: {
+      container: {
+        padding: 20,
+        textAlign: 'center',
+      },
+      subHeading: {
+        fontSize: subHeadingFontSizes[deviceSize],
+      },
+      heading: {
+        fontSize: headingFontSizes[deviceSize],
+      },
+      description: {
+        fontSize: mainTextFontSizes[deviceSize],
+      },
+    },
+    cardFooterStyle: {
+      container: {
+        height: 50,
+        flexDirection: 'row',
+      },
+      price: {
+        container: {
+          flex: 0.5,
+        },
+        regularPrice: {
+          fontSize: mainTextFontSizes[deviceSize],
+        },
+        discountedPrice: {
+          textDecorationLine: 'line-through',
+          fontSize: mainTextFontSizes[deviceSize],
+        },
+      },
+      actions: {
+        container: {
+          selfAlign: 'flex-end',
+          flex: 0.5,
+        },
+      },
     },
   }
 }

@@ -17,6 +17,7 @@ import {
 import {
   CompanySettings,
   MyCompanies,
+  Notifications,
   CompanyMenu,
   CompanyNotifications,
   ContactMe,
@@ -24,6 +25,7 @@ import {
   Tutorials,
   Tutorial,
   MyNews,
+  NewsItem,
   Settings,
   SelectAConsultant,
   Help,
@@ -55,6 +57,7 @@ class Main extends React.Component {
     appMode = (appMode === null) ? 'customer' : appMode
 
     let DrawerNavigation = createDrawerNavigator({
+      Notifications: { screen: Notifications },
       MyCompanies: { screen: MyCompanies },
       CompanySettings: { screen: CompanySettings },
       Settings: { screen: Settings },
@@ -112,6 +115,7 @@ class Main extends React.Component {
       ContactMe: { screen: ContactMe },
       CompanyNews: { screen: CompanyNews },
       MyNews: { screen: MyNews },
+      NewsItem: { screen: NewsItem },
       ConsultantHelp: { screen: ConsultantHelp },
       SelectAConsultant: { screen: SelectAConsultant },
     }, {

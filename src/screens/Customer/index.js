@@ -6,6 +6,7 @@ import MyCompanies from './MyCompanies'
 import CompanySettings from './CompanySettings'
 import CompanyNotifications from './CompanyNotifications'
 import MyNews from './MyNews'
+import NewsItem from './NewsItem'
 import Notifications from './Notifications'
 import SelectAConsultant from './SelectAConsultant'
 import Settings from './Settings'
@@ -21,6 +22,7 @@ export {
   CompanySettings,
   CompanyNotifications,
   MyNews,
+  NewsItem,
   Notifications,
   SelectAConsultant,
   Settings,
