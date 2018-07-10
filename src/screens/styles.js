@@ -42,31 +42,42 @@ function buildStyle() {
     },
     cardImageStyle: {
       width: '100%',
-      height: 120,
+      height: 240,
     },
     cardBodyStyle: {
       container: {
         padding: 20,
-        textAlign: 'center',
       },
       subHeading: {
         fontSize: subHeadingFontSizes[deviceSize],
+        textAlign: 'center',
       },
       heading: {
-        fontSize: headingFontSizes[deviceSize],
+        fontSize: headingFontSizes[deviceSize] + 4,
+        textAlign: 'center',
       },
       description: {
         fontSize: mainTextFontSizes[deviceSize],
+        textAlign: 'center',
       },
     },
     cardFooterStyle: {
       container: {
         height: 50,
         flexDirection: 'row',
+        paddingTop: 5,
+        paddingBottom: 5,
+        marginTop: 10,
+        paddingLeft: 20,
+        paddingRight: 20,
+        borderTopWidth: 2,
+        borderTopColor: '#EEEEEE',
+        justifyContent: 'center',
       },
       price: {
         container: {
           flex: 0.5,
+          flexDirection: 'row',
         },
         regularPrice: {
           fontSize: mainTextFontSizes[deviceSize],
@@ -78,10 +89,21 @@ function buildStyle() {
       },
       actions: {
         container: {
-          selfAlign: 'flex-end',
           flex: 0.5,
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+        },
+        icon: {
+          alignSelf: 'flex-end',
+          marginLeft: 10,
         },
       },
+    },
+    moreNewsTextStyle: {
+      textAlign: 'center',
+      marginTop: 20,
+      marginBottom: 20,
+      fontSize: headingFontSizes[deviceSize],
     },
   }
 }

@@ -5,11 +5,13 @@ import {
   View,
   Image,
   Linking,
+  ScrollView,
 } from 'react-native'
-import { Toolbar, Card } from 'react-native-material-ui'
+import { Toolbar, Card, Button } from 'react-native-material-ui'
 
 import { STORAGE_URL } from '../../../config'
 import Container from '../../../components/Container'
+import MyIcon from '../../../components/MyIcon'
 import styles from '../../styles'
 
 class NewsItem extends React.Component {
@@ -18,10 +20,17 @@ class NewsItem extends React.Component {
   }
 
   render() {
-    const { cardImageStyle, cardBodyStyle, cardFooterStyle } = styles
+    const {
+      cardImageStyle,
+      cardBodyStyle,
+      cardFooterStyle,
+      moreNewsTextStyle,
+    } = styles
     const { navigation } = this.props
     const newsItem = navigation.getParam('newsItem')
     const company = navigation.getParam('company')
+
+    NewsItem.navigationOptions.title = `${company.label} News`
 
     return (
       <Container>
@@ -31,7 +40,7 @@ class NewsItem extends React.Component {
           onLeftElementPress={() => navigation.navigate('Notifications')}
           centerElement="News"
         />
-        <View style={{ flex: 1 }}>
+        <ScrollView style={{ flex: 1 }}>
           <Card>
             <Image
               style={cardImageStyle}
@@ -48,21 +57,23 @@ class NewsItem extends React.Component {
                 {newsItem.description}
               </Text>
             </View>
-            <View style={cardFooterStyle}>
+            <View style={cardFooterStyle.container}>
               <View style={cardFooterStyle.price.container}>
-                <View style={cardFooterStyle.price.regularPrice}>
+                <Text style={cardFooterStyle.price.regularPrice}>
                   ${newsItem.regularPrice}
-                </View>
-                <View style={cardFooterStyle.price.discountedPrice}>
+                </Text>
+                <Text style={cardFooterStyle.price.discountedPrice}>
                   ${newsItem.discountedPrice}
-                </View>
+                </Text>
               </View>
               <View style={cardFooterStyle.actions.container}>
-                <Text>Social media sharing icons will be here</Text>
+                <MyIcon style={cardFooterStyle.actions.icon} iconKey="phone" />
+                <MyIcon style={cardFooterStyle.actions.icon} iconKey="cart" />
               </View>
             </View>
           </Card>
-        </View>
+          <Button style={moreNewsTextStyle} text={`More ${company.label} News...`} />
+        </ScrollView>
       </Container>
     )
   }
