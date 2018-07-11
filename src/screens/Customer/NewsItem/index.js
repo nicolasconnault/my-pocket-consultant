@@ -6,6 +6,8 @@ import {
   Image,
   Linking,
   ScrollView,
+  Share,
+  Dimensions,
 } from 'react-native'
 import { Toolbar, Card, Button } from 'react-native-material-ui'
 
@@ -13,20 +15,39 @@ import { STORAGE_URL } from '../../../config'
 import Container from '../../../components/Container'
 import MyIcon from '../../../components/MyIcon'
 import styles from '../../styles'
+import { capitalize } from '../../../modules/string'
 
 class NewsItem extends React.Component {
+
   static navigationOptions = {
     title: 'News',
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      orientation: null,
+    }
+  }
+
+  onLayout() {
+    const { width, height } = Dimensions.get('window')
+    if (width > height) {
+      this.setState({ orientation: 'landscape' })
+    } else {
+      this.setState({ orientation: 'portrait' })
+    }
+  }
+
   render() {
     const {
-      cardImageStyle,
+      cardImagePortraitStyle,
+      cardImageLandscapeStyle,
       cardBodyStyle,
       cardFooterStyle,
       moreNewsTextStyle,
     } = styles
-    const { navigation } = this.props
+    const { navigation, orientation } = this.props
     const newsItem = navigation.getParam('newsItem')
     const company = navigation.getParam('company')
 
@@ -38,17 +59,17 @@ class NewsItem extends React.Component {
         <Toolbar
           leftElement="arrow-back"
           onLeftElementPress={() => navigation.navigate('Notifications')}
-          centerElement="News"
+          centerElement={`${company.label} News`}
         />
-        <ScrollView style={{ flex: 1 }}>
+        <ScrollView style={{ flex: 1 }} onLayout={this.onLayout}>
           <Card>
             <Image
-              style={cardImageStyle}
+              style={(orientation === 'portrait') ? cardImagePortraitStyle : cardImageLandscapeStyle}
               source={{ uri: `${STORAGE_URL}images/news/${company.name}/${newsItem.id}.jpg` }}
             />
             <View style={cardBodyStyle.container}>
               <Text style={cardBodyStyle.subHeading}>
-                {newsItem.type}
+                {capitalize(newsItem.type)}
               </Text>
               <Text style={cardBodyStyle.heading}>
                 {newsItem.title}
@@ -59,16 +80,42 @@ class NewsItem extends React.Component {
             </View>
             <View style={cardFooterStyle.container}>
               <View style={cardFooterStyle.price.container}>
-                <Text style={cardFooterStyle.price.regularPrice}>
-                  ${newsItem.regularPrice}
-                </Text>
-                <Text style={cardFooterStyle.price.discountedPrice}>
-                  ${newsItem.discountedPrice}
-                </Text>
+                { newsItem.regularPrice != null && (
+                  <View>
+                    <Text style={cardFooterStyle.price.regularPrice}>
+                      ${newsItem.regularPrice}
+                    </Text>
+                    <Text style={cardFooterStyle.price.discountedPrice}>
+                      ${newsItem.discountedPrice}
+                    </Text>
+                  </View>
+                )}
               </View>
               <View style={cardFooterStyle.actions.container}>
-                <MyIcon style={cardFooterStyle.actions.icon} iconKey="phone" />
-                <MyIcon style={cardFooterStyle.actions.icon} iconKey="cart" />
+                <MyIcon
+                  style={cardFooterStyle.actions.icon}
+                  iconKey="email"
+                />
+
+                { newsItem.url !== null && (
+                  <MyIcon
+                    style={cardFooterStyle.actions.icon}
+                    iconKey="link"
+                    onPress={() => { Linking.openURL(newsItem.url) }}
+                  />
+                )}
+
+                { newsItem.url !== null && (
+                  <MyIcon
+                    style={cardFooterStyle.actions.icon}
+                    iconKey="share"
+                    onPress={() => Share.share({
+                      title: newsItem.title,
+                      message: newsItem.description,
+                      url: newsItem.url,
+                    })}
+                  />
+                )}
               </View>
             </View>
           </Card>

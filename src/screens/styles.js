@@ -40,24 +40,32 @@ function buildStyle() {
       borderTopWidth: 1,
       borderTopColor: '#EEEEEE',
     },
-    cardImageStyle: {
+    cardImagePortraitStyle: {
       width: '100%',
       height: 240,
+    },
+    cardImageLandscapeStyle: {
+      width: '100%',
+      height: 200,
     },
     cardBodyStyle: {
       container: {
         padding: 20,
       },
       subHeading: {
-        fontSize: subHeadingFontSizes[deviceSize],
+        fontSize: subHeadingFontSizes[deviceSize] + 4,
         textAlign: 'center',
       },
       heading: {
-        fontSize: headingFontSizes[deviceSize] + 4,
+        fontSize: headingFontSizes[deviceSize] + 8,
+        marginTop: 10,
+        fontWeight: '600',
         textAlign: 'center',
       },
       description: {
-        fontSize: mainTextFontSizes[deviceSize],
+        marginTop: 10,
+        marginBottom: 10,
+        fontSize: mainTextFontSizes[deviceSize] + 3,
         textAlign: 'center',
       },
     },
@@ -92,6 +100,7 @@ function buildStyle() {
           flex: 0.5,
           flexDirection: 'row',
           justifyContent: 'flex-end',
+          marginTop: 8,
         },
         icon: {
           alignSelf: 'flex-end',

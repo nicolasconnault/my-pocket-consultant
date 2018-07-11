@@ -47,7 +47,7 @@ class Notifications extends React.Component {
 
   navigateToNewsItem(newsItem, company) {
     const { navigation } = this.props
-    this.removeNotification(newsItem.id)
+    // this.removeNotification(newsItem.id)
     navigation.navigate('NewsItem', { newsItem, company })
   }
 
