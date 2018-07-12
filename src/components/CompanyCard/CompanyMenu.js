@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View, StatusBar } from 'react-native'
+import { View, StatusBar, AsyncStorage } from 'react-native'
 import Menu, { MenuItem } from 'react-native-material-menu'
 import { withNavigation } from 'react-navigation'
 
+import { fetchConsultants } from '../../actions/consultantActions'
 import { BooleanPropType, IdPropType } from '../../proptypes'
+import { ACCESS_TOKEN } from '../../config'
 import MyIcon from '../MyIcon'
 
 class CompanyMenu extends React.PureComponent {
@@ -24,9 +26,14 @@ class CompanyMenu extends React.PureComponent {
   }
 
   changeConsultant = (companyId) => {
-    const { navigation } = this.props
+    const { navigation, dispatch } = this.props
     this.menu.hide()
-    navigation.navigate('SelectAConsultant', { companyId })
+
+    AsyncStorage.getItem(ACCESS_TOKEN).then((token) => {
+      dispatch(fetchConsultants(token, companyId)).then(() => {
+        navigation.navigate('SelectAConsultant', { companyId })
+      })
+    })
   }
 
   goToNotifications = (company) => {

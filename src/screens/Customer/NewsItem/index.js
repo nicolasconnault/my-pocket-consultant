@@ -28,6 +28,7 @@ class NewsItem extends React.Component {
     this.state = {
       orientation: null,
     }
+    this.onLayout = this.onLayout.bind(this)
   }
 
   onLayout() {
@@ -47,7 +48,8 @@ class NewsItem extends React.Component {
       cardFooterStyle,
       moreNewsTextStyle,
     } = styles
-    const { navigation, orientation } = this.props
+    const { navigation } = this.props
+    const { orientation } = this.state
     const newsItem = navigation.getParam('newsItem')
     const company = navigation.getParam('company')
 
@@ -80,15 +82,20 @@ class NewsItem extends React.Component {
             </View>
             <View style={cardFooterStyle.container}>
               <View style={cardFooterStyle.price.container}>
-                { newsItem.regularPrice != null && (
-                  <View>
-                    <Text style={cardFooterStyle.price.regularPrice}>
-                      ${newsItem.regularPrice}
-                    </Text>
+                { newsItem.regularPrice != null && newsItem.discountedPrice != null && (
+                  <View style={cardFooterStyle.price.subContainer}>
                     <Text style={cardFooterStyle.price.discountedPrice}>
                       ${newsItem.discountedPrice}
                     </Text>
+                    <Text style={cardFooterStyle.price.regularPrice}>
+                      ${newsItem.regularPrice}
+                    </Text>
                   </View>
+                )}
+                { newsItem.regularPrice != null && newsItem.discountedPrice === null && (
+                  <Text style={cardFooterStyle.price.singlePrice}>
+                    ${newsItem.regularPrice}
+                  </Text>
                 )}
               </View>
               <View style={cardFooterStyle.actions.container}>
@@ -119,7 +126,11 @@ class NewsItem extends React.Component {
               </View>
             </View>
           </Card>
-          <Button style={moreNewsTextStyle} text={`More ${company.label} News...`} />
+          <Button
+            style={moreNewsTextStyle}
+            text={`More ${company.label} News...`}
+            onPress={() => navigation.navigate('CompanyNews', { company })}
+          />
         </ScrollView>
       </Container>
     )

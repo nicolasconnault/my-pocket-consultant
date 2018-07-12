@@ -36,7 +36,6 @@ export default function configureStore(onCompletion: () => void): any {
     // let persistor = persistStore(store)
     if (token !== null && token.length > 0) {
       store.dispatch(fetchCustomerCompanies(token))
-      store.dispatch(fetchConsultants(token))
       store.dispatch(fetchTutorials(token))
       store.dispatch(fetchUser(token))
       store.dispatch(fetchNotifications(token))

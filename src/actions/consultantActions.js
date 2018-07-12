@@ -73,7 +73,7 @@ export const selectConsultant = (
   }
 }
 
-export function fetchConsultants(token) {
+export function fetchConsultants(token, companyId) {
   return dispatch => fetch(`${API_URL}consultants.json`, {
     method: 'POST',
     headers: {
@@ -81,6 +81,9 @@ export function fetchConsultants(token) {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify({
+      companyId,
+    }),
   })
     .then(res => res.json())
     .then((json) => {

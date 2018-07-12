@@ -24,6 +24,7 @@ class SelectAConsultant extends React.Component {
       selectedConsultantId: '',
       currentConsultantId: null,
     }
+
     this.allConsultants = []
     this.modalHandler = this.modalHandler.bind(this)
     this.dispatchSelectConsultant = this.dispatchSelectConsultant.bind(this)

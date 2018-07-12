@@ -19,6 +19,12 @@ const mainTextFontSizes = {
   large: 14,
   huge: 17,
 }
+const cardImageHeights = {
+  small: 120,
+  medium: 150,
+  large: 200,
+  huge: 300,
+}
 
 function buildStyle() {
   const { deviceSize } = store().getState()
@@ -42,11 +48,11 @@ function buildStyle() {
     },
     cardImagePortraitStyle: {
       width: '100%',
-      height: 240,
+      height: cardImageHeights[deviceSize] + 100,
     },
     cardImageLandscapeStyle: {
       width: '100%',
-      height: 200,
+      height: cardImageHeights[deviceSize],
     },
     cardBodyStyle: {
       container: {
@@ -87,11 +93,19 @@ function buildStyle() {
           flex: 0.5,
           flexDirection: 'row',
         },
-        regularPrice: {
+        subContainer: {
+          flexDirection: 'row',
+          marginTop: 8,
+        },
+        singlePrice: {
           fontSize: mainTextFontSizes[deviceSize],
         },
-        discountedPrice: {
+        regularPrice: {
+          fontSize: mainTextFontSizes[deviceSize],
           textDecorationLine: 'line-through',
+        },
+        discountedPrice: {
+          marginRight: 15,
           fontSize: mainTextFontSizes[deviceSize],
         },
       },

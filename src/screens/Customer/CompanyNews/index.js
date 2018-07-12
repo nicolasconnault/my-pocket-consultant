@@ -7,7 +7,6 @@ import { Toolbar, ListItem } from 'react-native-material-ui'
 import Container from '../../../components/Container'
 import MyIcon from '../../../components/MyIcon'
 
-
 class CompanyNews extends React.Component {
   static navigationOptions = {
     title: 'Company News',
@@ -16,27 +15,6 @@ class CompanyNews extends React.Component {
   render() {
     const { navigation } = this.props
     const company = navigation.getParam('company')
-    const menuItems = [
-      { iconKey: 'home', text: 'Home Page', onPress: null },
-      { iconKey: 'cart', text: 'Shop', onPress: null },
-      {
-        iconKey: 'news',
-        text: 'News',
-        onPress: navigation.navigate('CompanyNews', { company }),
-      },
-      {
-        iconKey: 'call',
-        text: 'Contact me',
-        onPress: navigation.navigate('ContactMe', { company }),
-      },
-      { iconKey: 'parcel', text: 'Request a sample', onPress: null },
-      { iconKey: 'people', text: 'Host a demo', onPress: null },
-      {
-        iconKey: 'school',
-        text: 'Tutorials',
-        onPress: navigation.navigate('Tutorials', { company }),
-      },
-    ]
 
     return (
       <Container>
@@ -59,19 +37,18 @@ class CompanyNews extends React.Component {
                       {item.text}
                     </Text>
                   </View>
-)}
+                )}
               />
             )}
           />
         </View>
-        
       </Container>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  companies: state.companies,
+  notifications: state.notifications,
 })
 
 export default connect(mapStateToProps)(CompanyNews)
