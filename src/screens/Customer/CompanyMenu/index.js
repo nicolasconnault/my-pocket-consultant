@@ -7,12 +7,14 @@ import {
   View,
   Linking,
   Image,
+  AsyncStorage,
 } from 'react-native'
+
 import { Toolbar, ListItem } from 'react-native-material-ui'
 import Container from '../../../components/Container'
 import MyIcon from '../../../components/MyIcon'
-
-import { STORAGE_URL } from '../../../config'
+import { fetchNewsItems } from '../../../actions/newsItemActions'
+import { STORAGE_URL, ACCESS_TOKEN } from '../../../config'
 import { TutorialListPropType } from '../../../proptypes'
 import styles from '../../styles'
 
@@ -22,7 +24,7 @@ class CompanyMenu extends React.Component {
   }
 
   render() {
-    const { navigation, tutorials } = this.props
+    const { navigation, tutorials, dispatch } = this.props
     const company = navigation.getParam('company')
     const { listMenuStyle } = styles
     const menuItems = [
@@ -44,7 +46,11 @@ class CompanyMenu extends React.Component {
         iconKey: 'news',
         text: 'News',
         onPress: () => {
-          navigation.navigate('CompanyNews', { company })
+          AsyncStorage.getItem(ACCESS_TOKEN).then((token) => {
+            dispatch(fetchNewsItems(token, company.id)).then(() => {
+              navigation.navigate('CompanyNews', { company })
+            })
+          })
         },
       },
       {

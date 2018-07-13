@@ -60,7 +60,7 @@ class NewsItem extends React.Component {
         <StatusBar hidden />
         <Toolbar
           leftElement="arrow-back"
-          onLeftElementPress={() => navigation.navigate('Notifications')}
+          onLeftElementPress={() => navigation.goBack()}
           centerElement={`${company.label} News`}
         />
         <ScrollView style={{ flex: 1 }} onLayout={this.onLayout}>

@@ -7,6 +7,7 @@ import TutorialsReducer from './TutorialsReducer'
 import AuthReducer from './AuthReducer'
 import DeviceReducer from './DeviceReducer'
 import NewsTypesReducer from './NewsTypesReducer'
+import NewsItemsReducer from './NewsItemsReducer'
 import NotificationsReducer from './NotificationsReducer'
 
 export default combineReducers({
@@ -18,5 +19,6 @@ export default combineReducers({
   user: AuthReducer,
   deviceSize: DeviceReducer,
   newsTypes: NewsTypesReducer,
+  newsItems: NewsItemsReducer,
   notifications: NotificationsReducer,
 })

@@ -1,11 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  FlatList, Text, StatusBar, View,
+  StatusBar, View,
 } from 'react-native'
-import { Toolbar, ListItem } from 'react-native-material-ui'
+import GridView from 'react-native-super-grid'
+import { Toolbar } from 'react-native-material-ui'
+
+import NewsItemCard from '../../../components/NewsItemCard'
 import Container from '../../../components/Container'
-import MyIcon from '../../../components/MyIcon'
+
 
 class CompanyNews extends React.Component {
   static navigationOptions = {
@@ -13,7 +16,7 @@ class CompanyNews extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props
+    const { navigation, newsItems } = this.props
     const company = navigation.getParam('company')
 
     return (
@@ -25,19 +28,14 @@ class CompanyNews extends React.Component {
           centerElement="Company News"
         />
         <View style={{ flex: 1 }}>
-          <FlatList
-            data={menuItems}
-            keyExtractor={item => item.iconKey}
-            renderItem={({ item }) => (
-              <ListItem
-                leftElement={<MyIcon iconKey={item.iconKey} />}
-                centerElement={(
-                  <View onPress={item.onPress}>
-                    <Text>
-                      {item.text}
-                    </Text>
-                  </View>
-                )}
+          <GridView
+            style={{ flex: 1 }}
+            itemDimension={130}
+            items={newsItems}
+            renderItem={item => (
+              <NewsItemCard
+                newsItem={item}
+                company={company}
               />
             )}
           />
@@ -48,7 +46,7 @@ class CompanyNews extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  notifications: state.notifications,
+  newsItems: state.newsItems,
 })
 
 export default connect(mapStateToProps)(CompanyNews)
