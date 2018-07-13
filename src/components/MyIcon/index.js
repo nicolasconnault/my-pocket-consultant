@@ -26,7 +26,7 @@ class MyIcon extends React.Component {
       cart: { ios: 'ios-cart', android: 'shopping-cart' },
       chat: { ios: 'ios-chatbubbles', android: 'chat' },
       document: { ios: 'ios-document', android: [MaterialCommunityIcons, 'file-document'] },
-      download: { ios: 'ios-download', android: 'download' },
+      download: { ios: 'ios-download', android: 'file-download' },
       edit: { ios: 'ios-create', android: 'md-create' },
       email: { ios: 'ios-mail', android: 'mail' },
       facebook: { ios: 'logo-facebook', android: [MaterialCommunityIcons, 'facebook'] },
@@ -74,6 +74,7 @@ class MyIcon extends React.Component {
       trash: { ios: 'ios-trash', android: [Ionicons, 'md-trash'] },
       twitter: { ios: 'logo-twitter', android: [MaterialCommunityIcons, 'twitter'] },
       warning: { ios: 'ios-warning', android: 'warning' },
+      wifi: { ios: 'ios-wifi', android: 'wifi' },
     }
 
     const iconEntry = iconTable[iconKey]
