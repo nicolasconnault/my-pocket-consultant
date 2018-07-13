@@ -9,6 +9,8 @@ import {
   Share,
   Dimensions,
 } from 'react-native'
+// Transition only works within a FluidNavigator, but so far it looks quite sluggish, I need to test it in production mode
+import { Transition } from 'react-navigation-fluid-transitions'
 import { Toolbar, Card, Button } from 'react-native-material-ui'
 
 import { STORAGE_URL } from '../../../config'
@@ -65,66 +67,72 @@ class NewsItem extends React.Component {
         />
         <ScrollView style={{ flex: 1 }} onLayout={this.onLayout}>
           <Card>
-            <Image
-              style={(orientation === 'portrait') ? cardImagePortraitStyle : cardImageLandscapeStyle}
-              source={{ uri: `${STORAGE_URL}images/news/${company.name}/${newsItem.id}.jpg` }}
-            />
-            <View style={cardBodyStyle.container}>
-              <Text style={cardBodyStyle.subHeading}>
-                {capitalize(newsItem.type)}
-              </Text>
-              <Text style={cardBodyStyle.heading}>
-                {newsItem.title}
-              </Text>
-              <Text style={cardBodyStyle.description}>
-                {newsItem.description}
-              </Text>
-            </View>
-            <View style={cardFooterStyle.container}>
-              <View style={cardFooterStyle.price.container}>
-                { newsItem.regularPrice != null && newsItem.discountedPrice != null && (
-                  <View style={cardFooterStyle.price.subContainer}>
-                    <Text style={cardFooterStyle.price.discountedPrice}>
-                      ${newsItem.discountedPrice}
-                    </Text>
-                    <Text style={cardFooterStyle.price.regularPrice}>
+            <Transition shared="newsItemCard">
+              <Image
+                style={(orientation === 'portrait') ? cardImagePortraitStyle : cardImageLandscapeStyle}
+                source={{ uri: `${STORAGE_URL}images/news/${company.name}/${newsItem.id}.jpg` }}
+              />
+            </Transition>
+            <Transition appear="flip">
+              <View style={cardBodyStyle.container}>
+                <Text style={cardBodyStyle.subHeading}>
+                  {capitalize(newsItem.type)}
+                </Text>
+                <Text style={cardBodyStyle.heading}>
+                  {newsItem.title}
+                </Text>
+                <Text style={cardBodyStyle.description}>
+                  {newsItem.description}
+                </Text>
+              </View>
+            </Transition>
+            <Transition appear="bottom">
+              <View style={cardFooterStyle.container}>
+                <View style={cardFooterStyle.price.container}>
+                  { newsItem.regularPrice != null && newsItem.discountedPrice != null && (
+                    <View style={cardFooterStyle.price.subContainer}>
+                      <Text style={cardFooterStyle.price.discountedPrice}>
+                        ${newsItem.discountedPrice}
+                      </Text>
+                      <Text style={cardFooterStyle.price.regularPrice}>
+                        ${newsItem.regularPrice}
+                      </Text>
+                    </View>
+                  )}
+                  { newsItem.regularPrice != null && newsItem.discountedPrice === null && (
+                    <Text style={cardFooterStyle.price.singlePrice}>
                       ${newsItem.regularPrice}
                     </Text>
-                  </View>
-                )}
-                { newsItem.regularPrice != null && newsItem.discountedPrice === null && (
-                  <Text style={cardFooterStyle.price.singlePrice}>
-                    ${newsItem.regularPrice}
-                  </Text>
-                )}
-              </View>
-              <View style={cardFooterStyle.actions.container}>
-                <MyIcon
-                  style={cardFooterStyle.actions.icon}
-                  iconKey="email"
-                />
-
-                { newsItem.url !== null && (
+                  )}
+                </View>
+                <View style={cardFooterStyle.actions.container}>
                   <MyIcon
                     style={cardFooterStyle.actions.icon}
-                    iconKey="link"
-                    onPress={() => { Linking.openURL(newsItem.url) }}
+                    iconKey="email"
                   />
-                )}
 
-                { newsItem.url !== null && (
-                  <MyIcon
-                    style={cardFooterStyle.actions.icon}
-                    iconKey="share"
-                    onPress={() => Share.share({
-                      title: newsItem.title,
-                      message: newsItem.description,
-                      url: newsItem.url,
-                    })}
-                  />
-                )}
+                  { newsItem.url !== null && (
+                    <MyIcon
+                      style={cardFooterStyle.actions.icon}
+                      iconKey="link"
+                      onPress={() => { Linking.openURL(newsItem.url) }}
+                    />
+                  )}
+
+                  { newsItem.url !== null && (
+                    <MyIcon
+                      style={cardFooterStyle.actions.icon}
+                      iconKey="share"
+                      onPress={() => Share.share({
+                        title: newsItem.title,
+                        message: newsItem.description,
+                        url: newsItem.url,
+                      })}
+                    />
+                  )}
+                </View>
               </View>
-            </View>
+            </Transition>
           </Card>
           <Button
             style={moreNewsTextStyle}

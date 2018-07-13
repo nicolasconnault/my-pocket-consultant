@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import {
   LayoutAnimation, View, Image, Text, StyleSheet, TouchableNativeFeedback,
 } from 'react-native'
@@ -7,7 +6,6 @@ import {
   ListItem,
   Card,
 } from 'react-native-material-ui'
-import { withNavigation } from 'react-navigation'
 
 import { STORAGE_URL } from '../../config'
 import { } from '../../proptypes'
@@ -42,7 +40,6 @@ class NewsItemCard extends Component {
 
   navigateToNewsItem(newsItem, company) {
     const { navigation } = this.props
-    console.log(navigation)
     // this.removeNotification(newsItem.id)
     navigation.navigate('NewsItem', { newsItem, company })
   }
@@ -83,4 +80,4 @@ NewsItemCard.propTypes = {
 NewsItemCard.defaultProps = {
 }
 
-export default withNavigation(connect()(NewsItemCard))
+export default NewsItemCard

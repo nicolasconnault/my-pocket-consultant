@@ -9,8 +9,9 @@ import {
   Image,
   AsyncStorage,
 } from 'react-native'
-
+import { Transition } from 'react-navigation-fluid-transitions'
 import { Toolbar, ListItem } from 'react-native-material-ui'
+
 import Container from '../../../components/Container'
 import MyIcon from '../../../components/MyIcon'
 import { fetchNewsItems } from '../../../actions/newsItemActions'

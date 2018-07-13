@@ -1,5 +1,6 @@
 import React from 'react'
-import { createStackNavigator, createDrawerNavigator } from 'react-navigation'
+import { createDrawerNavigator, createStackNavigator } from 'react-navigation'
+import { FluidNavigator } from 'react-navigation-fluid-transitions'
 import { connect } from 'react-redux'
 import { Root } from 'native-base'
 import { ThemeProvider } from 'react-native-material-ui'
