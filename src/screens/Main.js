@@ -3,11 +3,7 @@ import {
   StatusBar, View, Text, StyleSheet, AsyncStorage,
 } from 'react-native'
 
-import Container from '../components/Container'
-
-import { Logo } from '../components/Logo'
-import { LogoutButton } from '../components/Button'
-
+import { Logo, LogoutButton, Container } from '../components'
 const ACCESS_TOKEN = 'access_token'
 
 class Main extends React.Component {

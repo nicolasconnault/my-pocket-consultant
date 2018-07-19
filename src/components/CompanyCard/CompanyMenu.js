@@ -4,8 +4,8 @@ import { View, StatusBar, AsyncStorage } from 'react-native'
 import Menu, { MenuItem } from 'react-native-material-menu'
 import { withNavigation } from 'react-navigation'
 
-import { fetchConsultants } from '../../actions/consultantActions'
-import { BooleanPropType, IdPropType } from '../../proptypes'
+import { fetchConsultants } from '../../actions'
+import { BooleanPropType, IdPropType, CompanyListPropType } from '../../proptypes'
 import { ACCESS_TOKEN } from '../../config'
 import MyIcon from '../MyIcon'
 
@@ -77,17 +77,19 @@ class CompanyMenu extends React.PureComponent {
 CompanyMenu.propTypes = {
   companyId: IdPropType,
   enabled: BooleanPropType,
+  companies: CompanyListPropType,
 }
 
 CompanyMenu.defaultProps = {
   companyId: null,
   enabled: false,
+  companies: [],
 }
 
 function mapStateToProps(state) {
   return {
     newsTypes: state.newsTypes,
-    companies: state.companies
+    companies: state.companies,
   }
 }
 export default withNavigation(connect(mapStateToProps)(CompanyMenu))

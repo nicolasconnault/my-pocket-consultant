@@ -5,7 +5,7 @@ import { Button } from 'react-native-material-ui'
 
 import styles from './styles'
 import MyIcon from '../MyIcon'
-import changeAppMode from '../../actions/appModeActions'
+import { changeAppMode } from '../../actions'
 import { AppModePropType } from '../../proptypes'
 
 class SwitchAppModeButton extends React.Component {

@@ -9,9 +9,9 @@ import {
 } from 'react-native'
 import { Toolbar, ListItem, COLOR } from 'react-native-material-ui'
 
-import { toggleNewsType } from '../../../actions/newsTypesActions'
+import { toggleNewsType } from '../../../actions'
 import { NewsTypesListPropType } from '../../../proptypes'
-import Container from '../../../components/Container'
+import { Container } from '../../../components'
 import styles from '../../styles'
 
 class CompanyNotifications extends React.Component {

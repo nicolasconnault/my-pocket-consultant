@@ -14,8 +14,7 @@ import { Transition } from 'react-navigation-fluid-transitions'
 import { Toolbar, Card, Button } from 'react-native-material-ui'
 
 import { STORAGE_URL } from '../../../config'
-import Container from '../../../components/Container'
-import MyIcon from '../../../components/MyIcon'
+import { MyIcon, Container } from '../../../components'
 import styles from '../../styles'
 import { capitalize } from '../../../modules/string'
 

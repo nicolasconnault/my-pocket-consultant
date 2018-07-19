@@ -11,10 +11,9 @@ import { Toolbar, ListItem } from 'react-native-material-ui'
 import { SwipeListView } from 'react-native-swipe-list-view'
 
 import { NotificationListPropType } from '../../../proptypes'
-import Container from '../../../components/Container'
+import { MyIcon, Container } from '../../../components'
 import { STORAGE_URL, ACCESS_TOKEN } from '../../../config'
-import { removeNotification, fetchNotifications } from '../../../actions/notificationActions'
-import MyIcon from '../../../components/MyIcon'
+import { removeNotification, fetchNotifications } from '../../../actions'
 import styles from '../../styles'
 
 class Notifications extends React.Component {

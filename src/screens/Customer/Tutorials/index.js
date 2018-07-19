@@ -4,11 +4,8 @@ import {
   StatusBar, View,
 } from 'react-native'
 import { Toolbar } from 'react-native-material-ui'
-import Container from '../../../components/Container'
-import TutorialList from '../../../components/TutorialList'
-
+import { MyIcon, Container, TutorialList } from '../../../components' 
 import { TutorialListPropType } from '../../../proptypes'
-import MyIcon from '../../../components/MyIcon'
 
 class Tutorials extends React.Component {
   static navigationOptions = {

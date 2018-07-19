@@ -5,8 +5,7 @@ import { COLOR } from 'react-native-material-ui'
 import { DrawerItems } from 'react-navigation'
 
 import { CONSULTANT_MODE_COLOR, CUSTOMER_MODE_COLOR } from '../config'
-import SwitchAppModeButton from '../components/SwitchAppModeButton'
-import UserAvatar from '../components/UserAvatar'
+import { SwitchAppModeButton, UserAvatar } from '../components'
 import { AppModePropType, UserPropType, DeviceSizePropType } from '../proptypes'
 
 class Drawer extends React.Component {

@@ -5,7 +5,7 @@ import { COLOR } from 'react-native-material-ui'
 import { DrawerItems, SafeAreaView } from 'react-navigation'
 
 import { CUSTOMER_MODE_COLOR } from '../../config'
-import SwitchAppModeButton from '../../components/SwitchAppModeButton'
+import { SwitchAppModeButton } from '../../components'
 
 const styles = {
   headerStyle: {

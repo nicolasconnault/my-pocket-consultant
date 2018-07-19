@@ -4,7 +4,7 @@ import {
 } from 'react-native'
 import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui'
 
-import Container from '../../../../../components/Container'
+import { Container } from '../../../../components'
 import Nav from '../../../ConsultantNav'
 import styles from '../../../../styles'
 

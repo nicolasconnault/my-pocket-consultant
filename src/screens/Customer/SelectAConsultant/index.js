@@ -3,10 +3,8 @@ import { connect } from 'react-redux'
 import { StatusBar, View } from 'react-native'
 import { Toolbar } from 'react-native-material-ui'
 
-import { selectConsultant } from '../../../actions/consultantActions'
-import Container from '../../../components/Container'
-import ConsultantList from '../../../components/ConsultantList'
-import ConfirmModal from '../../../components/ConsultantCard/ConfirmModal'
+import { selectConsultant } from '../../../actions'
+import { ConsultantConfirmModal, ConsultantList, Container } from '../../../components'
 import { UserListPropType, CompanyListPropType } from '../../../proptypes'
 
 class SelectAConsultant extends React.Component {
@@ -86,7 +84,7 @@ class SelectAConsultant extends React.Component {
     }
 
     const modal = (modalShown === false) ? null : (
-      <ConfirmModal
+      <ConsultantConfirmModal
         name={selectedConsultantName}
         selectedConsultantId={selectedConsultantId}
         currentConsultantId={currentConsultantId}

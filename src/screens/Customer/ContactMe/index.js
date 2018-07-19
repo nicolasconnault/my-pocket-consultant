@@ -4,8 +4,7 @@ import {
   FlatList, Text, StatusBar, View, Linking, Image,
 } from 'react-native'
 import { Toolbar, ListItem } from 'react-native-material-ui'
-import Container from '../../../components/Container'
-import MyIcon from '../../../components/MyIcon'
+import { MyIcon, Container } from '../../../components'
 import { STORAGE_URL } from '../../../config'
 import styles from '../../styles'
 

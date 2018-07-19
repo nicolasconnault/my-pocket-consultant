@@ -5,7 +5,7 @@ import {
 } from 'react-native'
 
 import { ACCESS_TOKEN } from '../config'
-import MyIcon from '../components/MyIcon'
+import { MyIcon } from '../components'
 import { AppModePropType } from '../proptypes'
 
 class Logout extends React.Component {

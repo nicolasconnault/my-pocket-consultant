@@ -4,9 +4,8 @@ import {
 } from 'react-native'
 import { Toolbar, ActionButton, Subheader } from 'react-native-material-ui'
 
-import Container from '../../../components/Container'
+import { MyIcon, Container } from '../../../components'
 import Nav from '../ConsultantNav'
-import MyIcon from '../../../components/MyIcon'
 import styles from '../../styles'
 
 export default class TodoList extends React.Component {

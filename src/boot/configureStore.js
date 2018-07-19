@@ -6,13 +6,14 @@ import { createLogger } from 'redux-logger'
 
 import reducers from '../reducers'
 import { ACCESS_TOKEN } from '../config'
-import { fetchCustomerCompanies } from '../actions/companyActions'
-import { fetchConsultants } from '../actions/consultantActions'
-import fetchTutorials from '../actions/tutorialActions'
-import { fetchNotifications } from '../actions/notificationActions'
-import fetchNewsTypes from '../actions/newsTypesActions'
-import setDeviceSize from '../actions/deviceActions'
-import { fetchUser } from '../actions/authActions'
+import {
+  fetchCustomerCompanies,
+  fetchTutorials,
+  fetchNotifications,
+  fetchNewsTypes,
+  setDeviceSize,
+  fetchUser,
+} from '../actions'
 
 export default function configureStore(onCompletion: () => void): any {
   let middlewares = [thunk]

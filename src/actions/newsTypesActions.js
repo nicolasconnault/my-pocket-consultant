@@ -66,7 +66,7 @@ export const toggleNewsType = (companyId, newsTypeId, oldValue) => async (dispat
   }
 }
 
-export default function fetchNewsTypes(token) {
+export function fetchNewsTypes(token) {
   return dispatch => fetch(`${API_URL}news_types.json`, {
     method: 'POST',
     headers: {

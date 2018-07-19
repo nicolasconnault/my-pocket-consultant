@@ -1,11 +1,20 @@
 import React from 'react'
 import { connect } from 'react-redux'
+
 import {
   StatusBar,
   View,
   KeyboardAvoidingView,
   AsyncStorage,
+  Platform,
 } from 'react-native'
+
+import {
+  Constants,
+  Location,
+  Permissions,
+} from 'expo'
+
 import { Toolbar, Button } from 'react-native-material-ui'
 import { TextField } from 'react-native-material-textfield'
 
@@ -13,41 +22,68 @@ import Container from '../../../components/Container'
 import { ACCESS_TOKEN, API_URL } from '../../../config'
 import { fetchUser } from '../../../actions/authActions'
 
+
 class Profile extends React.Component {
   static navigationOptions = {
-    title: 'Sign Up',
+    title: 'My Profile',
   }
 
   constructor(props) {
     super(props)
+    const { user } = this.props
     this.state = {
+      address: null,
       firstName: '',
       lastName: '',
       username: '',
       postcode: '',
       password: '',
+      suburb: '',
+      street: '',
+      phone: '',
+      state: '',
       errors: [],
+      errorMessage: null,
     }
     this.focusNextField = this.focusNextField.bind(this)
     this.inputs = {}
-    this.onRegistrationButtonPress = this.onRegistrationButtonPress.bind(this)
+    this.onUpdateButtonPress = this.onUpdateButtonPress.bind(this)
+  }
+
+  componentWillMount() {
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      this.setState({
+        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+      })
+    } else {
+      this.getLocationAsync()
+    }
   }
 
   componentDidMount() {
     this.loadingInitialState().done()
   }
 
-  async onRegistrationButtonPress() {
+  async onUpdateButtonPress() {
     const {
-      firstName, lastName, postcode, username, password, errors,
+      firstName,
+      lastName,
+      postcode,
+      username,
+      suburb,
+      street,
+      phone,
+      state,
+      password,
+      errors,
     } = this.state
     const {
       navigation, dispatch,
     } = this.props
 
     try {
-      const response = await fetch(`${API_URL}register`, {
-        method: 'POST',
+      const response = await fetch(`${API_URL}update_profile`, {
+        method: 'PUT',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -57,6 +93,10 @@ class Profile extends React.Component {
           lastName,
           postcode,
           username,
+          suburb,
+          street,
+          phone,
+          state,
           password,
         }),
       })
@@ -66,60 +106,74 @@ class Profile extends React.Component {
       // If successful, automatically log in and get access token
       // TODO Email verification step (or SMS code)
       if (response.status >= 200 && response.status < 300) {
-        this.setState({ error: '' })
-        const accessToken = res.access_token
-        this.storeToken(accessToken)
-
-        if (!accessToken) {
-          navigation.navigate('Login')
-        } else {
-          dispatch(fetchUser(accessToken))
-        }
+        const token = await AsyncStorage.getItem(ACCESS_TOKEN)
+        dispatch(fetchUser(token))
       } else {
-        let myError = { error: 'Login Error' }
+        let myError = { error: 'Validation Error' }
         if (res.error === 'invalid_grant') {
-          myError = { error: 'Invalid credentials' }
+          myError = { errors: 'Invalid credentials' }
         }
         throw myError
       }
     } catch (exception) {
       const formError = exception
-      this.setState({ error: formError.error })
+      this.setState({ errors: formError.error })
     }
   }
 
-  getToken = async () => {
-    try {
-      const token = await AsyncStorage.getItem(ACCESS_TOKEN)
-      console.log(`token is:${token}`)
-    } catch (error) {
-      console.log('Something went wrong')
+  getLocationAsync = async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION)
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      })
     }
+
+    const location = await Location.getCurrentPositionAsync({})
+    if (location.coords.longitude) {
+      this.getAddressFromLocation(location.coords)
+    }
+  }
+
+  getAddressFromLocation = async (location) => {
+    const address = await Location.reverseGeocodeAsync(location)
+    this.setState({ address })
   }
 
   loadingInitialState = async () => {
-    const { dispatch } = this.props
-    const token = await AsyncStorage.getItem(ACCESS_TOKEN)
-    if (token !== null) {
-      dispatch(fetchUser(token))
-    }
+    const { user } = this.props
+    this.setState({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      postcode: user.postcode,
+      suburb: user.suburb,
+      street: user.street,
+      phone: user.phone,
+      state: user.state,
+    })
   }
 
   focusNextField(id) {
     this.inputs[id].focus()
   }
 
-  async storeToken(accessToken) {
-    try {
-      await AsyncStorage.setItem(ACCESS_TOKEN, accessToken)
-      this.getToken()
-    } catch (error) {
-      console.log('Something went wrong')
-    }
-  }
-
   render() {
-    const { navigation } = this.props
+    const { navigation, user } = this.props
+    const {
+      address,
+      firstName,
+      lastName,
+      postcode,
+      username,
+      suburb,
+      street,
+      phone,
+      state,
+      password,
+      errors,
+      errorMessage,
+    } = this.state
 
     return (
       <Container>
@@ -128,15 +182,15 @@ class Profile extends React.Component {
           <Toolbar
             leftElement="arrow-back"
             onLeftElementPress={() => navigation.navigate('Login')}
-            centerElement="Sign Up"
+            centerElement="My Profile"
           />
           <View style={{ padding: 10 }}>
             <TextField
               onChangeText={val => this.setState({ firstName: val })}
               label="First Name"
+              value={firstName}
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
-              defaultValue="Anne-Marie"
               blurOnSubmit={false}
               onSubmitEditing={() => {
                 this.focusNextField('two')
@@ -149,9 +203,9 @@ class Profile extends React.Component {
             <TextField
               onChangeText={val => this.setState({ lastName: val })}
               label="Last Name"
+              value={lastName}
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
-              defaultValue="Connault"
               blurOnSubmit={false}
               onSubmitEditing={() => {
                 this.focusNextField('three')
@@ -165,11 +219,11 @@ class Profile extends React.Component {
               onChangeText={val => this.setState({ username: val })}
               autoCapitalize="none"
               autoCorrect={false}
+              value={username}
               keyboardType="email-address"
               label="Email Address"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
-              defaultValue="amlconnault@gmail.com"
               blurOnSubmit={false}
               onSubmitEditing={() => {
                 this.focusNextField('four')
@@ -179,12 +233,45 @@ class Profile extends React.Component {
                 this.inputs['three'] = input
               }}
             />
+
             <TextField
               onChangeText={val => this.setState({ postcode: val })}
               label="Postcode/Zip Code"
+              value={postcode}
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
-              defaultValue="6220"
+              blurOnSubmit={false}
+              onSubmitEditing={() => {
+                this.focusNextField('five')
+              }}
+              returnKeyType="next"
+              ref={(input) => {
+                this.inputs['four'] = input
+              }}
+            />
+
+            <TextField
+              onChangeText={val => this.setState({ street: val })}
+              label="Street Address"
+              value={street}
+              placeholderTextColor="rgba(225,225,225,0.7)"
+              underlineColorAndroid="transparent"
+              blurOnSubmit={false}
+              onSubmitEditing={() => {
+                this.focusNextField('five')
+              }}
+              returnKeyType="next"
+              ref={(input) => {
+                this.inputs['four'] = input
+              }}
+            />
+
+            <TextField
+              onChangeText={val => this.setState({ suburb: val })}
+              label="City/Suburb"
+              value={suburb}
+              placeholderTextColor="rgba(225,225,225,0.7)"
+              underlineColorAndroid="transparent"
               blurOnSubmit={false}
               onSubmitEditing={() => {
                 this.focusNextField('five')
@@ -201,18 +288,18 @@ class Profile extends React.Component {
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
               secureTextEntry
-              defaultValue="password"
               blurOnSubmit
               returnKeyType="done"
               ref={(input) => {
                 this.inputs['five'] = input
               }}
             />
+
             <Button
               primary
               raised
-              onPress={this.onRegistrationButtonPress}
-              text="CONTINUE"
+              onPress={this.onUpdateButtonPress}
+              text="UPDATE"
             />
           </View>
         </KeyboardAvoidingView>
@@ -220,5 +307,8 @@ class Profile extends React.Component {
     )
   }
 }
+const mapStateToProps = state => ({
+  user: state.user,
+})
 
-export default connect()(Profile)
+export default connect(mapStateToProps)(Profile)

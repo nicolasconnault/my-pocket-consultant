@@ -9,9 +9,8 @@ import {
 import { Toolbar, ListItem } from 'react-native-material-ui'
 
 import { CompanyListPropType, ListTypePropType } from '../../../proptypes'
-import Container from '../../../components/Container'
+import { MyIcon, Container } from '../../../components'
 import { STORAGE_URL } from '../../../config'
-import MyIcon from '../../../components/MyIcon'
 import styles from '../../styles'
 
 class MyCompanies extends React.Component {
@@ -88,8 +87,11 @@ class MyCompanies extends React.Component {
                   />)
                 }
                 onLeftElementPress={() => navigation.navigate('CompanyMenu', { company: item })}
-                centerElement={{ primaryText: item.label, secondaryText: `${item.firstName} ${item.lastName}` }}
-                onPress={() => navigation.navigate('CompanyMenu', { company: item })}
+                centerElement={{ primaryText: item.label, secondaryText: (item.firstName != null) ? `${item.firstName} ${item.lastName}` : 'No Consultant' }}
+                onPress={() => ((item.firstName != null)
+                  ? navigation.navigate('CompanyMenu', { company: item })
+                  : navigation.navigate('SelectAConsultant', { company: item })
+                )}
               />
             )}
           />

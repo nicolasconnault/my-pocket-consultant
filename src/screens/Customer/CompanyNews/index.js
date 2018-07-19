@@ -6,9 +6,7 @@ import {
 import GridView from 'react-native-super-grid'
 import { Toolbar } from 'react-native-material-ui'
 import { Transition } from 'react-navigation-fluid-transitions'
-import NewsItemCard from '../../../components/NewsItemCard'
-import Container from '../../../components/Container'
-
+import { NewsItemCard, Container } from '../../../components'
 
 class CompanyNews extends React.Component {
   static navigationOptions = {
@@ -23,8 +21,8 @@ class CompanyNews extends React.Component {
       <Container>
         <StatusBar hidden />
         <Toolbar
-          leftElement="menu"
-          onLeftElementPress={() => navigation.toggleDrawer()}
+          leftElement="arrow-back"
+          onLeftElementPress={() => navigation.goBack()}
           centerElement="Company News"
         />
         <View style={{ flex: 1 }}>

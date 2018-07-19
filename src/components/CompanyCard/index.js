@@ -6,7 +6,7 @@ import {
 import { Card, COLOR } from 'react-native-material-ui'
 import { withNavigation } from 'react-navigation'
 
-import { toggleCompany } from '../../actions/companyActions'
+import { toggleCompany } from '../../actions'
 import { STORAGE_URL } from '../../config'
 import { CompanyPropType, CompanyListPropType } from '../../proptypes'
 import CompanyMenu from './CompanyMenu'

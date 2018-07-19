@@ -3,9 +3,7 @@ import {
   FlatList, Text, StatusBar, View,
 } from 'react-native'
 import { Toolbar } from 'react-native-material-ui'
-import Container from '../../../components/Container'
-
-import TutorialStep from '../../../components/TutorialStep'
+import { Container, TutorialStep } from '../../../components'
 import styles from '../../styles'
 
 class Tutorial extends React.Component {

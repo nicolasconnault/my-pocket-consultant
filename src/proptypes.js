@@ -37,7 +37,11 @@ export const UserPropType = PropTypes.shape({
   suburb: PropTypes.string,
   state: PropTypes.string,
   postcode: PropTypes.string,
-  country: PropTypes.string,
+  country: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    code: PropTypes.string,
+  }),
   email: PropTypes.string,
   phone: PropTypes.string,
 })

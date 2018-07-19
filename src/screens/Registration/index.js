@@ -3,16 +3,27 @@ import { connect } from 'react-redux'
 import {
   StatusBar,
   View,
-  Text,
   KeyboardAvoidingView,
   AsyncStorage,
 } from 'react-native'
+
+import { DangerZone } from 'expo'
 import { Toolbar, Button } from 'react-native-material-ui'
 import { TextField } from 'react-native-material-textfield'
 
 import Container from '../../components/Container'
 import { ACCESS_TOKEN, API_URL } from '../../config'
-import { fetchUser } from '../../actions/authActions'
+import {
+  fetchUser,
+  fetchTutorials,
+  fetchCustomerCompanies,
+  fetchConsultants,
+  fetchNotifications,
+  fetchNewsTypes,
+} from '../../actions'
+import Loader from '../../components/Loader'
+
+const { Localization } = DangerZone
 
 class Registration extends React.Component {
   static navigationOptions = {
@@ -27,7 +38,10 @@ class Registration extends React.Component {
       username: '',
       postcode: '',
       password: '',
-      errors: [],
+      countryCode: null,
+      timeZone: null,
+      error: null,
+      loading: false,
     }
     this.focusNextField = this.focusNextField.bind(this)
     this.inputs = {}
@@ -40,11 +54,20 @@ class Registration extends React.Component {
 
   async onRegistrationButtonPress() {
     const {
-      firstName, lastName, postcode, username, password, errors,
+      firstName,
+      lastName,
+      postcode,
+      username,
+      password,
+      countryCode,
+      timeZone,
     } = this.state
+
     const {
       navigation, dispatch,
     } = this.props
+
+    this.setState({ loading: true })
 
     try {
       const response = await fetch(`${API_URL}register`, {
@@ -59,24 +82,35 @@ class Registration extends React.Component {
           postcode,
           username,
           password,
+          countryCode,
+          timeZone,
         }),
       })
 
       const res = await response.json()
+
       // Possible problems: Email already taken
       // If successful, automatically log in and get access token
       // TODO Email verification step (or SMS code)
       if (response.status >= 200 && response.status < 300) {
-        this.setState({ error: '' })
+        this.setState({ error: '', loading: false })
         const accessToken = res.access_token
         this.storeToken(accessToken)
 
         if (!accessToken) {
           navigation.navigate('Login')
         } else {
-          dispatch(fetchUser(accessToken))
+          dispatch(fetchCustomerCompanies(accessToken))
+          dispatch(fetchTutorials(accessToken))
+          dispatch(fetchNotifications(accessToken))
+          dispatch(fetchConsultants(accessToken))
+          dispatch(fetchNewsTypes(accessToken))
+          dispatch(fetchUser(accessToken)).then(() => {
+            navigation.navigate('MyCompanies')
+          })
         }
       } else {
+        this.setState({ loading: false })
         let myError = { error: 'Login Error' }
         if (res.error === 'invalid_grant') {
           myError = { error: 'Invalid credentials' }
@@ -85,7 +119,8 @@ class Registration extends React.Component {
       }
     } catch (exception) {
       const formError = exception
-      this.setState({ error: formError.error })
+      console.log(formError.error)
+      this.setState({ error: formError.error, loading: false })
     }
   }
 
@@ -101,6 +136,18 @@ class Registration extends React.Component {
   loadingInitialState = async () => {
     const { dispatch } = this.props
     const token = await AsyncStorage.getItem(ACCESS_TOKEN)
+    const countryCode = await Localization.getCurrentDeviceCountryAsync()
+    const timeZone = await Localization.getCurrentTimeZoneAsync()
+    this.setState({
+      countryCode,
+      timeZone,
+      firstName: 'Russell',
+      lastName: 'Crowe',
+      username: 'fabrictrove@gmail.com',
+      postcode: '6220',
+      password: 'password',
+    })
+
     if (token !== null) {
       dispatch(fetchUser(token))
     }
@@ -121,11 +168,20 @@ class Registration extends React.Component {
 
   render() {
     const { navigation } = this.props
+    const {
+      firstName,
+      lastName,
+      postcode,
+      username,
+      password,
+      loading,
+    } = this.state
 
     return (
       <Container>
         <KeyboardAvoidingView enabled>
           <StatusBar hidden />
+          <Loader loading={loading} />
           <Toolbar
             leftElement="arrow-back"
             onLeftElementPress={() => navigation.navigate('Login')}
@@ -137,7 +193,7 @@ class Registration extends React.Component {
               label="First Name"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
-              defaultValue="Anne-Marie"
+              value={firstName}
               blurOnSubmit={false}
               onSubmitEditing={() => {
                 this.focusNextField('two')
@@ -150,9 +206,9 @@ class Registration extends React.Component {
             <TextField
               onChangeText={val => this.setState({ lastName: val })}
               label="Last Name"
+              value={lastName}
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
-              defaultValue="Connault"
               blurOnSubmit={false}
               onSubmitEditing={() => {
                 this.focusNextField('three')
@@ -165,12 +221,11 @@ class Registration extends React.Component {
             <TextField
               onChangeText={val => this.setState({ username: val })}
               autoCapitalize="none"
+              value={username}
               autoCorrect={false}
-              keyboardType="email-address"
               label="Email Address"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
-              defaultValue="amlconnault@gmail.com"
               blurOnSubmit={false}
               onSubmitEditing={() => {
                 this.focusNextField('four')
@@ -183,9 +238,9 @@ class Registration extends React.Component {
             <TextField
               onChangeText={val => this.setState({ postcode: val })}
               label="Postcode/Zip Code"
+              value={postcode}
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
-              defaultValue="6220"
               blurOnSubmit={false}
               onSubmitEditing={() => {
                 this.focusNextField('five')
@@ -201,8 +256,8 @@ class Registration extends React.Component {
               label="Password"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
+              value={password}
               secureTextEntry
-              defaultValue="password"
               blurOnSubmit
               returnKeyType="done"
               ref={(input) => {

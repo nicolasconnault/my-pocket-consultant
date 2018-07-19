@@ -4,10 +4,7 @@ import { StatusBar, View } from 'react-native'
 import { Toolbar } from 'react-native-material-ui'
 
 import { CompanyListPropType, ListTypePropType } from '../../../proptypes'
-import Container from '../../../components/Container'
-import CompanyList from '../../../components/CompanyList'
-
-import MyIcon from '../../../components/MyIcon'
+import { MyIcon, Container, CompanyList } from '../../../components'
 
 class CompanySettings extends React.Component {
   static navigationOptions = {
@@ -58,8 +55,8 @@ class CompanySettings extends React.Component {
       <Container>
         <StatusBar hidden />
         <Toolbar
-          leftElement="menu"
-          onLeftElementPress={() => navigation.toggleDrawer()}
+          leftElement="arrow-back"
+          onLeftElementPress={() => navigation.goBack()}
           centerElement="Company Settings"
           searchable={{
             autoFocus: true,

@@ -4,9 +4,7 @@ import {
 } from 'react-native'
 import { Toolbar } from 'react-native-material-ui'
 
-import Container from '../../../components/Container'
-
-import MyIcon from '../../../components/MyIcon'
+import { MyIcon, Container } from '../../../components'
 import styles from '../../styles'
 
 export default class MyNews extends React.Component {

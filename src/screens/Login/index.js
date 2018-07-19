@@ -15,10 +15,8 @@ import { connect } from 'react-redux'
 import { Button } from 'react-native-material-ui'
 
 import { OAUTH_URL, ACCESS_TOKEN } from '../../config'
-import { fetchUser } from '../../actions/authActions'
-import { fetchCustomerCompanies } from '../../actions/companyActions'
-import { fetchConsultants } from '../../actions/consultantActions'
-import fetchTutorials from '../../actions/tutorialActions'
+import { fetchUser, fetchCustomerCompanies, fetchConsultants, fetchTutorials } from '../../actions'
+import { Loader } from '../../components'
 import { landscapeStyles, portraitStyles } from './styles'
 
 const logoImage = require('./white_logo.png')
@@ -34,6 +32,7 @@ class Login extends React.Component {
       password: '',
       error: '',
       orientation: null,
+      loading: false,
     }
 
     this.onLoginButtonPress = this.onLoginButtonPress.bind(this)
@@ -63,7 +62,7 @@ class Login extends React.Component {
   async onLoginButtonPress() {
     const { username, password, error } = this.state
     const { navigation, dispatch } = this.props
-
+    this.setState({ loading: true })
     try {
       const response = await fetch(`${OAUTH_URL}token`, {
         method: 'POST',
@@ -82,7 +81,7 @@ class Login extends React.Component {
       const res = await response.json()
 
       if (response.status >= 200 && response.status < 300) {
-        this.setState({ error: '' })
+        this.setState({ error: '', loading: false })
         const accessToken = res.access_token
 
         if (!accessToken) {
@@ -96,6 +95,7 @@ class Login extends React.Component {
         }
       } else {
         let myError = { error: 'Login Error' }
+        this.setState({ loading: false })
         if (res.error === 'invalid_grant') {
           myError = { error: 'Invalid credentials' }
         }
@@ -103,7 +103,7 @@ class Login extends React.Component {
       }
     } catch (exception) {
       const formError = exception
-      this.setState({ error: formError.error })
+      this.setState({ error: formError.error, loading: false })
     }
   }
 
@@ -117,7 +117,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { error, username, orientation } = this.state
+    const { error, username, orientation, loading } = this.state
     const { navigation } = this.props
     const {
       imageBackgroundStyle,
@@ -146,6 +146,7 @@ class Login extends React.Component {
         source={(orientation === 'landscape') ? landscapeBackground : portraitBackground}
         style={imageBackgroundStyle}
       >
+        <Loader loading={loading} />
         <StatusBar hidden />
         <KeyboardAvoidingView behavior="padding">
           <View style={mainContainerStyle}>
