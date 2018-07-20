@@ -37,11 +37,9 @@ class Profile extends React.Component {
       lastName: '',
       username: '',
       postcode: '',
-      password: '',
       suburb: '',
       street: '',
       phone: '',
-      state: '',
       errors: [],
       errorMessage: null,
     }
@@ -73,19 +71,19 @@ class Profile extends React.Component {
       suburb,
       street,
       phone,
-      state,
-      password,
       errors,
     } = this.state
     const {
       navigation, dispatch,
     } = this.props
+    const token = await AsyncStorage.getItem(ACCESS_TOKEN)
 
     try {
-      const response = await fetch(`${API_URL}update_profile`, {
+      const response = await fetch(`${API_URL}save_profile`, {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -96,17 +94,15 @@ class Profile extends React.Component {
           suburb,
           street,
           phone,
-          state,
-          password,
         }),
       })
 
       const res = await response.json()
+      console.log(res)
       // Possible problems: Email already taken
       // If successful, automatically log in and get access token
       // TODO Email verification step (or SMS code)
       if (response.status >= 200 && response.status < 300) {
-        const token = await AsyncStorage.getItem(ACCESS_TOKEN)
         dispatch(fetchUser(token))
       } else {
         let myError = { error: 'Validation Error' }
@@ -150,7 +146,6 @@ class Profile extends React.Component {
       suburb: user.suburb,
       street: user.street,
       phone: user.phone,
-      state: user.state,
     })
   }
 
@@ -159,9 +154,8 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { navigation, user } = this.props
+    const { navigation } = this.props
     const {
-      address,
       firstName,
       lastName,
       postcode,
@@ -169,8 +163,6 @@ class Profile extends React.Component {
       suburb,
       street,
       phone,
-      state,
-      password,
       errors,
       errorMessage,
     } = this.state
@@ -258,11 +250,11 @@ class Profile extends React.Component {
               underlineColorAndroid="transparent"
               blurOnSubmit={false}
               onSubmitEditing={() => {
-                this.focusNextField('five')
+                this.focusNextField('six')
               }}
               returnKeyType="next"
               ref={(input) => {
-                this.inputs['four'] = input
+                this.inputs['five'] = input
               }}
             />
 
@@ -274,24 +266,24 @@ class Profile extends React.Component {
               underlineColorAndroid="transparent"
               blurOnSubmit={false}
               onSubmitEditing={() => {
-                this.focusNextField('five')
+                this.focusNextField('seven')
               }}
               returnKeyType="next"
               ref={(input) => {
-                this.inputs['four'] = input
+                this.inputs['six'] = input
               }}
             />
 
             <TextField
-              onChangeText={val => this.setState({ password: val })}
-              label="Password"
+              onChangeText={val => this.setState({ phone: val })}
+              label="Phone"
+              value={phone}
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
-              secureTextEntry
               blurOnSubmit
               returnKeyType="done"
               ref={(input) => {
-                this.inputs['five'] = input
+                this.inputs['seven'] = input
               }}
             />
 
