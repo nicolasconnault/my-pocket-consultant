@@ -35,7 +35,7 @@ function undoSelectConsultant(companies, companyId, consultantId, currentConsult
 }
 
 function sendSelectConsultant(companyId, consultantId, dispatch, token) {
-  return fetch(`${API_URL}select_consultant.json`, {
+  return fetch(`${API_URL}customer/select_consultant.json`, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
@@ -74,7 +74,7 @@ export const selectConsultant = (
 }
 
 export function fetchConsultants(token, companyId) {
-  return dispatch => fetch(`${API_URL}consultants.json`, {
+  return dispatch => fetch(`${API_URL}customer/consultants.json`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

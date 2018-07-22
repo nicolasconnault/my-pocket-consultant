@@ -5,8 +5,10 @@ import fetchTutorials from './tutorialActions'
 import { fetchNewsItems } from './newsItemActions'
 import {
   receiveCustomerCompanies,
+  receiveSubscribedCompanies,
   toggleCompany,
   fetchCustomerCompanies,
+  fetchSubscribedCompanies,
 } from './companyActions'
 import {
   fetchConsultants,
@@ -21,17 +23,18 @@ import {
   fetchNotifications,
 } from './notificationActions'
 
-console.log(fetchUser)
 export {
   changeAppMode,
   fetchConsultants,
   fetchCustomerCompanies,
+  fetchSubscribedCompanies,
   fetchNewsItems,
   fetchNewsTypes,
   fetchNotifications,
   fetchUser,
   fetchTutorials,
   receiveCustomerCompanies,
+  receiveSubscribedCompanies,
   removeNotification,
   selectConsultant,
   setDeviceSize,

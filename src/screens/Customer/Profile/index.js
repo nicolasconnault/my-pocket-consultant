@@ -79,7 +79,7 @@ class Profile extends React.Component {
     const token = await AsyncStorage.getItem(ACCESS_TOKEN)
 
     try {
-      const response = await fetch(`${API_URL}save_profile`, {
+      const response = await fetch(`${API_URL}customer/save_profile`, {
         method: 'PUT',
         headers: {
           Accept: 'application/json',

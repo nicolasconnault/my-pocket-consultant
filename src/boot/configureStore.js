@@ -8,6 +8,7 @@ import reducers from '../reducers'
 import { ACCESS_TOKEN } from '../config'
 import {
   fetchCustomerCompanies,
+  fetchSubscribedCompanies,
   fetchTutorials,
   fetchNotifications,
   fetchNewsTypes,
@@ -37,6 +38,7 @@ export default function configureStore(onCompletion: () => void): any {
     // let persistor = persistStore(store)
     if (token !== null && token.length > 0) {
       store.dispatch(fetchCustomerCompanies(token))
+      store.dispatch(fetchSubscribedCompanies(token))
       store.dispatch(fetchTutorials(token))
       store.dispatch(fetchUser(token))
       store.dispatch(fetchNotifications(token))

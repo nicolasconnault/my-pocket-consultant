@@ -10,7 +10,7 @@ function receiveNewsItems(json) {
 }
 
 export function fetchNewsItems(token, companyId) {
-  return dispatch => fetch(`${API_URL}company_news_items.json`, {
+  return dispatch => fetch(`${API_URL}customer/company_news_items.json`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

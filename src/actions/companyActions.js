@@ -3,12 +3,19 @@ import {
   RECEIVE_CUSTOMER_COMPANIES,
   TOGGLE_CUSTOMER_COMPANY,
   UNDO_TOGGLE_CUSTOMER_COMPANY,
+  RECEIVE_SUBSCRIBED_COMPANIES,
 } from './constants'
 import { API_URL, ACCESS_TOKEN } from '../config'
 
 export const receiveCustomerCompanies = json => ({
   type: RECEIVE_CUSTOMER_COMPANIES,
   companies: json.results,
+  receivedAt: Date.now(),
+})
+
+export const receiveSubscribedCompanies = json => ({
+  type: RECEIVE_SUBSCRIBED_COMPANIES,
+  subscriptions: json.results,
   receivedAt: Date.now(),
 })
 
@@ -31,7 +38,7 @@ function undoToggleCompany(companies, companyId, oldValue) {
 }
 
 function sendToggleCompany(companyId, oldValue, dispatch, token) {
-  return fetch(`${API_URL}toggle_company.json`, {
+  return fetch(`${API_URL}customer/toggle_company.json`, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
@@ -64,7 +71,7 @@ export const toggleCompany = (companies, companyId, oldValue) => async (dispatch
 }
 
 export function fetchCustomerCompanies(token) {
-  return dispatch => fetch(`${API_URL}customer_companies.json`, {
+  return dispatch => fetch(`${API_URL}customer/customer_companies.json`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -78,5 +85,25 @@ export function fetchCustomerCompanies(token) {
     .then(res => res.json())
     .then((json) => {
       dispatch(receiveCustomerCompanies(json))
+    })
+}
+
+
+export function fetchSubscribedCompanies(token) {
+  return dispatch => fetch(`${API_URL}consultant/subscribed_companies.json`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      access_token: token,
+    }),
+  })
+    .then(res => res.json())
+    .then((json) => {
+      console.log(json)
+      dispatch(receiveSubscribedCompanies(json))
     })
 }

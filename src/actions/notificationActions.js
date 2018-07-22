@@ -29,7 +29,7 @@ function undoRemoveNotification(notificationId) {
 }
 
 function sendRemoveNotification(notificationId, dispatch, token) {
-  return fetch(`${API_URL}remove_notification.json`, {
+  return fetch(`${API_URL}customer/remove_notification.json`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',
@@ -59,7 +59,7 @@ export const removeNotification = notificationId => async (dispatch) => {
 
 export function fetchNotifications(token) {
 
-  return dispatch => fetch(`${API_URL}notifications.json`, {
+  return dispatch => fetch(`${API_URL}customer/notifications.json`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

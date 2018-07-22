@@ -33,7 +33,7 @@ function undoToggleNewsType(companyId, newsTypeId, oldValue) {
 }
 
 function sendToggleNewsType(companyId, newsTypeId, oldValue, dispatch, token) {
-  return fetch(`${API_URL}toggle_user_company_news_type.json`, {
+  return fetch(`${API_URL}customer/toggle_user_company_news_type.json`, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
@@ -67,7 +67,7 @@ export const toggleNewsType = (companyId, newsTypeId, oldValue) => async (dispat
 }
 
 export function fetchNewsTypes(token) {
-  return dispatch => fetch(`${API_URL}news_types.json`, {
+  return dispatch => fetch(`${API_URL}customer/news_types.json`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

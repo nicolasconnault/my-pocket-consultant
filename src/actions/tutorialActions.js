@@ -10,7 +10,7 @@ function receiveTutorials(json) {
 }
 
 export default function fetchTutorials(token) {
-  return dispatch => fetch(`${API_URL}tutorials.json`, {
+  return dispatch => fetch(`${API_URL}customer/tutorials.json`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

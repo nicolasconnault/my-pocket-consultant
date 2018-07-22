@@ -70,7 +70,7 @@ class Registration extends React.Component {
     this.setState({ loading: true })
 
     try {
-      const response = await fetch(`${API_URL}register`, {
+      const response = await fetch(`${API_URL}customer/register`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

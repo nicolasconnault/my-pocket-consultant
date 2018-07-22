@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import CompanyReducer from './CompanyReducer'
+import SubscriptionReducer from './SubscriptionReducer'
 import ModalReducer from './ModalReducer'
 import ConsultantsReducer from './ConsultantsReducer'
 import SelectedAppModeReducer from './SelectedAppModeReducer'
@@ -13,6 +14,7 @@ import NotificationsReducer from './NotificationsReducer'
 export default combineReducers({
   appMode: SelectedAppModeReducer,
   companies: CompanyReducer,
+  subscriptions: SubscriptionReducer,
   consultants: ConsultantsReducer,
   tutorials: TutorialsReducer,
   modalMessage: ModalReducer,

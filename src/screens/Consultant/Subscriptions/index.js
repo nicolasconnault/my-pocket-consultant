@@ -1,37 +1,77 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
-  Text, StatusBar, View,
+  StatusBar,
+  View,
+  FlatList,
+  Image,
 } from 'react-native'
-import { Toolbar } from 'react-native-material-ui'
+import { Toolbar, ListItem } from 'react-native-material-ui'
 
+import { CompanyListPropType } from '../../../proptypes'
 import { MyIcon, Container } from '../../../components'
 import Nav from '../ConsultantNav'
+import { STORAGE_URL } from '../../../config'
 import styles from '../../styles'
 
-export default class Subscriptions extends React.Component {
+class Subscriptions extends React.Component {
   static navigationOptions = {
-    title: 'Subscriptions',
+    title: 'My Subscriptions',
     drawerLabel: 'Subscriptions',
     drawerIcon: <MyIcon iconKey="subscriptions" appMode="consultant" />,
   };
 
   render() {
-    const { headingStyle } = styles
+    const { navigation, subscriptions } = this.props
+    const { listMenuStyle } = styles
     return (
       <Container>
         <StatusBar hidden />
         <Toolbar
           leftElement="menu"
-          onLeftElementPress={() => this.props.navigation.toggleDrawer()}
+          onLeftElementPress={() => navigation.toggleDrawer()}
           centerElement="Subscriptions"
         />
         <View style={{ flex: 1 }}>
-          <Text style={headingStyle}>
-                    Subscriptions here
-          </Text>
+          <FlatList
+            style={listMenuStyle}
+            data={subscriptions}
+            keyExtractor={item => `${item.id}`}
+            renderItem={({ item }) => (
+              <ListItem
+                divider
+                ref={React.createRef()}
+                leftElement={(
+                  <Image
+                    style={{ width: 36, height: 36 }}
+                    source={{ uri: `${STORAGE_URL}images/companies/${item.name}_logo.png` }}
+                  />)
+                }
+                onLeftElementPress={() => navigation.navigate('CompanyMenu', { company: item })}
+                centerElement={{ primaryText: item.label, secondaryText: 'Inactive' }}
+                onPress={() => navigation.navigate('SubscriptionMenu', { company: item })}
+              />
+            )}
+          />
         </View>
         <Nav activeKey="subscriptions" />
       </Container>
     )
   }
 }
+
+Subscriptions.propTypes = {
+  subscriptions: CompanyListPropType,
+}
+Subscriptions.defaultProps = {
+  subscriptions: [],
+}
+
+function mapStateToProps(state) {
+  
+  return {
+    subscriptions: state.subscriptions,
+  }
+}
+
+export default connect(mapStateToProps)(Subscriptions)

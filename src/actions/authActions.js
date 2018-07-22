@@ -8,7 +8,7 @@ export const receiveUser = json => ({
 })
 
 export function fetchUser(token) {
-  return dispatch => fetch(`${API_URL}user.json`, {
+  return dispatch => fetch(`${API_URL}customer/user.json`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
