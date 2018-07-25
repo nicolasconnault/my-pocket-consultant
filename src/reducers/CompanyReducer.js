@@ -1,5 +1,6 @@
 import {
   RECEIVE_CUSTOMER_COMPANIES,
+  RECEIVE_COMPANIES_BY_CATEGORY,
   TOGGLE_CUSTOMER_COMPANY,
   UNDO_TOGGLE_CUSTOMER_COMPANY,
   SELECT_CONSULTANT,
@@ -11,6 +12,8 @@ export default (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_CUSTOMER_COMPANIES:
       return action.companies
+    case RECEIVE_COMPANIES_BY_CATEGORY:
+      return action.categoryCompanies
     case TOGGLE_CUSTOMER_COMPANY:
     case UNDO_TOGGLE_CUSTOMER_COMPANY:
       companies = []

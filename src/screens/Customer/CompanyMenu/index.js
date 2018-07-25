@@ -9,7 +9,7 @@ import {
   Image,
   AsyncStorage,
 } from 'react-native'
-import { Transition } from 'react-navigation-fluid-transitions'
+
 import { Toolbar, ListItem } from 'react-native-material-ui'
 
 import { MyIcon, Container } from '../../../components'

@@ -6,8 +6,10 @@ import { fetchNewsItems } from './newsItemActions'
 import {
   receiveCustomerCompanies,
   receiveSubscribedCompanies,
+  receiveCompaniesByCategory,
   toggleCompany,
   fetchCustomerCompanies,
+  fetchCompaniesByCategory,
   fetchSubscribedCompanies,
 } from './companyActions'
 import {
@@ -25,6 +27,7 @@ import {
 
 export {
   changeAppMode,
+  fetchCompaniesByCategory,
   fetchConsultants,
   fetchCustomerCompanies,
   fetchSubscribedCompanies,
@@ -33,6 +36,7 @@ export {
   fetchNotifications,
   fetchUser,
   fetchTutorials,
+  receiveCompaniesByCategory,
   receiveCustomerCompanies,
   receiveSubscribedCompanies,
   removeNotification,

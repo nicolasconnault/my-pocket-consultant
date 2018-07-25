@@ -6,6 +6,7 @@ import {
 import { Toolbar, ListItem } from 'react-native-material-ui'
 
 import { MyIcon, Container } from '../../../components'
+import { CUSTOMER_MODE_SECONDARY_COLOR } from '../../../config'
 import styles from '../../styles'
 
 class Settings extends React.Component {
@@ -65,12 +66,15 @@ class Settings extends React.Component {
                 )}
                 rightElement={item.content}
                 onPress={() => ((item.callback === null) ? null : item.callback())}
+                style={{ container: { paddingRight: 10 } }}
               />
             )}
             renderSectionHeader={({ section: { title } }) => (
-              <Text style={{ fontWeight: 'bold' }}>
-                {title}
-              </Text>
+              <View style={{ padding: 10, backgroundColor: CUSTOMER_MODE_SECONDARY_COLOR }}>
+                <Text style={{ fontWeight: 'bold', color: '#FFFFFF' }}>
+                  {title}
+                </Text>
+              </View>
             )}
             sections={[
               {

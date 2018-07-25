@@ -37,6 +37,10 @@ import {
   Customers,
   TodoList,
   Subscriptions,
+  NewSubscription,
+  SubscriptionMenu,
+  ManageNews,
+  ManageTutorials,
   ConsultantSettings,
   Terms,
   ConsultantHelp,
@@ -56,7 +60,7 @@ class Main extends React.Component {
     let { appMode } = this.props
     const { user } = this.props
     const uiTheme = (appMode === 'consultant') ? ConsultantTheme : CustomerTheme
-    appMode = (appMode === null) ? 'customer' : appMode
+    appMode = (appMode === null) ? 'consultant' : appMode
 
     let DrawerNavigation = createDrawerNavigator({
       Notifications: { screen: Notifications },
@@ -86,7 +90,7 @@ class Main extends React.Component {
         Help: { screen: ConsultantHelp },
         Terms: { screen: Terms },
       }, {
-        initialRouteName: 'Customers',
+        initialRouteName: 'Subscriptions',
         backBehavior: 'initialRoute',
         contentComponent: props => <Drawer appMode={appMode} {...props} />,
         contentOptions: {
@@ -121,6 +125,11 @@ class Main extends React.Component {
       NewsItem: { screen: NewsItem },
       ConsultantHelp: { screen: ConsultantHelp },
       SelectAConsultant: { screen: SelectAConsultant },
+      NewSubscription: { screen: NewSubscription },
+      SubscriptionMenu: { screen: SubscriptionMenu },
+      Customers: { screen: Customers },
+      ManageNews: { screen: ManageNews },
+      ManageTutorials: { screen: ManageTutorials },
     }, {
       initialRouteName: 'Drawer',
       headerMode: 'none',
@@ -154,7 +163,7 @@ Main.propTypes = {
 }
 Main.defaultProps = {
   user: null,
-  appMode: 'customer',
+  appMode: 'consultant',
 }
 const mapStateToProps = state => ({
   appMode: state.appMode,

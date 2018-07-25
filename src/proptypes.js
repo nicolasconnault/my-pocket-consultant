@@ -59,6 +59,18 @@ export const NewsTypePropType = PropTypes.shape({
   label: PropTypes.string,
 })
 
+export const SubscriptionPropType = PropTypes.shape({
+  id: PropTypes.number,
+  companyName: PropTypes.string,
+  companyLabel: PropTypes.string,
+  companyId: PropTypes.number,
+  customerCount: PropTypes.number,
+  active: PropTypes.bool,
+  websiteUrl: PropTypes.string,
+  facebookUrl: PropTypes.string,
+  twitterUrl: PropTypes.string,
+})
+
 export const NotificationPropType = PropTypes.shape({
   id: PropTypes.number,
   newsItem: PropTypes.shape({
@@ -101,6 +113,9 @@ export const TutorialListPropType = PropTypes.oneOfType([
 ])
 export const NotificationListPropType = PropTypes.oneOfType([
   PropTypes.arrayOf(NotificationPropType), PropTypes.shape({}),
+])
+export const SubscriptionListPropType = PropTypes.oneOfType([
+  PropTypes.arrayOf(SubscriptionPropType), PropTypes.shape({}),
 ])
 export const ListTypePropType = PropTypes.oneOf(['singleCard', 'customerCompanies', 'withConsultants', 'selectAConsultant'])
 export const DeviceSizePropType = PropTypes.oneOf(['small', 'medium', 'large', 'huge'])

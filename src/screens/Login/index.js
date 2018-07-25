@@ -183,7 +183,7 @@ class Login extends React.Component {
               <View style={buttonContainerStyle}>
                 <Button
                   style={buttonStyle}
-                  onPress={this.onLoginButtonPress}
+                  onPress={() => this.onLoginButtonPress()}
                   text="SIGN IN"
                   primary
                   raised

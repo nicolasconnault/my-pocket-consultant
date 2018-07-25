@@ -4,6 +4,7 @@ import {
   TOGGLE_CUSTOMER_COMPANY,
   UNDO_TOGGLE_CUSTOMER_COMPANY,
   RECEIVE_SUBSCRIBED_COMPANIES,
+  RECEIVE_COMPANIES_BY_CATEGORY,
 } from './constants'
 import { API_URL, ACCESS_TOKEN } from '../config'
 
@@ -16,6 +17,12 @@ export const receiveCustomerCompanies = json => ({
 export const receiveSubscribedCompanies = json => ({
   type: RECEIVE_SUBSCRIBED_COMPANIES,
   subscriptions: json.results,
+  receivedAt: Date.now(),
+})
+
+export const receiveCompaniesByCategory = json => ({
+  type: RECEIVE_COMPANIES_BY_CATEGORY,
+  categoryCompanies: json.results,
   receivedAt: Date.now(),
 })
 
@@ -88,7 +95,6 @@ export function fetchCustomerCompanies(token) {
     })
 }
 
-
 export function fetchSubscribedCompanies(token) {
   return dispatch => fetch(`${API_URL}consultant/subscribed_companies.json`, {
     method: 'POST',
@@ -103,7 +109,26 @@ export function fetchSubscribedCompanies(token) {
   })
     .then(res => res.json())
     .then((json) => {
-      console.log(json)
+      // console.log(json)
       dispatch(receiveSubscribedCompanies(json))
+    })
+}
+
+export function fetchCompaniesByCategory(token) {
+  return dispatch => fetch(`${API_URL}consultant/category_companies.json`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      access_token: token,
+    }),
+  })
+    .then(res => res.json())
+    .then((json) => {
+      console.log(json)
+      dispatch(receiveCompaniesByCategory(json))
     })
 }

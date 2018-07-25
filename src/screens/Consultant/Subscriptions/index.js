@@ -6,12 +6,12 @@ import {
   FlatList,
   Image,
 } from 'react-native'
-import { Toolbar, ListItem } from 'react-native-material-ui'
+import { Toolbar, ListItem, ActionButton } from 'react-native-material-ui'
 
-import { CompanyListPropType } from '../../../proptypes'
+import { CONSULTANT_MODE_COLOR, STORAGE_URL } from '../../../config'
+import { SubscriptionListPropType } from '../../../proptypes'
 import { MyIcon, Container } from '../../../components'
 import Nav from '../ConsultantNav'
-import { STORAGE_URL } from '../../../config'
 import styles from '../../styles'
 
 class Subscriptions extends React.Component {
@@ -19,7 +19,7 @@ class Subscriptions extends React.Component {
     title: 'My Subscriptions',
     drawerLabel: 'Subscriptions',
     drawerIcon: <MyIcon iconKey="subscriptions" appMode="consultant" />,
-  };
+  }
 
   render() {
     const { navigation, subscriptions } = this.props
@@ -44,14 +44,19 @@ class Subscriptions extends React.Component {
                 leftElement={(
                   <Image
                     style={{ width: 36, height: 36 }}
-                    source={{ uri: `${STORAGE_URL}images/companies/${item.name}_logo.png` }}
+                    source={{ uri: `${STORAGE_URL}images/companies/${item.companyName}_logo.png` }}
                   />)
                 }
                 onLeftElementPress={() => navigation.navigate('CompanyMenu', { company: item })}
-                centerElement={{ primaryText: item.label, secondaryText: 'Inactive' }}
-                onPress={() => navigation.navigate('SubscriptionMenu', { company: item })}
+                centerElement={{ primaryText: item.companyLabel, secondaryText: 'Inactive' }}
+                onPress={() => navigation.navigate('SubscriptionMenu', { selectedSubscription: item })}
               />
             )}
+          />
+          <ActionButton
+            style={{ container: { backgroundColor: CONSULTANT_MODE_COLOR } }}
+            icon={<MyIcon iconKey="settings" color="#FFFFFF" />}
+            onPress={() => navigation.navigate('NewSubscription')}
           />
         </View>
         <Nav activeKey="subscriptions" />
@@ -61,14 +66,13 @@ class Subscriptions extends React.Component {
 }
 
 Subscriptions.propTypes = {
-  subscriptions: CompanyListPropType,
+  subscriptions: SubscriptionListPropType,
 }
 Subscriptions.defaultProps = {
   subscriptions: [],
 }
 
 function mapStateToProps(state) {
-  
   return {
     subscriptions: state.subscriptions,
   }
