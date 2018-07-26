@@ -8,10 +8,10 @@ import { Toolbar } from 'react-native-material-ui'
 import { createMaterialTopTabNavigator } from 'react-navigation'
 
 import { Container } from '../../../../components'
-import { CONSULTANT_MODE_SECONDARY_COLOR } from '../../../../config'
+import styles from '../../../styles'
 import Nav from '../../ConsultantNav'
 import SubscriptionMenuTab from './Tab'
-import { SubscriptionListPropType, SubscriptionPropType } from '../../../../proptypes'
+import { SubscriptionListPropType } from '../../../../proptypes'
 
 class SubscriptionMenu extends React.Component {
   static navigationOptions = {
@@ -33,22 +33,7 @@ class SubscriptionMenu extends React.Component {
     const TabNavigation = createMaterialTopTabNavigator(screens, {
       initialRouteName: selectedSubscription.companyName,
       headerMode: 'none',
-      tabBarOptions: {
-        labelStyle: {
-          fontSize: 12,
-          fontWeight: 'bold',
-        },
-        indicatorStyle: {
-          backgroundColor: '#FFFFFF',
-        },
-        tabStyle: {
-          width: 140,
-        },
-        style: {
-          backgroundColor: CONSULTANT_MODE_SECONDARY_COLOR,
-        },
-        scrollEnabled: true,
-      },
+      tabBarOptions: styles.tabBarOptions,
     })
 
     return (
@@ -74,11 +59,10 @@ class SubscriptionMenu extends React.Component {
 }
 SubscriptionMenu.propTypes = {
   subscriptions: SubscriptionListPropType,
-  selectedSubscription: SubscriptionPropType,
 }
+
 SubscriptionMenu.defaultProps = {
   subscriptions: [],
-  selectedSubscription: null,
 }
 const mapStateToProps = state => ({
   subscriptions: state.subscriptions,

@@ -109,7 +109,6 @@ export function fetchSubscribedCompanies(token) {
   })
     .then(res => res.json())
     .then((json) => {
-      // console.log(json)
       dispatch(receiveSubscribedCompanies(json))
     })
 }
@@ -128,7 +127,6 @@ export function fetchCompaniesByCategory(token) {
   })
     .then(res => res.json())
     .then((json) => {
-      console.log(json)
       dispatch(receiveCompaniesByCategory(json))
     })
 }

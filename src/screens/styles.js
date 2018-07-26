@@ -1,5 +1,6 @@
 // Global styles that change according to screen width
 import store from '../boot/configureStore'
+import { CONSULTANT_MODE_SECONDARY_COLOR } from '../config'
 
 const headingFontSizes = {
   small: 12,
@@ -29,6 +30,22 @@ const cardImageHeights = {
 function buildStyle() {
   const { deviceSize } = store().getState()
   return {
+    tabBarOptions: {
+      labelStyle: {
+        fontSize: 12,
+        fontWeight: 'bold',
+      },
+      indicatorStyle: {
+        backgroundColor: '#FFFFFF',
+      },
+      tabStyle: {
+        width: 140,
+      },
+      style: {
+        backgroundColor: CONSULTANT_MODE_SECONDARY_COLOR,
+      },
+      scrollEnabled: true,
+    },
     headingStyle: {
       fontSize: headingFontSizes[deviceSize],
       fontWeight: 'bold',

@@ -3,6 +3,8 @@ import {
   Text, View, FlatList,
 } from 'react-native'
 import { ListItem } from 'react-native-material-ui'
+import { withNavigation } from 'react-navigation'
+
 import styles from '../../../styles'
 import { MyIcon } from '../../../../components'
 
@@ -60,4 +62,4 @@ class SubscriptionMenuTab extends React.Component {
   }
 }
 
-export default SubscriptionMenuTab
+export default withNavigation(SubscriptionMenuTab)

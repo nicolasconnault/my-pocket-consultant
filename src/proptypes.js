@@ -25,11 +25,6 @@ export const CompanyPropType = PropTypes.shape({
   phone: PropTypes.string,
 })
 
-export const TutorialPropType = PropTypes.shape({
-  id: PropTypes.number,
-  title: PropTypes.string,
-})
-
 export const UserPropType = PropTypes.shape({
   id: PropTypes.number,
   firstName: PropTypes.string,
@@ -53,10 +48,28 @@ export const TutorialStepPropType = PropTypes.shape({
   description: PropTypes.string,
 })
 
+export const TutorialPropType = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.string,
+  steps: PropTypes.arrayOf(TutorialStepPropType),
+})
+
 export const NewsTypePropType = PropTypes.shape({
   id: PropTypes.number,
   name: PropTypes.string,
   label: PropTypes.string,
+})
+
+export const NewsItemPropType = PropTypes.shape({
+  id: PropTypes.number,
+  newsType: NewsTypePropType,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  startDate: PropTypes.string,
+  endDate: PropTypes.string,
+  url: PropTypes.string,
+  discountedPrice: PropTypes.number,
+  regularPrice: PropTypes.number,
 })
 
 export const SubscriptionPropType = PropTypes.shape({
@@ -69,6 +82,8 @@ export const SubscriptionPropType = PropTypes.shape({
   websiteUrl: PropTypes.string,
   facebookUrl: PropTypes.string,
   twitterUrl: PropTypes.string,
+  newsItems: PropTypes.arrayOf(NewsItemPropType),
+  tutorials: PropTypes.arrayOf(TutorialPropType),
 })
 
 export const NotificationPropType = PropTypes.shape({
