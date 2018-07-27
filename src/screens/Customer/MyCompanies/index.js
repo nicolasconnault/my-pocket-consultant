@@ -27,7 +27,7 @@ class MyCompanies extends React.Component {
     this.allCompanies = []
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const finalCompanies = []
     const { companies, listType } = this.props
     if (companies.length > 0) {

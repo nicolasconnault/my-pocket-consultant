@@ -58,7 +58,6 @@ export const removeNotification = notificationId => async (dispatch) => {
 }
 
 export function fetchNotifications(token) {
-
   return dispatch => fetch(`${API_URL}customer/notifications.json`, {
     method: 'POST',
     headers: {

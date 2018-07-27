@@ -131,7 +131,6 @@ CompanyMenu.defaultProps = {
   tutorials: [],
 }
 const mapStateToProps = state => ({
-  companies: state.companies,
   tutorials: state.tutorials,
 })
 
