@@ -2,9 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { StatusBar, View } from 'react-native'
 import { Toolbar } from 'react-native-material-ui'
+import { createMaterialTopTabNavigator } from 'react-navigation'
 
+import styles from '../../styles'
 import { CompanyListPropType, ListTypePropType } from '../../../proptypes'
-import { MyIcon, Container, CompanyList } from '../../../components'
+import { MyIcon, Container } from '../../../components'
+import CompanySettingsTab from './Tab'
 
 class CompanySettings extends React.Component {
   static navigationOptions = {
@@ -22,12 +25,21 @@ class CompanySettings extends React.Component {
   }
 
   componentWillMount() {
-    const finalCompanies = []
-    const { companies, listType } = this.props
-    if (companies.length > 0) {
-      companies.forEach((company) => {
-        if (listType === 'customerCompanies' || company.enabled === true) {
-          finalCompanies.push(company)
+    const finalCompanies = {}
+    const { categoryCompanies, listType } = this.props
+    if (Object.keys(categoryCompanies).length > 0) {
+      Object.entries(categoryCompanies).forEach((entry) => {
+        const availableCompanies = []
+        const category = entry[0]
+        const companies = entry[1]
+
+        if (companies.length > 0) {
+          companies.forEach((company) => {
+            if (listType === 'customerCompanies' || company.enabled === true) {
+              availableCompanies.push(company)
+            }
+          })
+          finalCompanies[category] = availableCompanies
         }
       })
     }
@@ -37,19 +49,37 @@ class CompanySettings extends React.Component {
   }
 
   filterList = (search) => {
-    const filteredList = []
+    const filteredList = {}
     const regexp = new RegExp(search)
-    this.allCompanies.forEach((company) => {
-      if (company.label.match(regexp)) {
-        filteredList.push(company)
-      }
+    Object.entries(this.allCompanies).forEach((entry) => {
+      const category = entry[0]
+      const companies = entry[1]
+      filteredList[category] = []
+      companies.forEach((company) => {
+        if (company.label.match(regexp)) {
+          filteredList[category].push(company)
+        }
+      })
     })
     this.setState({ filteredCompanies: filteredList })
   }
 
   render() {
+    const screens = {}
     const { navigation } = this.props
     const { filteredCompanies } = this.state
+    Object.entries(filteredCompanies).forEach((entry) => {
+      const category = entry[0]
+      const companies = entry[1]
+      screens[category] = {
+        screen: () => (<CompanySettingsTab companies={companies} />),
+      }
+    })
+    const TabNavigation = createMaterialTopTabNavigator(screens, {
+      initialRouteName: Object.keys(screens)[0],
+      headerMode: 'none',
+      tabBarOptions: styles.customerTabBarOptions,
+    })
 
     return (
       <Container>
@@ -65,11 +95,13 @@ class CompanySettings extends React.Component {
           }}
         />
         <View style={{ flex: 1 }}>
-          <CompanyList
-            navigation={navigation}
-            listType="customerCompanies"
-            companies={filteredCompanies}
-          />
+          { Object.keys(filteredCompanies).length > 1 && (
+            <TabNavigation />
+          )}
+          { Object.keys(filteredCompanies).length === 1 && (
+            // First category is shown when only one exists
+            <CompanySettingsTab companies={filteredCompanies[Object.keys(filteredCompanies)[0]]} />
+          )}
         </View>
       </Container>
     )
@@ -78,15 +110,15 @@ class CompanySettings extends React.Component {
 
 CompanySettings.propTypes = {
   listType: ListTypePropType,
-  companies: CompanyListPropType,
 }
 CompanySettings.defaultProps = {
   listType: 'customerCompanies',
-  companies: [],
 }
 
-const mapStateToProps = state => ({
-  companies: state.companies,
-})
+function mapStateToProps(state) {
+  return {
+    categoryCompanies: state.companies,
+  }
+}
 
 export default connect(mapStateToProps)(CompanySettings)

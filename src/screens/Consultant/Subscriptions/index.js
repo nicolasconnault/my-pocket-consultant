@@ -66,10 +66,10 @@ class Subscriptions extends React.Component {
 }
 
 Subscriptions.propTypes = {
-  subscriptions: SubscriptionListPropType,
+
 }
 Subscriptions.defaultProps = {
-  subscriptions: [],
+
 }
 
 function mapStateToProps(state) {

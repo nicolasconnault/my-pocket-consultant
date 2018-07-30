@@ -39,16 +39,18 @@ class CompanyMenu extends React.PureComponent {
   goToNotifications = (company) => {
     const { navigation } = this.props
     this.menu.hide()
-    navigation.push('CompanyNotifications', { company })
+    navigation.navigate('CompanyNotifications', { company })
   }
 
   render() {
-    const { companyId, enabled, companies } = this.props
+    const { companyId, enabled, categoryCompanies } = this.props
     let company = null
-    companies.forEach((c) => {
-      if (c.id === companyId) {
-        company = c
-      }
+    Object.entries(categoryCompanies).forEach((entry) => {
+      entry[1].forEach((c) => {
+        if (c.id === companyId) {
+          company = c
+        }
+      })
     })
 
     return (
@@ -89,7 +91,7 @@ CompanyMenu.defaultProps = {
 function mapStateToProps(state) {
   return {
     newsTypes: state.newsTypes,
-    companies: state.companies,
+    categoryCompanies: state.companies,
   }
 }
 export default withNavigation(connect(mapStateToProps)(CompanyMenu))

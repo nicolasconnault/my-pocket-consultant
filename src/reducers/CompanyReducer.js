@@ -1,6 +1,5 @@
 import {
   RECEIVE_CUSTOMER_COMPANIES,
-  RECEIVE_COMPANIES_BY_CATEGORY,
   TOGGLE_CUSTOMER_COMPANY,
   UNDO_TOGGLE_CUSTOMER_COMPANY,
   SELECT_CONSULTANT,
@@ -12,33 +11,39 @@ export default (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_CUSTOMER_COMPANIES:
       return action.companies
-    case RECEIVE_COMPANIES_BY_CATEGORY:
-      return action.categoryCompanies
     case TOGGLE_CUSTOMER_COMPANY:
     case UNDO_TOGGLE_CUSTOMER_COMPANY:
-      companies = []
-      action.companies.forEach((company) => {
-        const newCompany = { ...company, enabled: company.enabled }
-        if (newCompany.id === action.companyId) {
-          newCompany.enabled = !action.oldValue
-        }
-        companies.push(newCompany)
+      companies = {}
+      Object.entries(action.companies).forEach((entry) => {
+        const category = entry[0]
+        companies[category] = []
+        entry[1].forEach((company) => {
+          const newCompany = { ...company, enabled: company.enabled }
+          if (newCompany.id === action.companyId) {
+            newCompany.enabled = !action.oldValue
+          }
+          companies[category].push(newCompany)
+        })
       })
       return companies
     case SELECT_CONSULTANT:
-      action.companies.forEach((company) => {
-        const newCompany = { ...company, consultantId: company.consultantId }
-        if (newCompany.id === action.companyId) {
-          newCompany.consultantId = action.consultantId
-        }
+      Object.entries(action.companies).forEach((entry) => {
+        entry[1].forEach((company) => {
+          const newCompany = { ...company, consultantId: company.consultantId }
+          if (newCompany.id === action.companyId) {
+            newCompany.consultantId = action.consultantId
+          }
+        })
       })
       return action.companies
     case UNDO_SELECT_CONSULTANT:
-      action.companies.forEach((company) => {
-        const newCompany = { ...company, consultantId: company.consultantId }
-        if (newCompany.id === action.companyId) {
-          newCompany.consultantId = action.currentConsultantId
-        }
+      Object.entries(action.companies).forEach((entry) => {
+        entry[1].forEach((company) => {
+          const newCompany = { ...company, consultantId: company.consultantId }
+          if (newCompany.id === action.companyId) {
+            newCompany.consultantId = action.currentConsultantId
+          }
+        })
       })
       return action.companies
     default:

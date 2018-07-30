@@ -1,17 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {
-  StatusBar,
-  View,
-  FlatList,
-  Image,
-} from 'react-native'
-import { Toolbar, ListItem } from 'react-native-material-ui'
+import { StatusBar, View } from 'react-native'
+import { Toolbar } from 'react-native-material-ui'
+import { createMaterialTopTabNavigator } from 'react-navigation'
 
 import { CompanyListPropType, ListTypePropType } from '../../../proptypes'
 import { MyIcon, Container } from '../../../components'
-import { STORAGE_URL } from '../../../config'
 import styles from '../../styles'
+import MyCompaniesTab from './Tab'
 
 class MyCompanies extends React.Component {
   static navigationOptions = {
@@ -27,13 +23,22 @@ class MyCompanies extends React.Component {
     this.allCompanies = []
   }
 
-  componentDidMount() {
-    const finalCompanies = []
-    const { companies, listType } = this.props
-    if (companies.length > 0) {
-      companies.forEach((company) => {
-        if (listType === 'customerCompanies' || company.enabled === true) {
-          finalCompanies.push(company)
+  componentWillMount() {
+    const finalCompanies = {}
+    const { categoryCompanies, listType } = this.props
+    if (Object.keys(categoryCompanies).length > 0) {
+      Object.entries(categoryCompanies).forEach((entry) => {
+        const availableCompanies = []
+        const category = entry[0]
+        const companies = entry[1]
+
+        if (companies.length > 0) {
+          companies.forEach((company) => {
+            if (listType === 'customerCompanies' || company.enabled === true) {
+              availableCompanies.push(company)
+            }
+          })
+          finalCompanies[category] = availableCompanies
         }
       })
     }
@@ -43,20 +48,37 @@ class MyCompanies extends React.Component {
   }
 
   filterList = (search) => {
-    const filteredList = []
+    const filteredList = {}
     const regexp = new RegExp(search)
-    this.allCompanies.forEach((company) => {
-      if (company.label.match(regexp)) {
-        filteredList.push(company)
-      }
+    Object.entries(this.allCompanies).forEach((entry) => {
+      const category = entry[0]
+      const companies = entry[1]
+      filteredList[category] = []
+      companies.forEach((company) => {
+        if (company.label.match(regexp)) {
+          filteredList[category].push(company)
+        }
+      })
     })
     this.setState({ filteredCompanies: filteredList })
   }
 
   render() {
+    const screens = {}
     const { navigation } = this.props
     const { filteredCompanies } = this.state
-    const { listMenuStyle } = styles
+    Object.entries(filteredCompanies).forEach((entry) => {
+      const category = entry[0]
+      const companies = entry[1]
+      screens[category] = {
+        screen: () => (<MyCompaniesTab companies={companies} />),
+      }
+    })
+    const TabNavigation = createMaterialTopTabNavigator(screens, {
+      initialRouteName: Object.keys(screens)[0],
+      headerMode: 'none',
+      tabBarOptions: styles.customerTabBarOptions,
+    })
 
     return (
       <Container>
@@ -72,29 +94,12 @@ class MyCompanies extends React.Component {
           }}
         />
         <View style={{ flex: 1 }}>
-          <FlatList
-            style={listMenuStyle}
-            data={filteredCompanies}
-            keyExtractor={item => `${item.id}`}
-            renderItem={({ item }) => (
-              <ListItem
-                divider
-                ref={React.createRef()}
-                leftElement={(
-                  <Image
-                    style={{ width: 36, height: 36 }}
-                    source={{ uri: `${STORAGE_URL}images/companies/${item.name}_logo.png` }}
-                  />)
-                }
-                onLeftElementPress={() => navigation.navigate('CompanyMenu', { company: item })}
-                centerElement={{ primaryText: item.label, secondaryText: (item.firstName != null) ? `${item.firstName} ${item.lastName}` : 'No Consultant' }}
-                onPress={() => ((item.firstName != null)
-                  ? navigation.navigate('CompanyMenu', { company: item })
-                  : navigation.navigate('SelectAConsultant', { company: item })
-                )}
-              />
-            )}
-          />
+          { Object.keys(filteredCompanies).length > 1 && (
+            <TabNavigation />
+          )}
+          { Object.keys(filteredCompanies).length === 1 && (
+            <MyCompaniesTab companies={filteredCompanies[Object.keys(filteredCompanies)[0]]} />
+          )}
         </View>
       </Container>
     )
@@ -103,16 +108,14 @@ class MyCompanies extends React.Component {
 
 MyCompanies.propTypes = {
   listType: ListTypePropType,
-  companies: CompanyListPropType,
 }
 MyCompanies.defaultProps = {
   listType: 'withConsultants',
-  companies: [],
 }
 
 function mapStateToProps(state) {
   return {
-    companies: state.companies,
+    categoryCompanies: state.companies,
   }
 }
 
