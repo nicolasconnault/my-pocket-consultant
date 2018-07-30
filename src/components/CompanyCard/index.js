@@ -14,16 +14,6 @@ import CompanyMenu from './CompanyMenu'
 import styles from './styles'
 
 class CompanyCard extends Component {
-  constructor(props) {
-    super(props)
-    this.enabled = true
-  }
-
-  componentWillMount() {
-    const { company } = this.props
-    this.setState({ enabled: company.enabled })
-  }
-
   componentWillUpdate() {
     LayoutAnimation.spring()
   }
@@ -32,7 +22,6 @@ class CompanyCard extends Component {
     const {
       companies, dispatch,
     } = this.props
-    this.setState({ enabled: !oldValue })
     dispatch(toggleCompany(companies, id, oldValue))
   }
 
@@ -50,10 +39,8 @@ class CompanyCard extends Component {
     } = styles
 
     const {
-      id, name, label,
+      id, name, label, enabled,
     } = company
-
-    const { enabled } = this.state
 
     return (
       <Card>

@@ -79,7 +79,7 @@ class Main extends React.Component {
     const { user } = this.props
     const { loading } = this.state
     const uiTheme = (appMode === 'consultant') ? ConsultantTheme : CustomerTheme
-    appMode = (appMode === null) ? 'consultant' : appMode
+    appMode = (appMode === null) ? 'customer' : appMode
 
     let DrawerNavigation = createDrawerNavigator({
       Notifications: { screen: customerScreens.Notifications },

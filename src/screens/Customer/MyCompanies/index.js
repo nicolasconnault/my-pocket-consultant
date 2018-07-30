@@ -8,6 +8,7 @@ import { CompanyListPropType, ListTypePropType } from '../../../proptypes'
 import { MyIcon, Container } from '../../../components'
 import styles from '../../styles'
 import MyCompaniesTab from './Tab'
+import CompanyList from './CompanyList'
 
 class MyCompanies extends React.Component {
   static navigationOptions = {
@@ -18,13 +19,17 @@ class MyCompanies extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      filteredCompanies: [],
+      filteredCategoryCompanies: [],
+      filteredFlatCompanies: [],
     }
-    this.allCompanies = []
+    this.allCategoryCompanies = []
+    this.allFlatCompanies = []
   }
 
   componentWillMount() {
-    const finalCompanies = {}
+    const finalCategoryCompanies = {}
+    const finalFlatCompanies = []
+
     const { categoryCompanies, listType } = this.props
     if (Object.keys(categoryCompanies).length > 0) {
       Object.entries(categoryCompanies).forEach((entry) => {
@@ -36,38 +41,49 @@ class MyCompanies extends React.Component {
           companies.forEach((company) => {
             if (listType === 'customerCompanies' || company.enabled === true) {
               availableCompanies.push(company)
+              finalFlatCompanies.push(company)
             }
           })
-          finalCompanies[category] = availableCompanies
+          finalCategoryCompanies[category] = availableCompanies
         }
       })
     }
 
-    this.allCompanies = finalCompanies
-    this.setState({ filteredCompanies: finalCompanies })
+    this.allCategoryCompanies = finalCategoryCompanies
+    this.allFlatCompanies = finalFlatCompanies
+    this.setState({
+      filteredCategoryCompanies: finalCategoryCompanies,
+      filteredFlatCompanies: finalFlatCompanies,
+    })
   }
 
   filterList = (search) => {
-    const filteredList = {}
+    const filteredCategoryList = {}
+    const filteredFlatList = []
+
     const regexp = new RegExp(search)
-    Object.entries(this.allCompanies).forEach((entry) => {
+    Object.entries(this.allCategoryCompanies).forEach((entry) => {
       const category = entry[0]
       const companies = entry[1]
-      filteredList[category] = []
+      filteredCategoryList[category] = []
       companies.forEach((company) => {
         if (company.label.match(regexp)) {
-          filteredList[category].push(company)
+          filteredCategoryList[category].push(company)
+          filteredFlatList.push(company)
         }
       })
     })
-    this.setState({ filteredCompanies: filteredList })
+    this.setState({
+      filteredCategoryCompanies: filteredCategoryList,
+      filteredFlatCompanies: filteredFlatList,
+    })
   }
 
   render() {
     const screens = {}
     const { navigation } = this.props
-    const { filteredCompanies } = this.state
-    Object.entries(filteredCompanies).forEach((entry) => {
+    const { filteredCategoryCompanies, filteredFlatCompanies } = this.state
+    Object.entries(filteredCategoryCompanies).forEach((entry) => {
       const category = entry[0]
       const companies = entry[1]
       screens[category] = {
@@ -94,11 +110,11 @@ class MyCompanies extends React.Component {
           }}
         />
         <View style={{ flex: 1 }}>
-          { Object.keys(filteredCompanies).length > 1 && (
+          { Object.keys(filteredCategoryCompanies).length >= 6 && (
             <TabNavigation />
           )}
-          { Object.keys(filteredCompanies).length === 1 && (
-            <MyCompaniesTab companies={filteredCompanies[Object.keys(filteredCompanies)[0]]} />
+          { filteredFlatCompanies.length < 6 && (
+            <CompanyList companies={filteredFlatCompanies} />
           )}
         </View>
       </Container>
