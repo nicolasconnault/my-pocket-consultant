@@ -59,7 +59,9 @@ function sendToggleCompany(companyId, oldValue, dispatch, token) {
   })
     .then(res => res.json())
     .then((json) => {
-      dispatch(receiveCustomerCompanies(json))
+      // Don't refresh the companies at this stage, or the tab navigation will be refreshed,
+      // causing a visual glitch
+      // dispatch(receiveCustomerCompanies(json))
     })
 }
 

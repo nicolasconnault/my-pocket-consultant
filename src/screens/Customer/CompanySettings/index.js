@@ -31,6 +31,12 @@ class CompanySettings extends React.Component {
     this.allCompanies = filteredCompanies
   }
 
+  static getCurrentTab = () => this.currentTab
+
+  static setCurrentTab = (currentTab) => {
+    this.currentTab = currentTab
+  }
+
   getFilteredCompanies(categoryCompanies) {
     const finalCompanies = {}
     const { listType } = this.props
@@ -76,16 +82,9 @@ class CompanySettings extends React.Component {
     const { navigation, categoryCompanies } = this.props
     const baseCompanies = this.getFilteredCompanies(categoryCompanies)
     const { filteredCompanies } = this.state
-    let { routeName } = navigation.state
 
-    // With routeName I made an attempt to render the last visited tab whenever this
-    // component re-renders, but unfortunately this component knows nothing about its
-    // children tab navigation
-    // Next attempt: pass a callback function to the CompanySettingsTab components that
-    // update this component's "activeTab" state variable, then use that variable instead
-    // of routeName
-    if (routeName === 'CompanySettings') {
-      routeName = Object.keys(filteredCompanies)[0]
+    if (CompanySettings.getCurrentTab() === null) {
+      CompanySettings.setCurrentTab(Object.keys(filteredCompanies)[0])
     }
 
     let renderedCompanies = filteredCompanies
@@ -93,16 +92,22 @@ class CompanySettings extends React.Component {
       renderedCompanies = baseCompanies
     }
 
-    // console.log(filteredCompanies['health'])
     Object.entries(renderedCompanies).forEach((entry) => {
       const category = entry[0]
       const companies = entry[1]
       screens[category] = {
-        screen: () => (<CompanySettingsTab companies={companies} />),
+        screen: () => (
+          <CompanySettingsTab
+            companies={companies}
+            name={category}
+            switchTabCallback={CompanySettings.setCurrentTab}
+          />
+        ),
       }
     })
+
     const TabNavigation = createMaterialTopTabNavigator(screens, {
-      initialRouteName: routeName,
+      initialRouteName: CompanySettings.getCurrentTab(),
       headerMode: 'none',
       tabBarOptions: styles.customerTabBarOptions,
     })

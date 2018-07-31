@@ -1,14 +1,22 @@
 import React from 'react'
 import { View } from 'react-native'
-import { withNavigation } from 'react-navigation'
+import { withNavigation, withNavigationFocus } from 'react-navigation'
 
 import { CompanyListPropType } from '../../../proptypes'
 import { CompanyList } from '../../../components'
 
 class CompanySettingsTab extends React.Component {
   render() {
-    const { navigation, companies } = this.props
-
+    const {
+      isFocused,
+      name,
+      navigation,
+      companies,
+      switchTabCallback,
+    } = this.props
+    if (isFocused) {
+      switchTabCallback(name)
+    }
     return (
       <View style={{ flex: 1 }}>
         <CompanyList
@@ -28,4 +36,4 @@ CompanySettingsTab.defaultProps = {
   companies: [],
 }
 
-export default withNavigation(CompanySettingsTab)
+export default withNavigationFocus(withNavigation(CompanySettingsTab))
