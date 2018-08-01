@@ -100,6 +100,7 @@ class CompanySettings extends React.Component {
           <CompanySettingsTab
             companies={companies}
             name={category}
+            topNavigation={navigation}
             switchTabCallback={CompanySettings.setCurrentTab}
           />
         ),

@@ -26,20 +26,20 @@ class CompanyMenu extends React.PureComponent {
   }
 
   changeConsultant = (companyId) => {
-    const { navigation, dispatch } = this.props
+    const { topNavigation, dispatch } = this.props
     this.menu.hide()
 
     AsyncStorage.getItem(ACCESS_TOKEN).then((token) => {
       dispatch(fetchConsultants(token, companyId)).then(() => {
-        navigation.navigate('SelectAConsultant', { companyId })
+        topNavigation.navigate('SelectAConsultant', { companyId })
       })
     })
   }
 
   goToNotifications = (company) => {
-    const { navigation } = this.props
+    const { topNavigation } = this.props
     this.menu.hide()
-    navigation.navigate('CompanyNotifications', { company })
+    topNavigation.navigate('CompanyNotifications', { company })
   }
 
   render() {
@@ -94,4 +94,4 @@ function mapStateToProps(state) {
     categoryCompanies: state.companies,
   }
 }
-export default withNavigation(connect(mapStateToProps)(CompanyMenu))
+export default connect(mapStateToProps)(CompanyMenu)

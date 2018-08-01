@@ -29,7 +29,6 @@ class Notifications extends React.Component {
     }
   }
 
-
   onRefresh = async () => {
     this.setState({ refreshing: true })
     const { dispatch } = this.props

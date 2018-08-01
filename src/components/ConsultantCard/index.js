@@ -56,7 +56,7 @@ class ConsultantCard extends Component {
           divider
           centerElement={{
             primaryText: `${firstName} ${lastName}`,
-            secondaryText: `${suburb} ${state} ${country}`,
+            secondaryText: `${suburb} ${state} ${country.name}`,
           }}
           onPress={() => {
             modalHandler(id, `${firstName} ${lastName}`, currentConsultantId)

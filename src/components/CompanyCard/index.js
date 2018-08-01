@@ -26,7 +26,7 @@ class CompanyCard extends Component {
   }
 
   render() {
-    const { company } = this.props
+    const { company, topNavigation } = this.props
 
     const {
       titleStyle,
@@ -68,7 +68,7 @@ class CompanyCard extends Component {
               value={enabled}
               onValueChange={() => this.toggleCompanyCallback(id, enabled)}
             />
-            <CompanyMenu companyId={id} enabled={enabled} />
+            <CompanyMenu topNavigation={topNavigation} companyId={id} enabled={enabled} />
           </View>
 
         </View>

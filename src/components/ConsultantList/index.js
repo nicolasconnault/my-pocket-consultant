@@ -29,7 +29,7 @@ class ConsultantList extends Component {
       <View>
         <FlatList
           data={consultants}
-          keyExtractor={item => item.id}
+          keyExtractor={item => `${item.id}`}
           renderItem={({ item }) => (
             <ConsultantCard
               consultant={item}

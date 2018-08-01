@@ -14,19 +14,21 @@ function receiveNewsTypes(json) {
   }
 }
 
-function optimisticToggleNewsType(companyId, newsTypeId, oldValue) {
+function optimisticToggleNewsType(companyLabel, companyId, newsTypeId, oldValue) {
   return {
     type: TOGGLE_NEWS_TYPE,
     companyId,
+    companyLabel,
     newsTypeId,
     oldValue,
   }
 }
 
-function undoToggleNewsType(companyId, newsTypeId, oldValue) {
+function undoToggleNewsType(companyLabel, companyId, newsTypeId, oldValue) {
   return {
     type: UNDO_TOGGLE_NEWS_TYPE,
     companyId,
+    companyLabel,
     newsTypeId,
     oldValue: !oldValue,
   }
@@ -52,14 +54,14 @@ function sendToggleNewsType(companyId, newsTypeId, oldValue, dispatch, token) {
     })
 }
 
-export const toggleNewsType = (companyId, newsTypeId, oldValue) => async (dispatch) => {
+export const toggleNewsType = (companyLabel, companyId, newsTypeId, oldValue) => async (dispatch) => {
   try {
-    dispatch(optimisticToggleNewsType(companyId, newsTypeId, oldValue))
+    dispatch(optimisticToggleNewsType(companyLabel, companyId, newsTypeId, oldValue))
     const token = await AsyncStorage.getItem(ACCESS_TOKEN)
     await sendToggleNewsType(companyId, newsTypeId, oldValue, dispatch, token)
   } catch (e) {
     // undo the state change
-    dispatch(undoToggleNewsType(companyId, newsTypeId, oldValue))
+    dispatch(undoToggleNewsType(companyLabel, companyId, newsTypeId, oldValue))
 
     // then display the error
     // dispatch(toggleCompanyError(e))

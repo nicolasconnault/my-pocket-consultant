@@ -6,7 +6,7 @@ import styles from '../../screens/styles'
 
 class CompanyList extends Component {
   render() {
-    const { listType, title, companies } = this.props
+    const { listType, title, companies, topNavigation } = this.props
     const { headingStyle } = styles
 
     const listHeader = (title === null) ? null : <Text style={headingStyle}>{title}</Text>
@@ -17,7 +17,7 @@ class CompanyList extends Component {
           ListHeaderComponent={listHeader}
           data={companies}
           keyExtractor={item => `${item.id}`}
-          renderItem={({ item }) => <CompanyCard company={item} listType={listType} />}
+          renderItem={({ item }) => <CompanyCard topNavigation={topNavigation} company={item} listType={listType} />}
         />
       </View>
     )

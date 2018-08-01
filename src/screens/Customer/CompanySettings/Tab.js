@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import { withNavigation, withNavigationFocus } from 'react-navigation'
+import { withNavigationFocus } from 'react-navigation'
 
 import { CompanyListPropType } from '../../../proptypes'
 import { CompanyList } from '../../../components'
@@ -10,7 +10,7 @@ class CompanySettingsTab extends React.Component {
     const {
       isFocused,
       name,
-      navigation,
+      topNavigation,
       companies,
       switchTabCallback,
     } = this.props
@@ -20,7 +20,7 @@ class CompanySettingsTab extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <CompanyList
-          navigation={navigation}
+          topNavigation={topNavigation}
           listType="customerCompanies"
           companies={companies}
         />
@@ -36,4 +36,4 @@ CompanySettingsTab.defaultProps = {
   companies: [],
 }
 
-export default withNavigationFocus(withNavigation(CompanySettingsTab))
+export default withNavigationFocus(CompanySettingsTab)
