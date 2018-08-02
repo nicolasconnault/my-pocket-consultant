@@ -5,7 +5,12 @@ import { AsyncStorage } from 'react-native'
 import { Root } from 'native-base'
 import { ThemeProvider } from 'react-native-material-ui'
 
-import { CUSTOMER_MODE_COLOR, CONSULTANT_MODE_COLOR, ACCESS_TOKEN } from './config'
+import {
+  CUSTOMER_MODE_COLOR,
+  CONSULTANT_MODE_COLOR,
+  ACCESS_TOKEN,
+  DEFAULT_MODE,
+} from './config'
 import * as actions from './actions'
 import * as screens from './screens'
 import * as customerScreens from './screens/Customer'
@@ -78,8 +83,9 @@ class Main extends React.Component {
     let { appMode } = this.props
     const { user } = this.props
     const { loading } = this.state
+
+    appMode = (appMode === null) ? DEFAULT_MODE : appMode
     const uiTheme = (appMode === 'consultant') ? ConsultantTheme : CustomerTheme
-    appMode = (appMode === null) ? 'customer' : appMode
 
     let DrawerNavigation = createDrawerNavigator({
       Notifications: { screen: customerScreens.Notifications },
@@ -93,7 +99,7 @@ class Main extends React.Component {
       initialRouteName: 'MyCompanies',
       contentComponent: props => <Drawer appMode={appMode} {...props} />,
       contentOptions: {
-        activeTintColor: CUSTOMER_MODE_COLOR,
+        activeTintColor: (DEFAULT_MODE === 'customer') ? CUSTOMER_MODE_COLOR : CONSULTANT_MODE_COLOR,
         inactiveTintColor: '#666666',
       },
     })
