@@ -155,6 +155,7 @@ class Main extends React.Component {
       NewSubscription: { screen: consultantScreens.NewSubscription },
       SubscriptionMenu: { screen: consultantScreens.SubscriptionMenu },
       Customers: { screen: consultantScreens.Customers },
+      Customer: { screen: consultantScreens.Customer },
       ManageNews: { screen: consultantScreens.ManageNews },
       ManageTutorials: { screen: consultantScreens.ManageTutorials },
     }, {

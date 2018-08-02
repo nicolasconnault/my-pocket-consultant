@@ -22,7 +22,9 @@ class SubscriptionNews extends React.Component {
   render() {
     const screens = {}
     const { subscriptions, navigation } = this.props
+
     const selectedSubscription = navigation.getParam('subscription')
+
     subscriptions.forEach((subscription) => {
       // For each company's category, create a new tab screen with that category's companies
       screens[subscription.companyName] = {

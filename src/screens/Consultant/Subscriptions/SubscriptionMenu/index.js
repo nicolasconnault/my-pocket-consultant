@@ -1,9 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {
-  StatusBar,
-  View,
-} from 'react-native'
+import { StatusBar, View } from 'react-native'
 import { Toolbar } from 'react-native-material-ui'
 import { createMaterialTopTabNavigator } from 'react-navigation'
 

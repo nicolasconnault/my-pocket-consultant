@@ -8,6 +8,7 @@ import Container from './Container'
 import Loader from './Loader'
 import Logo from './Logo'
 import MyIcon from './MyIcon'
+import SectionListContacts from './SectionListContacts'
 import SwitchAppModeButton from './SwitchAppModeButton'
 import TutorialCard from './TutorialCard'
 import NewsItemCard from './NewsItemCard'
@@ -28,6 +29,7 @@ export {
   MyIcon,
   NewsItemCard,
   SwitchAppModeButton,
+  SectionListContacts,
   TutorialStep,
   TutorialList,
   TutorialCard,

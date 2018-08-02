@@ -24,11 +24,13 @@ export const CompanyPropType = PropTypes.shape({
   websiteUrl: PropTypes.string,
   phone: PropTypes.string,
 })
+export const CompanyListPropType = PropTypes.oneOfType([PropTypes.arrayOf(CompanyPropType), PropTypes.shape({})])
 
 export const UserPropType = PropTypes.shape({
   id: PropTypes.number,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
+  name: PropTypes.string,
   suburb: PropTypes.string,
   state: PropTypes.string,
   postcode: PropTypes.string,
@@ -40,6 +42,7 @@ export const UserPropType = PropTypes.shape({
   email: PropTypes.string,
   phone: PropTypes.string,
 })
+export const UserListPropType = PropTypes.oneOfType([PropTypes.arrayOf(UserPropType), PropTypes.shape({})])
 
 export const TutorialStepPropType = PropTypes.shape({
   id: PropTypes.number,
@@ -47,20 +50,21 @@ export const TutorialStepPropType = PropTypes.shape({
   number: PropTypes.string,
   description: PropTypes.string,
 })
+export const TutorialStepListPropType = PropTypes.oneOfType([PropTypes.arrayOf(TutorialStepPropType), PropTypes.array])
 
 export const TutorialPropType = PropTypes.shape({
   id: PropTypes.number,
   title: PropTypes.string,
-  steps: PropTypes.oneOfType([
-    PropTypes.arrayOf(TutorialStepPropType), PropTypes.array,
-  ]),
+  steps: TutorialStepListPropType,
 })
+export const TutorialListPropType = PropTypes.oneOfType([PropTypes.arrayOf(TutorialPropType), PropTypes.array])
 
 export const NewsTypePropType = PropTypes.shape({
   id: PropTypes.number,
   name: PropTypes.string,
   label: PropTypes.string,
 })
+export const NewsTypesListPropType = PropTypes.oneOfType([PropTypes.arrayOf(NewsTypePropType), PropTypes.shape({})])
 
 export const NewsItemPropType = PropTypes.shape({
   id: PropTypes.number,
@@ -73,6 +77,7 @@ export const NewsItemPropType = PropTypes.shape({
   discountedPrice: PropTypes.number,
   regularPrice: PropTypes.number,
 })
+export const NewsItemListPropType = PropTypes.oneOfType([PropTypes.arrayOf(NewsItemPropType), PropTypes.array])
 
 export const SubscriptionPropType = PropTypes.shape({
   id: PropTypes.number,
@@ -84,13 +89,11 @@ export const SubscriptionPropType = PropTypes.shape({
   websiteUrl: PropTypes.string,
   facebookUrl: PropTypes.string,
   twitterUrl: PropTypes.string,
-  newsItems: PropTypes.oneOfType([
-    PropTypes.arrayOf(NewsItemPropType), PropTypes.array,
-  ]),
-  tutorials: PropTypes.oneOfType([
-    PropTypes.arrayOf(TutorialPropType), PropTypes.array,
-  ]),
+  newsItems: NewsItemListPropType,
+  tutorials: TutorialListPropType,
+  customers: UserListPropType,
 })
+export const SubscriptionListPropType = PropTypes.oneOfType([PropTypes.arrayOf(SubscriptionPropType), PropTypes.shape({})])
 
 export const NotificationPropType = PropTypes.shape({
   id: PropTypes.number,
@@ -111,6 +114,7 @@ export const NotificationPropType = PropTypes.shape({
     id: PropTypes.number,
   }),
 })
+export const NotificationListPropType = PropTypes.oneOfType([PropTypes.arrayOf(NotificationPropType), PropTypes.shape({})])
 
 export const CallbackPropType = PropTypes.func
 export const NamePropType = PropTypes.string
@@ -120,24 +124,6 @@ export const StylesPropType = ViewPropTypes.style
 export const TitlePropType = PropTypes.string
 export const IdPropType = PropTypes.number
 export const BooleanPropType = PropTypes.bool
-export const CompanyListPropType = PropTypes.oneOfType([
-  PropTypes.arrayOf(CompanyPropType), PropTypes.shape({}),
-])
-export const NewsTypesListPropType = PropTypes.oneOfType([
-  PropTypes.arrayOf(NewsTypePropType), PropTypes.shape({}),
-])
-export const UserListPropType = PropTypes.oneOfType([
-  PropTypes.arrayOf(UserPropType), PropTypes.shape({}),
-])
-export const TutorialListPropType = PropTypes.oneOfType([
-  PropTypes.arrayOf(TutorialPropType), PropTypes.shape({}),
-])
-export const NotificationListPropType = PropTypes.oneOfType([
-  PropTypes.arrayOf(NotificationPropType), PropTypes.shape({}),
-])
-export const SubscriptionListPropType = PropTypes.oneOfType([
-  PropTypes.arrayOf(SubscriptionPropType), PropTypes.shape({}),
-])
 export const ListTypePropType = PropTypes.oneOf(['singleCard', 'customerCompanies', 'withConsultants', 'selectAConsultant'])
 export const DeviceSizePropType = PropTypes.oneOf(['small', 'medium', 'large', 'huge'])
 export const IconSizePropType = PropTypes.number
