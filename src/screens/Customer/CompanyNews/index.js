@@ -5,7 +5,6 @@ import {
 } from 'react-native'
 import GridView from 'react-native-super-grid'
 import { Toolbar } from 'react-native-material-ui'
-import { Transition } from 'react-navigation-fluid-transitions'
 import { NewsItemCard, Container } from '../../../components'
 
 class CompanyNews extends React.Component {
@@ -31,13 +30,11 @@ class CompanyNews extends React.Component {
             itemDimension={130}
             items={newsItems}
             renderItem={item => (
-              <Transition shared="newsItemCard">
-                <NewsItemCard
-                  newsItem={item}
-                  company={company}
-                  navigation={navigation}
-                />
-              </Transition>
+              <NewsItemCard
+                newsItem={item}
+                company={company}
+                navigation={navigation}
+              />
             )}
           />
         </View>

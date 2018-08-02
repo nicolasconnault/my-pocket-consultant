@@ -10,6 +10,7 @@ import Logo from './Logo'
 import MyIcon from './MyIcon'
 import SwitchAppModeButton from './SwitchAppModeButton'
 import TutorialCard from './TutorialCard'
+import NewsItemCard from './NewsItemCard'
 import TutorialList from './TutorialList'
 import TutorialStep from './TutorialStep'
 import UserAvatar from './UserAvatar'
@@ -25,6 +26,7 @@ export {
   Logo,
   Loader,
   MyIcon,
+  NewsItemCard,
   SwitchAppModeButton,
   TutorialStep,
   TutorialList,

@@ -12,6 +12,7 @@ export default (state = {}, action) => {
     case TOGGLE_NEWS_TYPE:
     case UNDO_TOGGLE_NEWS_TYPE:
       newsTypes = {}
+
       Object.entries(state).forEach((entry) => {
         const companyLabel = entry[0]
         const companyNewsTypes = entry[1]
@@ -20,9 +21,8 @@ export default (state = {}, action) => {
         companyNewsTypes.forEach((newsType) => {
           const newNewsType = { ...newsType, status: newsType.status }
 
-
           if (companyLabel === action.companyLabel
-            && newNewsType.id === action.newsTypeId) { // @BUG! this sometimes returns false, preventing a field from updating
+            && newNewsType.id === action.newsTypeId) {
             newNewsType.status = !action.oldValue
           }
           newsTypes[companyLabel].push(newNewsType)

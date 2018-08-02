@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import {
-  LayoutAnimation, View, Image, Text, StyleSheet, TouchableNativeFeedback,
+  LayoutAnimation,
+  View,
+  Image,
+  StyleSheet,
+  TouchableNativeFeedback,
+  Text,
 } from 'react-native'
-import {
-  ListItem,
-  Card,
-} from 'react-native-material-ui'
 
 import { STORAGE_URL } from '../../config'
 import { } from '../../proptypes'
@@ -46,7 +47,12 @@ class NewsItemCard extends Component {
 
   render() {
     const { newsItem, company } = this.props
-    const { gridView, itemContainer, itemName, itemCode } = styles
+    const {
+      gridView,
+      itemContainer,
+      itemName,
+      itemCode,
+    } = styles
 
     const {
       id,
@@ -69,6 +75,7 @@ class NewsItemCard extends Component {
             source={{ uri: `${STORAGE_URL}images/news/${company.name}/${id}.jpg` }}
             style={{ width: '100%', height: '100%' }}
           />
+          <Text style={{ textAlign: 'center' }}>{title}</Text>
         </View>
       </TouchableNativeFeedback>
     )
