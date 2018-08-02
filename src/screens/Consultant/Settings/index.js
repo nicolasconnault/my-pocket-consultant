@@ -6,14 +6,14 @@ import {
 import { Toolbar, ListItem } from 'react-native-material-ui'
 
 import { MyIcon, Container } from '../../../components'
-import { CONSULTANT_MODE_COLOR, CONSULTANT_MODE_SECONDARY_COLOR } from '../../../config'
+import { CONSULTANT_MODE_SECONDARY_COLOR } from '../../../config'
 import styles from '../../styles'
 
 class Settings extends React.Component {
   static navigationOptions = {
     title: 'Settings',
     drawerLabel: 'Settings',
-    drawerIcon: <MyIcon iconKey="settings" color={CONSULTANT_MODE_COLOR} />,
+    drawerIcon: <MyIcon iconKey="settings" appMode="consultant" />,
   };
 
   constructor(props) {
@@ -57,7 +57,7 @@ class Settings extends React.Component {
             renderItem={({ item, index, section }) => (
               <ListItem
                 leftElement={(
-                  <MyIcon iconKey={item.icon} color={CONSULTANT_MODE_COLOR} />
+                  <MyIcon iconKey={item.icon} appMode="consultant" />
                 )}
                 centerElement={(
                   <Text>
@@ -101,7 +101,7 @@ class Settings extends React.Component {
                     icon: 'download',
                     title: 'Downloaded media',
                     callback: null,
-                    content: <MyIcon iconKey="trash" color={CONSULTANT_MODE_COLOR} onPress={() => this.clearFiles()} />,
+                    content: <MyIcon iconKey="trash" appMode="consultant" onPress={() => this.clearFiles()} />,
                   },
                   {
                     icon: 'wifi',

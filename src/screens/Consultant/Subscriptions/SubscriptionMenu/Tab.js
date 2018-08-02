@@ -7,6 +7,7 @@ import { withNavigation } from 'react-navigation'
 
 import styles from '../../../styles'
 import { MyIcon } from '../../../../components'
+import { SubscriptionPropType } from '../../../../proptypes'
 
 class SubscriptionMenuTab extends React.Component {
   render() {
@@ -44,7 +45,7 @@ class SubscriptionMenuTab extends React.Component {
           keyExtractor={item => item.iconKey}
           renderItem={({ item }) => (
             <ListItem
-              leftElement={<MyIcon iconKey={item.iconKey} />}
+              leftElement={<MyIcon iconKey={item.iconKey} appMode="consultant" />}
               onLeftElementPress={() => item.onPress()}
               centerElement={(
                 <View onPress={item.onPress}>
@@ -60,6 +61,14 @@ class SubscriptionMenuTab extends React.Component {
       </View>
     )
   }
+}
+
+SubscriptionMenuTab.propTypes = {
+  subscription: SubscriptionPropType,
+}
+
+SubscriptionMenuTab.defaultProps = {
+  subscription: [],
 }
 
 export default withNavigation(SubscriptionMenuTab)

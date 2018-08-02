@@ -51,7 +51,9 @@ export const TutorialStepPropType = PropTypes.shape({
 export const TutorialPropType = PropTypes.shape({
   id: PropTypes.number,
   title: PropTypes.string,
-  steps: PropTypes.arrayOf(TutorialStepPropType),
+  steps: PropTypes.oneOfType([
+    PropTypes.arrayOf(TutorialStepPropType), PropTypes.array,
+  ]),
 })
 
 export const NewsTypePropType = PropTypes.shape({
@@ -82,8 +84,12 @@ export const SubscriptionPropType = PropTypes.shape({
   websiteUrl: PropTypes.string,
   facebookUrl: PropTypes.string,
   twitterUrl: PropTypes.string,
-  newsItems: PropTypes.arrayOf(NewsItemPropType),
-  tutorials: PropTypes.arrayOf(TutorialPropType),
+  newsItems: PropTypes.oneOfType([
+    PropTypes.arrayOf(NewsItemPropType), PropTypes.array,
+  ]),
+  tutorials: PropTypes.oneOfType([
+    PropTypes.arrayOf(TutorialPropType), PropTypes.array,
+  ]),
 })
 
 export const NotificationPropType = PropTypes.shape({
