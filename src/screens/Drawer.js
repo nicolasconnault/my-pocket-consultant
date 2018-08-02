@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View, ScrollView } from 'react-native'
+import { View, ScrollView, Text } from 'react-native'
 import { COLOR } from 'react-native-material-ui'
 import { DrawerItems } from 'react-navigation'
 
@@ -21,17 +21,44 @@ class Drawer extends React.Component {
         padding: 0,
       },
       headerStyle: {
-        backgroundColor: (appMode === 'consultant') ? CONSULTANT_MODE_COLOR : CUSTOMER_MODE_COLOR,
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-        flex: 1,
+        container: {
+          backgroundColor: (appMode === 'consultant') ? CONSULTANT_MODE_COLOR : CUSTOMER_MODE_COLOR,
+          flex: 1,
+        },
+        top: {
+          container: {
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
+          },
+          switchButton: {
+            paddingRight: 10,
+          },
+          avatar: {
+            height: 60,
+            padding: 20,
+          },
+        },
+        bottom: {
+          container: {
+            padding: 20,
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
+          },
+          username: {
+            color: '#FFFFFF',
+            fontWeight: 'bold',
+          },
+          email: {
+            color: '#DDDDDD',
+            fontWeight: '300',
+            fontSize: 11,
+          },
+        },
       },
       listStyle: {
         backgroundColor: COLOR.grey300,
-      },
-      avatarStyle: {
-        height: 60,
       },
     }
 
@@ -39,17 +66,24 @@ class Drawer extends React.Component {
       containerStyle,
       headerStyle,
       listStyle,
-      avatarStyle,
     } = styles
 
     return (
       <ScrollView style={containerStyle}>
-        <View style={headerStyle}>
-          <View style={avatarStyle}>
-            <UserAvatar userId={user.id} />
+        <View style={headerStyle.container}>
+          <View style={headerStyle.top.container}>
+            <View style={headerStyle.top.avatar}>
+              <UserAvatar userId={user.id} />
+            </View>
+
+            <View style={headerStyle.top.switchButton}>
+              <SwitchAppModeButton newAppMode={newAppMode} />
+            </View>
           </View>
-          <View>
-            <SwitchAppModeButton newAppMode={newAppMode} />
+
+          <View style={headerStyle.bottom.container}>
+            <Text style={headerStyle.bottom.username}>{user.firstName} {user.lastName}</Text>
+            <Text style={headerStyle.bottom.email}>{user.username}</Text>
           </View>
         </View>
 

@@ -5,16 +5,17 @@ export default {
     alignSelf: 'flex-end',
     alignItems: 'center',
     flexDirection: 'row',
-    paddingRight: 5
+    paddingRight: 5,
   },
   switchButtonStyle: {
     text: {
       color: COLOR.white,
-      fontSize: 12
+      fontSize: 10,
+      fontWeight: 'normal',
     },
   },
   switchIconStyle: {
     flex: 0.1,
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
   },
 }
