@@ -11,14 +11,11 @@ class CustomersTab extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <SectionListContacts
-          ref={s => this.sectionList=s}
+          ref={s => this.sectionList = s}
           sectionListData={customers}
           sectionHeight={50}
           initialNumToRender={customers.length}
           showsVerticalScrollIndicator={false}
-          sectionHeaderTextStyle={{ padding: 20, fontSize: 18, fontWeight: 'bold' }}
-          sectionItemViewStyle={{ paddingLeft: 60 }}
-          sectionItemTextStyle={{ fontSize: 14 }}
           SectionListClickCallback={(user) => {
             topNavigation.navigate('Customer', { customer: user })
           }}

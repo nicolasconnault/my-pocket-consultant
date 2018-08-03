@@ -18,7 +18,7 @@ class UserAvatar extends React.Component {
     )
     return (
       <View style={consultantImageContainerStyle}>
-        <Avatar image={image} />
+        <Avatar image={image} size={41} />
       </View>
     )
   }

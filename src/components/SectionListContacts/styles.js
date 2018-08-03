@@ -5,10 +5,15 @@ export default StyleSheet.create({
     flex: 1,
   },
   itemStyle: {
-    height: 50,
-    justifyContent: 'center',
+    height: 60,
+    justifyContent: 'flex-start',
     backgroundColor: '#ffffff',
     width: '100%',
+    paddingLeft: 50,
+    paddingTop: 10,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   letterView: {
     width: 40,
@@ -22,10 +27,11 @@ export default StyleSheet.create({
     backgroundColor: '#ffffff',
     height: 40,
     justifyContent: 'center',
+    paddingLeft: 20,
   },
   sectionHeaderText: {
-    color: '#333333',
-    fontSize: 14,
+    color: '#999999',
+    fontSize: 24,
     fontWeight: 'bold',
   },
   lineView: {
@@ -44,6 +50,10 @@ export default StyleSheet.create({
   artistText: {
     fontSize: 15,
     color: '#333333',
+    marginLeft: 10,
+    marginTop: -8,
+  },
+  avatarStyle: {
   },
   letterText: {
     fontSize: 15,

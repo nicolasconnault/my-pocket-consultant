@@ -4,6 +4,7 @@ import React, {
 import {
   View, Text, TouchableWithoutFeedback,
 } from 'react-native'
+import { UserAvatar } from '..'
 import styles from './styles'
 
 class SectionItem extends PureComponent {
@@ -11,17 +12,23 @@ class SectionItem extends PureComponent {
     const {
       callback,
       item,
-      sectionItemViewStyle,
-      sectionItemTextStyle
     } = this.props
+    const {
+      itemStyle,
+      artistText,
+      avatarStyle,
+    } = styles
     return (
       <TouchableWithoutFeedback onPress={() => {
         callback()
       }}
       >
-        <View style={[styles.itemStyle, sectionItemViewStyle]}>
-          <Text style={[styles.artistText, sectionItemTextStyle]}>
-            {item.name}
+        <View style={itemStyle}>
+          <UserAvatar style={avatarStyle} userId={item.id} />
+          <Text style={artistText}>
+            {item.firstName}
+            {' '}
+            {item.lastName}
           </Text>
         </View>
       </TouchableWithoutFeedback>

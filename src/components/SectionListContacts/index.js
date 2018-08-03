@@ -130,18 +130,23 @@ export default class SectionListModule extends Component {
     }
 
     renderSectionHeader = ({ section }) => {
-      const { renderHeader, sectionHeaderTextStyle } = this.props
+      const { renderHeader } = this.props
+      const {
+        sectionHeaderView,
+        sectionHeaderText,
+        lineView,
+      } = styles
       if (renderHeader) {
         return (
           renderHeader(section)
         )
       }
       return (
-        <View style={styles.sectionHeaderView}>
-          <Text style={[styles.sectionHeaderText, sectionHeaderTextStyle]}>
+        <View style={sectionHeaderView}>
+          <Text style={sectionHeaderText}>
             {section.key}
           </Text>
-          <View style={styles.lineView} />
+          <View style={lineView} />
         </View>
       )
     }
@@ -198,15 +203,16 @@ export default class SectionListModule extends Component {
                             animated: false,
                             itemIndex: 0,
                             sectionIndex: index,
-                            viewOffset: sectionHeight
-                          }
+                            viewOffset: sectionHeight,
+                          },
                         )
                       }}
                     >
                       <View style={[letterItemView, otherStyle]}>
                         <Text
                           numberOfLines={0}
-                          style={[letterText, letterTextStyle]}>
+                          style={[letterText, letterTextStyle]}
+                        >
                           {item}
                         </Text>
                       </View>
