@@ -23,7 +23,9 @@ class SubscriptionMenu extends React.Component {
     subscriptions.forEach((subscription) => {
       // For each company's category, create a new tab screen with that category's companies
       screens[subscription.companyName] = {
-        screen: () => (<SubscriptionMenuTab subscription={subscription} />),
+        screen: () => (
+          <SubscriptionMenuTab subscription={subscription} topNavigation={navigation} />
+        ),
       }
     })
 

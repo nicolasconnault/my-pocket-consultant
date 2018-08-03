@@ -9,7 +9,7 @@ import styles from '../../../styles'
 
 class SubscriptionNewsTab extends React.Component {
   render() {
-    const { navigation, subscription } = this.props
+    const { topNavigation, subscription } = this.props
     const { listMenuStyle } = styles
     const { newsItems } = subscription
 
@@ -28,7 +28,7 @@ class SubscriptionNewsTab extends React.Component {
                   </Text>
                 </View>
               )}
-              onPress={() => navigation.navigate('SubscriptionNewsItem', { newsItem: item, subscription })}
+              onPress={() => topNavigation.navigate('SubscriptionNewsItem', { newsItem: item, subscription })}
             />
           )}
         />

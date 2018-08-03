@@ -28,7 +28,9 @@ class SubscriptionNews extends React.Component {
     subscriptions.forEach((subscription) => {
       // For each company's category, create a new tab screen with that category's companies
       screens[subscription.companyName] = {
-        screen: () => (<SubscriptionNewsTab subscription={subscription} />),
+        screen: () => (
+          <SubscriptionNewsTab subscription={subscription} topNavigation={navigation} />
+        ),
       }
     })
     const TabNavigation = createMaterialTopTabNavigator(screens, {

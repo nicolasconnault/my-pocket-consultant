@@ -17,15 +17,53 @@ class Customers extends React.Component {
     drawerIcon: <MyIcon iconKey="people" appMode="consultant" />,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      filteredSubscriptions: [],
+    }
+
+    this.unfilteredSubscriptions = []
+  }
+
+  componentWillMount() {
+    const { subscriptions } = this.props
+    this.unfilteredSubscriptions = subscriptions
+    this.setState({ filteredSubscriptions: subscriptions })
+  }
+
+  filterList = (search) => {
+    const filteredList = []
+    const regexp = new RegExp(search)
+    this.unfilteredSubscriptions.forEach((subscription) => {
+      const filteredCustomers = []
+      subscription.customers.forEach((customer) => {
+        if (customer.name.match(regexp)) {
+          filteredCustomers.push(customer)
+        }
+        filteredList.push({ ...subscription, customers: filteredCustomers })
+      })
+    })
+    this.setState({ filteredSubscriptions: filteredList })
+  }
+
   render() {
     const screens = {}
 
-    const { subscriptions, navigation } = this.props
+    const { navigation } = this.props
+    const { filteredSubscriptions } = this.state
     const selectedSubscription = navigation.getParam('subscription')
-    subscriptions.forEach((subscription) => {
+
+    filteredSubscriptions.forEach((subscription) => {
       // For each company's category, create a new tab screen with that category's companies
       screens[subscription.companyName] = {
-        screen: () => (<CustomersTab subscription={subscription} />),
+        screen: () => (
+          <CustomersTab
+            subscription={subscription}
+            topNavigation={navigation}
+            customers={subscription.customers}
+          />
+        ),
       }
     })
 
@@ -42,16 +80,21 @@ class Customers extends React.Component {
           leftElement="menu"
           onLeftElementPress={() => navigation.toggleDrawer()}
           centerElement="Customers"
+          searchable={{
+            autoFocus: true,
+            placeholder: 'Search',
+            onChangeText: this.filterList,
+          }}
         />
         <View style={{ flex: 1 }}>
-          { subscriptions.length > 1 && (
+          { filteredSubscriptions.length > 1 && (
             <TabNavigation />
           )}
-          { subscriptions.length === 1 && (
-            <CustomersTab subscription={selectedSubscription} />
+          { filteredSubscriptions.length === 1 && (
+            <CustomersTab customers={filteredSubscriptions[0].customers} />
           )}
         </View>
-        <Nav activeKey="subscriptions" />
+        <Nav activeKey="customers" />
       </Container>
     )
   }

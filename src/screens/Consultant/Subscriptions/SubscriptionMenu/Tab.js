@@ -11,28 +11,28 @@ import { SubscriptionPropType } from '../../../../proptypes'
 
 class SubscriptionMenuTab extends React.Component {
   render() {
-    const { navigation, subscription } = this.props
+    const { topNavigation, subscription } = this.props
     const { listMenuStyle } = styles
     const menuItems = [
       {
         iconKey: 'people',
         text: `${subscription.customerCount} Customers`,
         onPress: () => {
-          navigation.navigate('Customers', { subscription })
+          topNavigation.navigate('Customers', { subscription })
         },
       },
       {
         iconKey: 'news',
         text: 'Manage News',
         onPress: () => {
-          navigation.navigate('ManageNews', { subscription })
+          topNavigation.navigate('ManageNews', { subscription })
         },
       },
       {
         iconKey: 'school',
         text: 'Tutorials',
         onPress: () => {
-          navigation.navigate('ManageTutorials', { subscription })
+          topNavigation.navigate('ManageTutorials', { subscription })
         },
       },
     ]

@@ -4,7 +4,7 @@ import { StatusBar, View } from 'react-native'
 import { Toolbar } from 'react-native-material-ui'
 import { createMaterialTopTabNavigator } from 'react-navigation'
 
-import { CompanyListPropType, ListTypePropType } from '../../../proptypes'
+import { ListTypePropType } from '../../../proptypes'
 import { MyIcon, Container } from '../../../components'
 import styles from '../../styles'
 import MyCompaniesTab from './Tab'
