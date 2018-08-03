@@ -3,7 +3,7 @@ import {
   Text,
   StatusBar,
   ScrollView,
-  ImageBackground,
+  FlatList,
   Image,
   Dimensions,
 } from 'react-native'
@@ -46,7 +46,6 @@ export default class Customer extends React.Component {
     const customer = navigation.getParam('customer')
     const {
       imageBackgroundStyle,
-      mainContainerStyle,
     } = (orientation === 'landscape') ? landscapeStyles : portraitStyles
 
     return (
@@ -57,16 +56,29 @@ export default class Customer extends React.Component {
           centerElement={`${customer.firstName} ${customer.lastName}`}
         />
         <ScrollView style={{ flex: 1 }}>
-          <ImageBackground
+          <Image
             source={{ uri: `${STORAGE_URL}images/users/${customer.id}.png` }}
             style={imageBackgroundStyle}
-          >
-            <Text>
-              {customer.firstName}
-              {' '}
-              {customer.lastName}
-            </Text>
-          </ImageBackground>
+          />
+          <FlatList
+            style={listMenuStyle}
+            data={menuItems}
+            keyExtractor={item => item.iconKey}
+            renderItem={({ item }) => (
+              <ListItem
+                leftElement={<MyIcon iconKey={item.iconKey} />}
+                onLeftElementPress={() => item.onPress()}
+                centerElement={(
+                  <View onPress={item.onPress}>
+                    <Text>
+                      {item.text}
+                    </Text>
+                  </View>
+                )}
+                onPress={() => item.onPress()}
+              />
+            )}
+          />
           <Text style={headingStyle}>
                     Customer here
           </Text>
