@@ -15,7 +15,12 @@ import { connect } from 'react-redux'
 import { Button } from 'react-native-material-ui'
 
 import { OAUTH_URL, ACCESS_TOKEN } from '../../config'
-import { fetchUser, fetchCustomerCompanies, fetchConsultants, fetchTutorials } from '../../actions'
+import {
+  fetchUser,
+  fetchCustomerCompanies,
+  fetchConsultants,
+  fetchTutorials,
+} from '../../actions'
 import { Loader } from '../../components'
 import { landscapeStyles, portraitStyles } from './styles'
 
