@@ -52,9 +52,12 @@ class Customers extends React.Component {
 
     const { navigation } = this.props
     const { filteredSubscriptions } = this.state
-    const selectedSubscription = navigation.getParam('subscription')
+    let selectedSubscription = navigation.getParam('subscription')
 
     filteredSubscriptions.forEach((subscription) => {
+      if (selectedSubscription === undefined) {
+        selectedSubscription = subscription
+      }
       // For each company's category, create a new tab screen with that category's companies
       screens[subscription.companyName] = {
         screen: () => (

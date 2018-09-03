@@ -1,6 +1,14 @@
 import { AsyncStorage } from 'react-native'
 import { API_URL, ACCESS_TOKEN } from '../config'
-import { RECEIVE_CONSULTANTS, SELECT_CONSULTANT, UNDO_SELECT_CONSULTANT } from './constants'
+import {
+  RECEIVE_CONSULTANTS,
+  SELECT_CONSULTANT,
+  UNDO_SELECT_CONSULTANT,
+  TOGGLE_CUSTOMER_RECRUIT,
+  UNDO_TOGGLE_CUSTOMER_RECRUIT,
+  TOGGLE_CUSTOMER_HOST,
+  UNDO_TOGGLE_CUSTOMER_HOST,
+} from './constants'
 import { receiveCustomerCompanies } from './companyActions'
 
 function receiveConsultants(json) {
@@ -89,4 +97,113 @@ export function fetchConsultants(token, companyId) {
     .then((json) => {
       dispatch(receiveConsultants(json))
     })
+}
+
+/**
+ * POTENTIAL HOST
+ */
+function optimisticToggleCustomerHost(customerId, oldValue) {
+  return {
+    type: TOGGLE_CUSTOMER_HOST,
+    customerId,
+    oldValue,
+  }
+}
+
+function undoToggleCustomerHost(customerId, oldValue) {
+  return {
+    type: UNDO_TOGGLE_CUSTOMER_HOST,
+    customerId,
+    oldValue: !oldValue,
+  }
+}
+
+function sendToggleCustomerHost(customerId, oldValue, dispatch, token) {
+  return fetch(`${API_URL}consultant/toggle_customer_host.json`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      customerId,
+      oldValue,
+    }),
+  })
+    .then(res => res.json())
+    .then((json) => {
+      // Don't refresh the companies at this stage, or the tab navigation will be refreshed,
+      // causing a visual glitch
+      // dispatch(receiveCustomerCompanies(json))
+    })
+}
+
+export const toggleCustomerHost = (customerId, oldValue) => async (dispatch) => {
+  try {
+    dispatch(optimisticToggleCustomerHost(customerId, oldValue))
+    const token = await AsyncStorage.getItem(ACCESS_TOKEN)
+    await sendToggleCustomerHost(customerId, oldValue, dispatch, token)
+  } catch (e) {
+    // undo the state change
+    dispatch(undoToggleCustomerHost(customerId, oldValue))
+
+    // then display the error
+    // dispatch(toggleCompanyError(e))
+  }
+}
+
+
+/**
+ * POTENTIAL RECRUIT
+ */
+function optimisticToggleCustomerRecruit(customerId, oldValue) {
+  return {
+    type: TOGGLE_CUSTOMER_RECRUIT,
+    customerId,
+    oldValue,
+  }
+}
+
+function undoToggleCustomerRecruit(customerId, oldValue) {
+  return {
+    type: UNDO_TOGGLE_CUSTOMER_RECRUIT,
+    customerId,
+    oldValue: !oldValue,
+  }
+}
+
+function sendToggleCustomerRecruit(customerId, oldValue, dispatch, token) {
+  return fetch(`${API_URL}consultant/toggle_customer_recruit.json`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      customerId,
+      oldValue,
+    }),
+  })
+    .then(res => res.json())
+    .then((json) => {
+      // Don't refresh the companies at this stage, or the tab navigation will be refreshed,
+      // causing a visual glitch
+      // dispatch(receiveCustomerCompanies(json))
+    })
+}
+
+export const toggleCustomerRecruit = (customerId, oldValue) => async (dispatch) => {
+  try {
+    dispatch(optimisticToggleCustomerRecruit(customerId, oldValue))
+    const token = await AsyncStorage.getItem(ACCESS_TOKEN)
+    await sendToggleCustomerRecruit(customerId, oldValue, dispatch, token)
+  } catch (e) {
+    // undo the state change
+    dispatch(undoToggleCustomerRecruit(customerId, oldValue))
+
+    // then display the error
+    // dispatch(toggleCompanyError(e))
+  }
 }

@@ -44,6 +44,35 @@ export const UserPropType = PropTypes.shape({
 })
 export const UserListPropType = PropTypes.oneOfType([PropTypes.arrayOf(UserPropType), PropTypes.shape({})])
 
+export const CustomerNotePropType = PropTypes.shape({
+  id: PropTypes.number,
+  note: PropTypes.string,
+  createdAt: PropTypes.string,
+})
+export const CustomerNoteListPropType = PropTypes.oneOfType([PropTypes.arrayOf(CustomerNotePropType), PropTypes.shape({})])
+
+export const CustomerPropType = PropTypes.shape({
+  id: PropTypes.number,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  name: PropTypes.string,
+  suburb: PropTypes.string,
+  state: PropTypes.string,
+  postcode: PropTypes.string,
+  country: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    code: PropTypes.string,
+  }),
+  email: PropTypes.string,
+  phone: PropTypes.string,
+  potentialRecruit: PropTypes.bool,
+  potentialHost: PropTypes.bool,
+  currentHost: PropTypes.bool,
+  notes: CustomerNoteListPropType,
+})
+export const CustomerListPropType = PropTypes.oneOfType([PropTypes.arrayOf(CustomerPropType), PropTypes.shape({})])
+
 export const TutorialStepPropType = PropTypes.shape({
   id: PropTypes.number,
   title: PropTypes.string,
@@ -91,7 +120,7 @@ export const SubscriptionPropType = PropTypes.shape({
   twitterUrl: PropTypes.string,
   newsItems: NewsItemListPropType,
   tutorials: TutorialListPropType,
-  customers: UserListPropType,
+  customers: CustomerListPropType,
 })
 export const SubscriptionListPropType = PropTypes.oneOfType([PropTypes.arrayOf(SubscriptionPropType), PropTypes.shape({})])
 

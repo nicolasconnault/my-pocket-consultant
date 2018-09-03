@@ -1,4 +1,5 @@
 // Global styles that change according to screen width
+import { Platform } from 'react-native'
 import store from '../boot/configureStore'
 import { CUSTOMER_MODE_SECONDARY_COLOR, CONSULTANT_MODE_SECONDARY_COLOR } from '../config'
 
@@ -160,6 +161,10 @@ function buildStyle() {
       marginTop: 20,
       marginBottom: 20,
       fontSize: headingFontSizes[deviceSize],
+    },
+    switchStyle: {
+      transform: (Platform.OS === 'ios') ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [], // Reduce size of iOS switches slightly
+      alignSelf: 'flex-end',
     },
   }
 }

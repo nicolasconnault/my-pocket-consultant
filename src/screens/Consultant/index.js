@@ -1,5 +1,6 @@
 import Customers from './Customers'
 import Customer from './Customers/Customer'
+import CustomerNotes from './Customers/Notes'
 import TodoList from './TodoList'
 import Subscriptions from './Subscriptions'
 import NewSubscription from './Subscriptions/New'
@@ -13,6 +14,7 @@ import ConsultantHelp from './Help'
 export {
   Customer,
   Customers,
+  CustomerNotes,
   TodoList,
   Subscriptions,
   NewSubscription,

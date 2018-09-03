@@ -15,6 +15,8 @@ import {
 import {
   fetchConsultants,
   selectConsultant,
+  toggleCustomerRecruit,
+  toggleCustomerHost,
 } from './consultantActions'
 import {
   toggleNewsType,
@@ -44,4 +46,6 @@ export {
   setDeviceSize,
   toggleCompany,
   toggleNewsType,
+  toggleCustomerRecruit,
+  toggleCustomerHost,
 }
