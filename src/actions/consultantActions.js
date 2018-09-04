@@ -11,6 +11,9 @@ import {
 } from './constants'
 import { receiveCustomerCompanies } from './companyActions'
 
+/**
+ * SELECT CONSULTANT
+ */
 function receiveConsultants(json) {
   return {
     type: RECEIVE_CONSULTANTS,
@@ -81,6 +84,9 @@ export const selectConsultant = (
   }
 }
 
+/**
+ * FETCH CONSULTANT
+ */
 export function fetchConsultants(token, companyId) {
   return dispatch => fetch(`${API_URL}customer/consultants.json`, {
     method: 'POST',

@@ -19,6 +19,11 @@ import {
   toggleCustomerHost,
 } from './consultantActions'
 import {
+  createCallReminder,
+  receiveCallReminders,
+  fetchCallReminders,
+} from './callReminderActions'
+import {
   toggleNewsType,
   fetchNewsTypes,
 } from './newsTypesActions'
@@ -29,6 +34,8 @@ import {
 
 export {
   changeAppMode,
+  createCallReminder,
+  fetchCallReminders,
   fetchCompaniesByCategory,
   fetchConsultants,
   fetchCustomerCompanies,
@@ -38,6 +45,7 @@ export {
   fetchNotifications,
   fetchUser,
   fetchTutorials,
+  receiveCallReminders,
   receiveCompaniesByCategory,
   receiveCustomerCompanies,
   receiveSubscribedCompanies,

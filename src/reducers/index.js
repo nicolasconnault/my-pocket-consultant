@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import CallReminderReducer from './CallReminderReducer'
 import CompanyReducer from './CompanyReducer'
 import CategoryCompanyReducer from './CategoryCompanyReducer'
 import SubscriptionReducer from './SubscriptionReducer'
@@ -15,6 +16,7 @@ import NotificationsReducer from './NotificationsReducer'
 export default combineReducers({
   appMode: SelectedAppModeReducer,
   companies: CompanyReducer,
+  callReminders: CallReminderReducer,
   categoryCompanies: CategoryCompanyReducer,
   subscriptions: SubscriptionReducer,
   consultants: ConsultantsReducer,

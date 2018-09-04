@@ -18,6 +18,7 @@ import {
 
 import { toggleCustomerRecruit, toggleCustomerHost } from '../../../../actions'
 import { Container, MyIcon } from '../../../../components'
+import CallReminderMenu from './CallReminderMenu'
 import Nav from '../../ConsultantNav'
 import styles from '../../../styles'
 
@@ -45,6 +46,7 @@ export default class Customer extends React.Component {
     const { headingStyle, switchStyle } = styles
     const { navigation } = this.props
     const customer = navigation.getParam('customer')
+    const subscriptionId = navigation.getParam('subscriptionId')
 
     const menuItems = [
       {
@@ -110,16 +112,15 @@ export default class Customer extends React.Component {
       },
       {
         key: 'item6',
-        text: '',
-        rightElement: (
-          <ActionButton
-            iconKey="note"
-            appMode="consultant"
-            onPress={() => { navigation.navigate('CustomerNotes', { customer, notes: customer.notes }) }}
+        centerElement: (
+          <CallReminderMenu
+            customerId={customer.id}
+            subscriptionId={subscriptionId}
           />
         ),
       },
     ]
+
 
     return (
       <Container>
@@ -141,13 +142,14 @@ export default class Customer extends React.Component {
                 leftElement={(item.iconKey === undefined) ? null : <MyIcon iconKey={item.iconKey} appMode="consultant" />}
                 rightElement={item.rightElement}
                 onLeftElementPress={() => item.onPress()}
-                centerElement={(
+                centerElement={(item.centerElement === undefined) ? (
                   <View onPress={item.onPress}>
                     <Text>
                       {item.text}
                     </Text>
                   </View>
-                )}
+                ) : item.centerElement
+              }
                 onPress={() => item.onPress()}
               />
             )}

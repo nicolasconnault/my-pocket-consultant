@@ -94,7 +94,10 @@ class Customers extends React.Component {
             <TabNavigation />
           )}
           { filteredSubscriptions.length === 1 && (
-            <CustomersTab customers={filteredSubscriptions[0].customers} />
+            <CustomersTab
+              subscription={filteredSubscriptions[0]}
+              customers={filteredSubscriptions[0].customers}
+            />
           )}
         </View>
         <Nav activeKey="customers" />

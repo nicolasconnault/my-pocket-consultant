@@ -111,7 +111,7 @@ export default class SectionListModule extends Component {
     }
 
     renderItem=({ item, index }) => {
-      const { renderItem, SectionListClickCallback } = this.props
+      const { renderItem, SectionListClickCallback, subscription } = this.props
       if (renderItem) {
         return (
           renderItem(item)
@@ -122,7 +122,7 @@ export default class SectionListModule extends Component {
         <SectionItem
           {...this.props}
           callback={() => {
-            SectionListClickCallback(item, index)
+            SectionListClickCallback(item, index, subscription.id)
           }}
           item={item}
         />
