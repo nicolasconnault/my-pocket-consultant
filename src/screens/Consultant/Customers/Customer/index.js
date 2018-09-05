@@ -13,7 +13,7 @@ import {
   Toolbar,
   COLOR,
   ListItem,
-  ActionButton,
+  Snackbar,
 } from 'react-native-material-ui'
 
 import { toggleCustomerRecruit, toggleCustomerHost } from '../../../../actions'
@@ -26,6 +26,18 @@ export default class Customer extends React.Component {
   static navigationOptions = {
     title: 'Customer',
     drawerLabel: 'Customer',
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      isSnackBarVisible: false,
+    }
+    this.callReminderSuccessCallback = this.callReminderSuccessCallback.bind(this)
+  }
+
+  callReminderSuccessCallback() {
+    this.setState({ isSnackBarVisible: true })
   }
 
   toggleCustomerRecruitCallback(id, oldValue) {
@@ -45,6 +57,7 @@ export default class Customer extends React.Component {
   render() {
     const { headingStyle, switchStyle } = styles
     const { navigation } = this.props
+    const { isSnackBarVisible } = this.state
     const customer = navigation.getParam('customer')
     const subscriptionId = navigation.getParam('subscriptionId')
 
@@ -116,6 +129,7 @@ export default class Customer extends React.Component {
           <CallReminderMenu
             customerId={customer.id}
             subscriptionId={subscriptionId}
+            callReminderSuccessCallback={this.callReminderSuccessCallback}
           />
         ),
       },
@@ -154,7 +168,9 @@ export default class Customer extends React.Component {
               />
             )}
           />
+
         </ScrollView>
+        <Snackbar visible={isSnackBarVisible} message="Call reminder created!" onRequestClose={() => this.setState({ isSnackBarVisible: false })} />
         <Nav activeKey="customers" />
       </Container>
     )

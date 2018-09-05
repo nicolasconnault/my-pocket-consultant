@@ -6,13 +6,15 @@ import {
   StatusBar,
   TouchableHighlight,
 } from 'react-native'
+import { Button } from 'react-native-material-ui'
+import Moment from 'moment'
 import { TextField } from 'react-native-material-textfield'
 import { MaterialDialog } from 'react-native-material-dialog'
 import DateTimePicker from 'react-native-modal-datetime-picker'
 
+import { DATETIME_FORMAT } from '../../../../config'
 import { createCallReminder } from '../../../../actions'
 import { IdPropType } from '../../../../proptypes'
-import MyIcon from '../../../../components'
 
 class CallReminderMenu extends React.PureComponent {
   menu = null
@@ -23,7 +25,7 @@ class CallReminderMenu extends React.PureComponent {
       modalVisible: false,
       isDateTimePickerVisible: false,
       title: null,
-      callDate: '',
+      callDate: Moment(),
       errors: [],
       errorMessage: null,
     }
@@ -39,22 +41,23 @@ class CallReminderMenu extends React.PureComponent {
   hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false })
 
   handleDatePicked = (date) => {
-    console.log('A date has been picked: ', date)
-    this.setState({ callDate: date })
+    this.setState({ callDate: Moment(date) })
     this.hideDateTimePicker()
   }
 
   createCallReminderCallBack = () => {
     const {
-      topNavigation,
       dispatch,
       customerId,
       subscriptionId,
+      callReminderSuccessCallback,
     } = this.props
     const { title, callDate } = this.state
     this.setModalVisible(false)
+    this.setState({ callDate: Moment(), title: '' })
+
     dispatch(createCallReminder(customerId, subscriptionId, title, callDate)).then(() => {
-      // TODO Display success message
+      callReminderSuccessCallback()
     })
   }
 
@@ -81,18 +84,16 @@ class CallReminderMenu extends React.PureComponent {
             { errorMessage }
             <TextField
               onChangeText={val => this.setState({ title: val })}
-              label="Title"
-              keyboardType="email-address"
-              baseColor="#000000"
+              label="Reason"
+              baseColor="#555555"
               textColor="#000000"
               tintColor="#FFFFFF"
               defaultValue={title}
             />
-            <Text
+            <Button
               onPress={this.showDateTimePicker}
-            >
-              Date
-            </Text>
+              text={Moment(callDate).format(DATETIME_FORMAT)}
+            />
             <DateTimePicker
               isVisible={isDateTimePickerVisible}
               onConfirm={this.handleDatePicked}
@@ -125,4 +126,4 @@ CallReminderMenu.defaultProps = {
   subscriptionId: null,
 }
 
-export default CallReminderMenu
+export default connect()(CallReminderMenu)
