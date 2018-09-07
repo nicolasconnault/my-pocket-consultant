@@ -29,7 +29,7 @@ class Nav extends React.Component {
            key="news"
            icon="announcement"
            label={(deviceSize !== 'small') ? 'News' : null}
-           onPress={() => this.onPressAction('news', 'News')}
+           onPress={() => this.onPressAction('news', 'ManageNews')}
          />
          <BottomNavigation.Action
            key="subscriptions"

@@ -1,18 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  StatusBar, View,
+  StatusBar,
+  View,
+  FlatList,
+  Image,
+  Text,
 } from 'react-native'
-import { Toolbar } from 'react-native-material-ui'
-import { createMaterialTopTabNavigator } from 'react-navigation'
+import { Toolbar, ListItem } from 'react-native-material-ui'
 
+import { STORAGE_URL } from '../../../../config'
 import { MyIcon, Container } from '../../../../components'
 import { SubscriptionListPropType } from '../../../../proptypes'
 import Nav from '../../ConsultantNav'
 import styles from '../../../styles'
-import SubscriptionNewsTab from './Tab'
 
-class SubscriptionNews extends React.Component {
+class ConsultantNews extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: `${navigation.getParam('selectedSubscription')} News`,
     drawerLabel: 'News',
@@ -20,40 +23,40 @@ class SubscriptionNews extends React.Component {
   })
 
   render() {
-    const screens = {}
-    const { subscriptions, navigation } = this.props
-
-    const selectedSubscription = navigation.getParam('subscription')
-
-    subscriptions.forEach((subscription) => {
-      // For each company's category, create a new tab screen with that category's companies
-      screens[subscription.companyName] = {
-        screen: () => (
-          <SubscriptionNewsTab subscription={subscription} topNavigation={navigation} />
-        ),
-      }
-    })
-    const TabNavigation = createMaterialTopTabNavigator(screens, {
-      initialRouteName: selectedSubscription.companyName,
-      headerMode: 'none',
-      tabBarOptions: styles.tabBarOptions,
-    })
-
+    const { navigation, subscriptions } = this.props
+    const { listMenuStyle, headingStyle } = styles
     return (
       <Container>
         <StatusBar hidden />
         <Toolbar
-          leftElement="arrow-back"
-          onLeftElementPress={() => navigation.goBack()}
-          centerElement="Subscription Menu"
+          leftElement="menu"
+          onLeftElementPress={() => navigation.toggleDrawer()}
+          centerElement="News"
         />
         <View style={{ flex: 1 }}>
-          { subscriptions.length > 1 && (
-            <TabNavigation />
-          )}
-          { subscriptions.length === 1 && (
-            <SubscriptionNewsTab subscription={selectedSubscription} />
-          )}
+          <Text style={headingStyle}>
+            Select a company
+          </Text>
+          <FlatList
+            style={listMenuStyle}
+            data={subscriptions}
+            keyExtractor={item => `${item.id}`}
+            renderItem={({ item }) => (
+              <ListItem
+                divider
+                ref={React.createRef()}
+                leftElement={(
+                  <Image
+                    style={{ width: 36, height: 36 }}
+                    source={{ uri: `${STORAGE_URL}images/companies/${item.companyName}_logo.png` }}
+                  />)
+                }
+                onLeftElementPress={() => navigation.navigate('CompanyMenu', { company: item })}
+                centerElement={{ primaryText: item.companyLabel }}
+                onPress={() => navigation.navigate('SubscriptionNews', { subscription: item })}
+              />
+            )}
+          />
         </View>
         <Nav activeKey="subscriptions" />
       </Container>
@@ -61,15 +64,15 @@ class SubscriptionNews extends React.Component {
   }
 }
 
-SubscriptionNews.propTypes = {
+ConsultantNews.propTypes = {
   subscriptions: SubscriptionListPropType,
 }
 
-SubscriptionNews.defaultProps = {
+ConsultantNews.defaultProps = {
   subscriptions: [],
 }
 const mapStateToProps = state => ({
   subscriptions: state.subscriptions,
 })
 
-export default connect(mapStateToProps)(SubscriptionNews)
+export default connect(mapStateToProps)(ConsultantNews)

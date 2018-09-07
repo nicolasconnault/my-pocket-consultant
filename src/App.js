@@ -160,6 +160,7 @@ class Main extends React.Component {
       NewCustomerNote: { screen: consultantScreens.NewNote },
       EditCustomerNote: { screen: consultantScreens.EditNote },
       ManageNews: { screen: consultantScreens.ManageNews },
+      SubscriptionNews: { screen: consultantScreens.SubscriptionNews },
       ManageTutorials: { screen: consultantScreens.ManageTutorials },
     }, {
       initialRouteName: 'Drawer',

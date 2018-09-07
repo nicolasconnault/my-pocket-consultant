@@ -8,7 +8,7 @@ import { Container } from '../../../../../components'
 import Nav from '../../../ConsultantNav'
 import styles from '../../../../styles'
 
-export default class Notifications extends React.Component {
+export default class EditNewsItem extends React.Component {
   state = { menuVisible: false };
 
   static navigationOptions = {

@@ -10,6 +10,7 @@ import SubscriptionMenu from './Subscriptions/SubscriptionMenu'
 import ConsultantSettings from './Settings'
 import Terms from './Terms'
 import ManageNews from './Subscriptions/News'
+import SubscriptionNews from './Subscriptions/News/SubscriptionNews'
 import ManageTutorials from './Subscriptions/Tutorials'
 import ConsultantHelp from './Help'
 
@@ -26,6 +27,7 @@ export {
   ConsultantSettings,
   Terms,
   ManageNews,
+  SubscriptionNews,
   ManageTutorials,
   ConsultantHelp,
 }
