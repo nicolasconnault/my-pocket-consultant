@@ -1,6 +1,8 @@
 import Customers from './Customers'
 import Customer from './Customers/Customer'
 import CustomerNotes from './Customers/Notes'
+import NewNote from './Customers/NewNote'
+import EditNote from './Customers/EditNote'
 import TodoList from './TodoList'
 import Subscriptions from './Subscriptions'
 import NewSubscription from './Subscriptions/New'
@@ -15,6 +17,8 @@ export {
   Customer,
   Customers,
   CustomerNotes,
+  EditNote,
+  NewNote,
   TodoList,
   Subscriptions,
   NewSubscription,

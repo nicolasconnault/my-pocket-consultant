@@ -5,46 +5,59 @@ import {
 } from 'react-native'
 import { Toolbar, Button } from 'react-native-material-ui'
 import { TextField } from 'react-native-material-textfield'
+import { withNavigation } from 'react-navigation'
 
-import { createCustomerNote } from '../../../../actions'
+import { updateCustomerNote } from '../../../../actions'
 import { Container } from '../../../../components'
 import Nav from '../../ConsultantNav'
 import styles from '../../../styles'
 
-class NewNote extends React.Component {
+class EditNote extends React.Component {
   static navigationOptions = {
-    title: 'New Note',
+    title: 'Edit Note',
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      title: null,
-      note: null,
-      errors: [],
+      noteId: null,
+      noteTitle: null,
+      noteBody: null,
       errorMessage: null,
     }
     this.inputs = {}
   }
 
-  createNoteCallBack = () => {
+  componentWillMount = () => {
+    const {
+      navigation,
+    } = this.props
+    const note = navigation.getParam('note')
+    this.setState({ noteId: note.id, noteTitle: note.title, noteBody: note.note })
+    if (note.title === null) {
+      this.setState({ noteTitle: '' })
+    }
+    if (note.note === null) {
+      this.setState({ noteBody: '' })
+    }
+  }
+
+  updateNoteCallBack = () => {
     const {
       dispatch,
       navigation,
     } = this.props
-    const customer = navigation.getParam('customer')
-    const subscriptionId = navigation.getParam('subscriptionId')
-    const { title, note } = this.state
+    const { noteId, noteTitle, noteBody } = this.state
 
-    dispatch(createCustomerNote(customer.id, subscriptionId, title, note)).then(() => {
-      navigation.navigate('Customer', { subscriptionId, customer, successMessage: 'New customer note created' })
+    dispatch(updateCustomerNote(noteId, noteTitle, noteBody)).then(() => {
+      navigation.goBack()
     })
   }
 
   render() {
     const { navigation } = this.props
     const customer = navigation.getParam('customer')
-    const { title, note, errorMessage } = this.state
+    const { noteTitle, noteBody, errorMessage } = this.state
     const { headingStyle } = styles
     return (
       <Container>
@@ -52,7 +65,7 @@ class NewNote extends React.Component {
         <Toolbar
           leftElement="arrow-back"
           onLeftElementPress={() => navigation.goBack()}
-          centerElement="New Note"
+          centerElement="Edit Customer Note"
         />
         <View style={{ flex: 1 }}>
           <Text style={headingStyle}>
@@ -60,25 +73,25 @@ class NewNote extends React.Component {
           </Text>
           { errorMessage }
           <TextField
-            onChangeText={val => this.setState({ title: val })}
+            onChangeText={val => this.setState({ noteTitle: val })}
             label="Title"
             baseColor="#555555"
             textColor="#000000"
             tintColor="#FFFFFF"
-            defaultValue={title}
+            value={noteTitle}
           />
           <TextField
             multiline
-            onChangeText={val => this.setState({ note: val })}
+            onChangeText={val => this.setState({ noteBody: val })}
             label="Note"
             baseColor="#555555"
             textColor="#000000"
             tintColor="#FFFFFF"
-            defaultValue={note}
+            value={noteBody}
           />
           <Button
-            onPress={this.createNoteCallBack}
-            text="Save Note"
+            onPress={this.updateNoteCallBack}
+            text="Update Note"
           />
         </View>
         <Nav activeKey="customers" />
@@ -87,4 +100,4 @@ class NewNote extends React.Component {
   }
 }
 
-export default connect()(NewNote)
+export default withNavigation(connect()(EditNote))

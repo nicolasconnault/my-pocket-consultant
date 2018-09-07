@@ -19,6 +19,11 @@ import {
   toggleCustomerHost,
 } from './consultantActions'
 import {
+  createCustomerNote,
+  updateCustomerNote,
+  removeCustomerNote,
+} from './customerNoteActions'
+import {
   createCallReminder,
   receiveCallReminders,
   fetchCallReminders,
@@ -35,6 +40,7 @@ import {
 export {
   changeAppMode,
   createCallReminder,
+  createCustomerNote,
   fetchCallReminders,
   fetchCompaniesByCategory,
   fetchConsultants,
@@ -50,10 +56,12 @@ export {
   receiveCustomerCompanies,
   receiveSubscribedCompanies,
   removeNotification,
+  removeCustomerNote,
   selectConsultant,
   setDeviceSize,
   toggleCompany,
   toggleNewsType,
   toggleCustomerRecruit,
   toggleCustomerHost,
+  updateCustomerNote,
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   Text,
   StatusBar,
@@ -18,11 +19,12 @@ import {
 
 import { toggleCustomerRecruit, toggleCustomerHost } from '../../../../actions'
 import { Container, MyIcon } from '../../../../components'
+import { SubscriptionListPropType } from '../../../../proptypes'
 import CallReminderMenu from './CallReminderMenu'
 import Nav from '../../ConsultantNav'
 import styles from '../../../styles'
 
-export default class Customer extends React.Component {
+class Customer extends React.Component {
   static navigationOptions = {
     title: 'Customer',
     drawerLabel: 'Customer',
@@ -56,10 +58,21 @@ export default class Customer extends React.Component {
 
   render() {
     const { headingStyle, switchStyle } = styles
-    const { navigation } = this.props
+    const { navigation, subscriptions } = this.props
     const { isSnackBarVisible } = this.state
-    const customer = navigation.getParam('customer')
+    const customerId = navigation.getParam('customer').id
     const subscriptionId = navigation.getParam('subscriptionId')
+    let customer = null
+    subscriptions.forEach((subscription) => {
+      if (subscription.id === subscriptionId) {
+        subscription.customers.forEach((c) => {
+          if (c.id === customerId) {
+            customer = c
+          }
+        })
+      }
+    })
+    const notes = customer.notes
 
     const menuItems = [
       {
@@ -113,13 +126,13 @@ export default class Customer extends React.Component {
       },
       {
         key: 'item5',
-        text: `Notes (${customer.notes.length})`,
-        onPress: () => { navigation.navigate('CustomerNotes', { customer, notes: customer.notes }) },
+        text: `Notes (${notes.length})`,
+        onPress: () => { navigation.navigate('CustomerNotes', { customerId: customer.id, subscriptionId }) },
         rightElement: (
           <MyIcon
             iconKey="note"
             appMode="consultant"
-            onPress={() => { navigation.navigate('CustomerNotes', { customer, notes: customer.notes }) }}
+            onPress={() => { navigation.navigate('CustomerNotes', { customerId: customer.id, subscriptionId }) }}
           />
         ),
       },
@@ -176,3 +189,16 @@ export default class Customer extends React.Component {
     )
   }
 }
+Customer.propTypes = {
+  subscriptions: SubscriptionListPropType,
+}
+
+Customer.defaultProps = {
+  subscriptions: [],
+}
+
+const mapStateToProps = state => ({
+  subscriptions: state.subscriptions,
+})
+
+export default connect(mapStateToProps)(Customer)
