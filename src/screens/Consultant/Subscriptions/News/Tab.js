@@ -35,7 +35,7 @@ class NewsTypeTab extends React.Component {
                 secondaryText: `${Moment(item.startDate).format(DATE_FORMAT)} - ${Moment(item.endDate).format(DATE_FORMAT)}`,
               }}
               rightElement={(
-                <NewsItemMenu newsItem={item} />
+                <NewsItemMenu newsItem={item} topNavigation={topNavigation} />
               )}
               onPress={() => topNavigation.navigate('SubscriptionNewsItem', { newsType: item.id, subscription })}
             />

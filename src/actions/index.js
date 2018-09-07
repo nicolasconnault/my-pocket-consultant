@@ -2,7 +2,12 @@ import { fetchUser } from './authActions'
 import changeAppMode from './appModeActions'
 import setDeviceSize from './deviceActions'
 import fetchTutorials from './tutorialActions'
-import { fetchNewsItems } from './newsItemActions'
+import {
+  fetchNewsItems,
+  updateNewsItem,
+  removeNewsItem,
+  toggleNewsItem,
+} from './newsItemActions'
 import {
   receiveCustomerCompanies,
   receiveSubscribedCompanies,
@@ -64,4 +69,7 @@ export {
   toggleCustomerRecruit,
   toggleCustomerHost,
   updateCustomerNote,
+  updateNewsItem,
+  removeNewsItem,
+  toggleNewsItem,
 }

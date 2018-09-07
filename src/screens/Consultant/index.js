@@ -10,15 +10,19 @@ import SubscriptionMenu from './Subscriptions/SubscriptionMenu'
 import ConsultantSettings from './Settings'
 import Terms from './Terms'
 import ManageNews from './Subscriptions/News'
+import EditNewsItem from './Subscriptions/News/Edit'
+import CreateNewsItem from './Subscriptions/News/New'
 import SubscriptionNews from './Subscriptions/News/SubscriptionNews'
 import ManageTutorials from './Subscriptions/Tutorials'
 import ConsultantHelp from './Help'
 
 export {
+  CreateNewsItem,
   Customer,
   Customers,
   CustomerNotes,
   EditNote,
+  EditNewsItem,
   NewNote,
   TodoList,
   Subscriptions,
