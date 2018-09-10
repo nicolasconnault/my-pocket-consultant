@@ -166,6 +166,59 @@ function buildStyle() {
       transform: (Platform.OS === 'ios') ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [], // Reduce size of iOS switches slightly
       alignSelf: 'flex-end',
     },
+    formStyle: {
+      formContainer: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: '#FFFFFF',
+      },
+      doubleInputContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+      },
+      doubleInputField: {
+        flex: 0.5,
+      },
+      label: {
+        color: '#000000',
+        opacity: 0.38,
+      },
+    },
+    fileUploadStyle: {
+      maybeRenderUploading: {
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        justifyContent: 'center',
+      },
+      maybeRenderContainer: {
+        borderRadius: 3,
+        elevation: 2,
+        marginTop: 30,
+        shadowColor: 'rgba(0,0,0,1)',
+        shadowOpacity: 0.2,
+        shadowOffset: {
+          height: 4,
+          width: 4,
+        },
+        shadowRadius: 5,
+        width: 250,
+      },
+      maybeRenderImageContainer: {
+        borderTopLeftRadius: 3,
+        borderTopRightRadius: 3,
+        overflow: 'hidden',
+      },
+      maybeRenderImage: {
+        height: 250,
+        width: 250,
+      },
+      maybeRenderImageText: {
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+      },
+    },
   }
 }
 

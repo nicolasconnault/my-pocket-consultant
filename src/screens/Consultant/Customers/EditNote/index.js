@@ -11,6 +11,11 @@ import { updateCustomerNote } from '../../../../actions'
 import { Container } from '../../../../components'
 import Nav from '../../ConsultantNav'
 import styles from '../../../styles'
+import {
+  INPUT_BASE_COLOR,
+  INPUT_TEXT_COLOR,
+  INPUT_TINT_COLOR,
+} from '../../../../config'
 
 class EditNote extends React.Component {
   static navigationOptions = {
@@ -75,18 +80,18 @@ class EditNote extends React.Component {
           <TextField
             onChangeText={val => this.setState({ noteTitle: val })}
             label="Title"
-            baseColor="#555555"
-            textColor="#000000"
-            tintColor="#FFFFFF"
+            baseColor={INPUT_BASE_COLOR}
+            textColor={INPUT_TEXT_COLOR}
+            tintColor={INPUT_TINT_COLOR}
             value={noteTitle}
           />
           <TextField
             multiline
             onChangeText={val => this.setState({ noteBody: val })}
             label="Note"
-            baseColor="#555555"
-            textColor="#000000"
-            tintColor="#FFFFFF"
+            baseColor={INPUT_BASE_COLOR}
+            textColor={INPUT_TEXT_COLOR}
+            tintColor={INPUT_TINT_COLOR}
             value={noteBody}
           />
           <Button
