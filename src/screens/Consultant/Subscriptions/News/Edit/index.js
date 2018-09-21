@@ -6,9 +6,7 @@ import {
   View,
   ScrollView,
   ActivityIndicator,
-  Clipboard,
   Image,
-  Share,
   AsyncStorage,
   StyleSheet,
 } from 'react-native'
@@ -33,9 +31,9 @@ import { Container } from '../../../../../components'
 import Nav from '../../../ConsultantNav'
 import styles from '../../../../styles'
 
-async function uploadImageAsync(uri) {
+async function uploadImageAsync(uri, newsItemId) {
   const token = await AsyncStorage.getItem(ACCESS_TOKEN)
-  const apiUrl = `${API_URL}consultant/upload_image.json`
+  const apiUrl = `${API_URL}consultant/upload_image/${newsItemId}.json`
 
   const uriParts = uri.split('.')
   const fileType = uriParts[uriParts.length - 1]
@@ -101,7 +99,7 @@ class EditNewsItem extends React.Component {
       url: newsItem.url,
       regularPrice: newsItem.regular_price,
       discountedPrice: newsItem.discountedPrice,
-      image: null,
+      image: newsItem.imageUrl,
     })
 
     if (newsItem.title === null) {
@@ -115,6 +113,9 @@ class EditNewsItem extends React.Component {
     }
     if (newsItem.discountedPrice === null) {
       this.setState({ discountedPrice: '' })
+    }
+    if (newsItem.image === null) {
+      this.setState({ image: false })
     }
   }
 
@@ -194,31 +195,8 @@ class EditNewsItem extends React.Component {
         <View style={styles.fileUploadStyle.maybeRenderImageContainer}>
           <Image source={{ uri: image }} style={styles.fileUploadStyle.maybeRenderImage} />
         </View>
-
-        <Text
-          onPress={this.copyToClipboard}
-          onLongPress={this.share}
-          style={styles.fileUploadStyle.maybeRenderImageText}
-        >
-          {image}
-        </Text>
       </View>
     )
-  }
-
-  share = () => {
-    const { image } = this.state
-    Share.share({
-      message: image,
-      title: 'Check out this photo',
-      url: image,
-    })
-  }
-
-  copyToClipboard = () => {
-    const { image } = this.state
-    Clipboard.setString(image)
-    alert('Copied image URL to clipboard')
   }
 
   pickImage = async () => {
@@ -238,18 +216,19 @@ class EditNewsItem extends React.Component {
   handleImagePicked = async (pickerResult) => {
     let uploadResponse
     let uploadResult
-
+    const { navigation } = this.props
+    const newsItem = navigation.getParam('newsItem')
     try {
       this.setState({
         uploading: true
       })
 
       if (!pickerResult.cancelled) {
-        uploadResponse = await uploadImageAsync(pickerResult.uri)
+        uploadResponse = await uploadImageAsync(pickerResult.uri, newsItem.id)
         uploadResult = await uploadResponse.json()
 
         this.setState({
-          image: uploadResult.location
+          image: `${API_URL}${uploadResult.results.location}`,
         })
       }
     } catch (e) {

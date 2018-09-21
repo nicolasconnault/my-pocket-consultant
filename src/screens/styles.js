@@ -203,7 +203,7 @@ function buildStyle() {
           width: 4,
         },
         shadowRadius: 5,
-        width: 250,
+        width: 300,
       },
       maybeRenderImageContainer: {
         borderTopLeftRadius: 3,
@@ -211,8 +211,8 @@ function buildStyle() {
         overflow: 'hidden',
       },
       maybeRenderImage: {
-        height: 250,
-        width: 250,
+        height: 225,
+        width: 300,
       },
       maybeRenderImageText: {
         paddingHorizontal: 10,

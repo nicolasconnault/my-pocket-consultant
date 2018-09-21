@@ -8,7 +8,7 @@ import {
   Text,
 } from 'react-native'
 
-import { STORAGE_URL } from '../../config'
+import { API_URL, STORAGE_URL } from '../../config'
 import { } from '../../proptypes'
 
 const styles = StyleSheet.create({
@@ -64,6 +64,7 @@ class NewsItemCard extends Component {
       url,
       regularPrice,
       discountedPrice,
+      imageUrl,
     } = newsItem
 
     return (
@@ -72,7 +73,7 @@ class NewsItemCard extends Component {
       >
         <View style={itemContainer}>
           <Image
-            source={{ uri: `${STORAGE_URL}images/news/${company.name}/${id}.jpg` }}
+            source={{ uri: imageUrl }}
             style={{ width: '100%', height: '100%' }}
           />
           <Text style={{ textAlign: 'center' }}>{title}</Text>
