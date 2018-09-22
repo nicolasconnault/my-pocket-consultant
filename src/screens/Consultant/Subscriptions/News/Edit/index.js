@@ -228,7 +228,7 @@ class EditNewsItem extends React.Component {
         uploadResult = await uploadResponse.json()
 
         this.setState({
-          image: `${API_URL}${uploadResult.results.location}`,
+          image: uploadResult.results.location,
         })
       }
     } catch (e) {
