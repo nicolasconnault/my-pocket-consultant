@@ -8,7 +8,6 @@ import {
   Text,
 } from 'react-native'
 
-import { API_URL, STORAGE_URL } from '../../config'
 import { } from '../../proptypes'
 
 const styles = StyleSheet.create({

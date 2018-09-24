@@ -69,7 +69,7 @@ class NewsItem extends React.Component {
             <Transition shared="newsItemCard">
               <Image
                 style={(orientation === 'portrait') ? cardImagePortraitStyle : cardImageLandscapeStyle}
-                source={{ uri: `${STORAGE_URL}images/news/${company.name}/${newsItem.id}.jpg` }}
+                source={{ uri: newsItem.imageUrl }}
               />
             </Transition>
             <Transition appear="flip">

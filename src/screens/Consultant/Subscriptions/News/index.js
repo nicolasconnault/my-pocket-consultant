@@ -7,6 +7,7 @@ import {
   Image,
   Text,
 } from 'react-native'
+import { withNavigation } from 'react-navigation'
 import { Toolbar, ListItem } from 'react-native-material-ui'
 
 import { STORAGE_URL } from '../../../../config'
@@ -58,7 +59,7 @@ class ConsultantNews extends React.Component {
             )}
           />
         </View>
-        <Nav activeKey="subscriptions" />
+        <Nav activeKey="news" />
       </Container>
     )
   }
@@ -75,4 +76,4 @@ const mapStateToProps = state => ({
   subscriptions: state.subscriptions,
 })
 
-export default connect(mapStateToProps)(ConsultantNews)
+export default withNavigation(connect(mapStateToProps)(ConsultantNews))
