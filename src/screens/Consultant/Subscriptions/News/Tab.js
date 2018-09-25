@@ -13,8 +13,14 @@ import NewsItemMenu from './NewsItemMenu'
 
 class NewsTypeTab extends React.Component {
   render() {
-    const { topNavigation, subscription, newsType } = this.props
+    const {
+      topNavigation,
+      subscription,
+      newsType,
+      saveCallback,
+    } = this.props
     const { listMenuStyle } = styles
+
     const newsItems = []
     subscription.newsItems.forEach((newsItem) => {
       if (newsItem.newsType.id === newsType.id) {
@@ -37,7 +43,11 @@ class NewsTypeTab extends React.Component {
               rightElement={(
                 <NewsItemMenu newsItem={item} topNavigation={topNavigation} />
               )}
-              onPress={() => topNavigation.navigate('SubscriptionNewsItem', { newsType: item.id, subscription })}
+              onPress={() => topNavigation.navigate('EditNewsItem', {
+                newsItem: item,
+                subscription,
+                saveCallback,
+              })}
             />
           )}
         />

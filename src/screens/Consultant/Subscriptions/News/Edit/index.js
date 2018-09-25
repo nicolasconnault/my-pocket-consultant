@@ -9,10 +9,15 @@ import {
   Image,
   AsyncStorage,
   StyleSheet,
+  Switch,
 } from 'react-native'
-import { Toolbar, Button } from 'react-native-material-ui'
+import {
+  Toolbar,
+  Button,
+  COLOR,
+} from 'react-native-material-ui'
 import { TextField } from 'react-native-material-textfield'
-import { withNavigation } from 'react-navigation'
+import { withNavigation, NavigationActions } from 'react-navigation'
 import Moment from 'moment'
 import DateTimePicker from 'react-native-modal-datetime-picker'
 import {
@@ -73,8 +78,8 @@ class EditNewsItem extends React.Component {
       endDate: Moment(),
       active: true,
       url: null,
-      regular_price: null,
-      discounted_price: null,
+      regularPrice: null,
+      discountedPrice: null,
       errorMessage: null,
       isStartDatePickerVisible: false,
       isEndDatePickerVisible: false,
@@ -97,7 +102,7 @@ class EditNewsItem extends React.Component {
       endDate: Moment(newsItem.endDate),
       active: newsItem.active,
       url: newsItem.url,
-      regularPrice: newsItem.regular_price,
+      regularPrice: newsItem.regularPrice,
       discountedPrice: newsItem.discountedPrice,
       image: newsItem.imageUrl,
     })
@@ -156,6 +161,7 @@ class EditNewsItem extends React.Component {
       discountedPrice,
     } = this.state
 
+    const saveCallback = navigation.getParam('saveCallback')
     dispatch(updateNewsItem(
       id,
       title,
@@ -167,6 +173,7 @@ class EditNewsItem extends React.Component {
       discountedPrice,
       regularPrice,
     )).then(() => {
+      saveCallback()
       navigation.goBack()
     })
   }
@@ -260,7 +267,7 @@ class EditNewsItem extends React.Component {
       isStartDatePickerVisible,
       isEndDatePickerVisible,
     } = this.state
-    const { formStyle } = styles
+    const { formStyle, switchStyle } = styles
     return (
       <Container>
         <StatusBar hidden />
@@ -300,6 +307,17 @@ class EditNewsItem extends React.Component {
               this.inputs['two'] = input
             }}
           />
+          <View>
+            <Text style={formStyle.label}>Active</Text>
+            <Switch
+              onTintColor={COLOR.pink300}
+              thumbTintColor={COLOR.grey300}
+              style={{ ...switchStyle, alignSelf: 'flex-start' }}
+              value={active}
+              onValueChange={val => this.setState({ active: !active })}
+            />
+
+          </View>
           <TextField
             onChangeText={val => this.setState({ url: val })}
             label="URL"
@@ -312,6 +330,14 @@ class EditNewsItem extends React.Component {
               this.inputs['three'] = input
             }}
           />
+          <Button
+            onPress={this.pickImage}
+            text="Pick an image from camera roll"
+          />
+
+          {this.maybeRenderImage()}
+          {this.maybeRenderUploadingOverlay()}
+
           <View style={formStyle.doubleInputContainer}>
             <View style={formStyle.doubleInputField}>
               <TextField
@@ -358,7 +384,7 @@ class EditNewsItem extends React.Component {
                 label="Regular Price"
                 onChangeText={val => this.setState({ regularPrice: val })}
                 labelTextStyle={formStyle.label}
-                value={regularPrice}
+                value={String(regularPrice)}
                 tintColor={CONSULTANT_MODE_COLOR}
                 keyboardType="numeric"
                 prefix="$"
@@ -373,7 +399,7 @@ class EditNewsItem extends React.Component {
                 label="Discounted Price"
                 onChangeText={val => this.setState({ discountedPrice: val })}
                 labelTextStyle={formStyle.label}
-                value={discountedPrice}
+                value={String(discountedPrice)}
                 tintColor={CONSULTANT_MODE_COLOR}
                 keyboardType="numeric"
                 prefix="$"
@@ -384,21 +410,14 @@ class EditNewsItem extends React.Component {
               />
             </View>
           </View>
-          <Button
-            onPress={this.pickImage}
-            text="Pick an image from camera roll"
-          />
-
-          {this.maybeRenderImage()}
-          {this.maybeRenderUploadingOverlay()}
 
           <Button
-            onPress={this.updateNoteCallBack}
-            text="Update Note"
+            onPress={this.updateNewsItemCallBack}
+            text="Save Changes"
             style={{ container: { marginBottom: 40 } }}
           />
         </ScrollView>
-        <Nav activeKey="customers" />
+        <Nav activeKey="news" />
       </Container>
     )
   }

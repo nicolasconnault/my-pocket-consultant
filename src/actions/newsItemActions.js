@@ -2,6 +2,7 @@ import { AsyncStorage } from 'react-native'
 import { API_URL, ACCESS_TOKEN } from '../config'
 import { RECEIVE_NEWS_ITEMS } from './constants'
 import { fetchNewsTypes } from './newsTypesActions'
+import { fetchSubscribedCompanies } from './companyActions'
 
 /**
  * FETCH
@@ -103,6 +104,7 @@ export const createNewsItem = (
     )
       .then(() => {
         dispatch(fetchNewsTypes(token))
+        dispatch(fetchSubscribedCompanies(token))
       })
   } catch (e) {
     // then display the error
@@ -127,6 +129,7 @@ function sendRemoveNewsItem(newsItemId, dispatch, token) {
   })
     .then(() => {
       dispatch(fetchNewsTypes(token))
+      dispatch(fetchSubscribedCompanies(token))
     })
 }
 
@@ -172,6 +175,7 @@ function sendUpdateNewsItem(
   })
     .then(() => {
       dispatch(fetchNewsTypes(token))
+      dispatch(fetchSubscribedCompanies(token))
     })
 }
 
@@ -220,6 +224,7 @@ function sendToggleNewsItem(newsItemId, oldValue, dispatch, token) {
   })
     .then(() => {
       dispatch(fetchNewsTypes(token))
+      dispatch(fetchSubscribedCompanies(token))
     })
 }
 

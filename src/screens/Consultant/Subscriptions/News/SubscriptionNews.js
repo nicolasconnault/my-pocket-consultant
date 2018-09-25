@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {
   StatusBar, View,
 } from 'react-native'
-import { Toolbar } from 'react-native-material-ui'
+import { Toolbar, Snackbar } from 'react-native-material-ui'
 import { createMaterialTopTabNavigator } from 'react-navigation'
 
 import { MyIcon, Container } from '../../../../components'
@@ -19,9 +19,31 @@ class SubscriptionNews extends React.Component {
     drawerIcon: <MyIcon iconKey="news" appMode="consultant" />,
   })
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      isSnackBarVisible: false,
+      snackBarMessage: '',
+    }
+    this.newsItemSaveSuccessCallback = this.newsItemSaveSuccessCallback.bind(this)
+    this.newsItemCreateSuccessCallback = this.newsItemCreateSuccessCallback.bind(this)
+  }
+
+  newsItemSaveSuccessCallback() {
+    this.setState({ isSnackBarVisible: true, snackBarMessage: 'News Item Saved!' })
+  }
+
+  newsItemCreateSuccessCallback() {
+    this.setState({ isSnackBarVisible: true, snackBarMessage: 'News Item Created!' })
+  }
+
   render() {
     const screens = {}
     const { newsTypes, navigation } = this.props
+    const {
+      isSnackBarVisible,
+      snackBarMessage,
+    } = this.state
 
     const subscription = navigation.getParam('subscription')
     let selectedNewsType = navigation.getParam('newsType')
@@ -37,6 +59,7 @@ class SubscriptionNews extends React.Component {
             subscription={subscription}
             newsType={newsType}
             topNavigation={navigation}
+            saveCallback={this.newsItemSaveSuccessCallback}
           />
         ),
       }
@@ -65,9 +88,16 @@ class SubscriptionNews extends React.Component {
               subscription={subscription}
               newsType={selectedNewsType}
               topNavigation={navigation}
+              saveCallback={this.newsItemSaveSuccessCallback}
             />
           )}
         </View>
+        <Snackbar
+          style={{ container: styles.snackBar.container, content: styles.snackBar.message }}
+          visible={isSnackBarVisible}
+          message={snackBarMessage}
+          onRequestClose={() => this.setState({ isSnackBarVisible: false })}
+        />
         <Nav activeKey="news" />
       </Container>
     )

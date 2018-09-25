@@ -182,8 +182,23 @@ function buildStyle() {
         flex: 0.5,
       },
       label: {
-        color: '#000000',
-        opacity: 0.38,
+        color: 'rgba(0,0,0,0.38)',
+        opacity: 1,
+        fontSize: 12,
+      },
+    },
+    snackBar: {
+      container: {
+        backgroundColor: 'rgba(0,0,0,0.87)',
+        elevation: 6,
+        opacity: 0.87,
+        paddingLeft: 5,
+        paddingRight: 5,
+        borderRadius: 4,
+      },
+      message: {
+        color: 'rgba(0,0,0,0.87)',
+        fontSize: 14,
       },
     },
     fileUploadStyle: {

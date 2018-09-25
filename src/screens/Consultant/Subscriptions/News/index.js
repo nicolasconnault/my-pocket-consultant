@@ -24,6 +24,7 @@ class ConsultantNews extends React.Component {
 
   render() {
     const { navigation, subscriptions } = this.props
+
     const { listMenuStyle, headingStyle } = styles
     return (
       <Container>
