@@ -4,11 +4,12 @@ import Moment from 'moment'
 import {
   View, FlatList,
 } from 'react-native'
-import { ListItem } from 'react-native-material-ui'
+import { ListItem, ActionButton } from 'react-native-material-ui'
 
 import { SubscriptionPropType, NewsTypePropType } from '../../../../proptypes'
 import styles from '../../../styles'
-import { DATE_FORMAT } from '../../../../config'
+import { MyIcon } from '../../../../components'
+import { DATE_FORMAT, CONSULTANT_MODE_COLOR } from '../../../../config'
 import NewsItemMenu from './NewsItemMenu'
 
 class NewsTypeTab extends React.Component {
@@ -18,6 +19,8 @@ class NewsTypeTab extends React.Component {
       subscription,
       newsType,
       saveCallback,
+      toggleCallback,
+      deleteCallback,
     } = this.props
     const { listMenuStyle } = styles
 
@@ -36,12 +39,19 @@ class NewsTypeTab extends React.Component {
           keyExtractor={item => `${item.id}`}
           renderItem={({ item }) => (
             <ListItem
+              style={{ container: { opacity: (item.active) ? 1 : 0.38 } }}
               centerElement={{
                 primaryText: item.title,
                 secondaryText: `${Moment(item.startDate).format(DATE_FORMAT)} - ${Moment(item.endDate).format(DATE_FORMAT)}`,
               }}
               rightElement={(
-                <NewsItemMenu newsItem={item} topNavigation={topNavigation} />
+                <NewsItemMenu
+                  newsItem={item}
+                  topNavigation={topNavigation}
+                  saveCallback={saveCallback}
+                  toggleCallback={toggleCallback}
+                  deleteCallback={deleteCallback}
+                />
               )}
               onPress={() => topNavigation.navigate('EditNewsItem', {
                 newsItem: item,
@@ -50,6 +60,11 @@ class NewsTypeTab extends React.Component {
               })}
             />
           )}
+        />
+        <ActionButton
+          style={{ container: { backgroundColor: CONSULTANT_MODE_COLOR } }}
+          icon={<MyIcon iconKey="add" color="#FFFFFF" />}
+          onPress={() => topNavigation.navigate('CreateNewsItem', { subscription })}
         />
       </View>
     )

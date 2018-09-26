@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { View } from 'react-native'
-import Menu, { MenuItem } from 'react-native-material-menu'
+import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu'
 
 import { removeNewsItem, toggleNewsItem } from '../../../../actions'
 import { MyIcon } from '../../../../components'
@@ -22,24 +22,31 @@ class NewsItemMenu extends React.Component {
   }
 
   editNewsItem = () => {
-    const { topNavigation, newsItem } = this.props
+    const { topNavigation, newsItem, saveCallback } = this.props
     this.menu.hide()
-    topNavigation.navigate('EditNewsItem', { newsItem })
+    topNavigation.navigate('EditNewsItem', { newsItem, saveCallback })
   }
 
   toggleNewsItem = () => {
-    const { newsItem, dispatch } = this.props
+    const { newsItem, dispatch, toggleCallback } = this.props
     this.menu.hide()
-    dispatch(toggleNewsItem(newsItem.id))
+    dispatch(toggleNewsItem(newsItem.id, newsItem.active)).then(() => {
+      toggleCallback(newsItem.active)
+    })
   }
 
   deleteNewsItem = () => {
-    const { newsItem, dispatch } = this.props
+    const { newsItem, dispatch, deleteCallback } = this.props
     this.menu.hide()
-    dispatch(removeNewsItem(newsItem.id))
+    dispatch(removeNewsItem(newsItem.id)).then(() => {
+      deleteCallback()
+    })
   }
 
   render() {
+    const { newsItem } = this.props
+    const toggleText = (newsItem.active) ? 'Hide from customers' : 'Show to customers'
+
     return (
       <View style={{ width: 50, alignItems: 'flex-end', paddingRight: 10 }}>
         <Menu
@@ -51,8 +58,9 @@ class NewsItemMenu extends React.Component {
             Edit
           </MenuItem>
           <MenuItem onPress={this.toggleNewsItem}>
-            Toggle
+            {toggleText}
           </MenuItem>
+          <MenuDivider />
           <MenuItem onPress={this.deleteNewsItem}>
             Delete
           </MenuItem>

@@ -47,6 +47,15 @@ function buildStyle() {
       },
       scrollEnabled: true,
     },
+    mainButtonStyle: {
+      container: {
+        marginBottom: 40,
+        backgroundColor: CONSULTANT_MODE_SECONDARY_COLOR,
+      },
+      text: {
+        color: '#FFFFFF',
+      },
+    },
     customerTabBarOptions: {
       labelStyle: {
         fontSize: 12,
@@ -191,9 +200,9 @@ function buildStyle() {
       container: {
         backgroundColor: 'rgba(0,0,0,0.87)',
         elevation: 6,
-        opacity: 0.87,
-        paddingLeft: 5,
-        paddingRight: 5,
+        opacity: 0.65,
+        marginLeft: 10,
+        marginRight: 10,
         borderRadius: 4,
       },
       message: {

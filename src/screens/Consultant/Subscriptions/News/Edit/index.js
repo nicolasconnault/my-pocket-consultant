@@ -32,7 +32,7 @@ import {
   ACCESS_TOKEN,
 } from '../../../../../config'
 import { updateNewsItem } from '../../../../../actions'
-import { Container } from '../../../../../components'
+import { Container, Loader } from '../../../../../components'
 import Nav from '../../../ConsultantNav'
 import styles from '../../../../styles'
 
@@ -85,6 +85,7 @@ class EditNewsItem extends React.Component {
       isEndDatePickerVisible: false,
       image: null,
       uploading: false,
+      loading: false,
     }
     this.inputs = {}
   }
@@ -161,6 +162,9 @@ class EditNewsItem extends React.Component {
       discountedPrice,
     } = this.state
 
+    this.setState({
+      loading: true,
+    })
     const saveCallback = navigation.getParam('saveCallback')
     dispatch(updateNewsItem(
       id,
@@ -174,6 +178,9 @@ class EditNewsItem extends React.Component {
       regularPrice,
     )).then(() => {
       saveCallback()
+      this.setState({
+        loading: false,
+      })
       navigation.goBack()
     })
   }
@@ -227,7 +234,7 @@ class EditNewsItem extends React.Component {
     const newsItem = navigation.getParam('newsItem')
     try {
       this.setState({
-        uploading: true
+        loading: true
       })
 
       if (!pickerResult.cancelled) {
@@ -245,7 +252,7 @@ class EditNewsItem extends React.Component {
       alert('Upload failed, sorry :(')
     } finally {
       this.setState({
-        uploading: false
+        loading: false
       })
     }
   }
@@ -266,10 +273,14 @@ class EditNewsItem extends React.Component {
       errorMessage,
       isStartDatePickerVisible,
       isEndDatePickerVisible,
+      loading,
     } = this.state
-    const { formStyle, switchStyle } = styles
+    const { formStyle, switchStyle, mainButtonStyle } = styles
     return (
       <Container>
+        {loading && (
+        <Loader loading={loading} />
+        )}
         <StatusBar hidden />
         <Toolbar
           leftElement="arrow-back"
@@ -414,7 +425,7 @@ class EditNewsItem extends React.Component {
           <Button
             onPress={this.updateNewsItemCallBack}
             text="Save Changes"
-            style={{ container: { marginBottom: 40 } }}
+            style={mainButtonStyle}
           />
         </ScrollView>
         <Nav activeKey="news" />

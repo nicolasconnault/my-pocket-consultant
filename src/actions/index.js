@@ -7,6 +7,7 @@ import {
   updateNewsItem,
   removeNewsItem,
   toggleNewsItem,
+  createNewsItem,
 } from './newsItemActions'
 import {
   receiveCustomerCompanies,
@@ -72,4 +73,5 @@ export {
   updateNewsItem,
   removeNewsItem,
   toggleNewsItem,
+  createNewsItem,
 }

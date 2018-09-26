@@ -25,8 +25,19 @@ class SubscriptionNews extends React.Component {
       isSnackBarVisible: false,
       snackBarMessage: '',
     }
+    this.newsItemToggledSuccessCallback = this.newsItemToggledSuccessCallback.bind(this)
+    this.newsItemDeletedSuccessCallback = this.newsItemDeletedSuccessCallback.bind(this)
     this.newsItemSaveSuccessCallback = this.newsItemSaveSuccessCallback.bind(this)
     this.newsItemCreateSuccessCallback = this.newsItemCreateSuccessCallback.bind(this)
+  }
+
+  newsItemDeletedSuccessCallback() {
+    this.setState({ isSnackBarVisible: true, snackBarMessage: 'News Item Deleted!' })
+  }
+
+  newsItemToggledSuccessCallback(oldValue) {
+    const newStatus = (oldValue) ? 'now hidden from Customers' : 'now visible to Customers'
+    this.setState({ isSnackBarVisible: true, snackBarMessage: `News Item ${newStatus}` })
   }
 
   newsItemSaveSuccessCallback() {
@@ -39,13 +50,21 @@ class SubscriptionNews extends React.Component {
 
   render() {
     const screens = {}
-    const { newsTypes, navigation } = this.props
+    const { newsTypes, subscriptions, navigation } = this.props
     const {
       isSnackBarVisible,
       snackBarMessage,
     } = this.state
 
-    const subscription = navigation.getParam('subscription')
+    // Make sure to re-render this element if the subscriptions are updated in the redux store
+    const selectedSubscription = navigation.getParam('subscription')
+    let subscription = null
+    subscriptions.forEach((item) => {
+      if (item.id === selectedSubscription.id) {
+        subscription = item
+      }
+    })
+
     let selectedNewsType = navigation.getParam('newsType')
 
     newsTypes[subscription.companyLabel].forEach((newsType) => {
@@ -60,6 +79,8 @@ class SubscriptionNews extends React.Component {
             newsType={newsType}
             topNavigation={navigation}
             saveCallback={this.newsItemSaveSuccessCallback}
+            toggleCallback={this.newsItemToggledSuccessCallback}
+            deleteCallback={this.newsItemDeletedSuccessCallback}
           />
         ),
       }
@@ -89,6 +110,8 @@ class SubscriptionNews extends React.Component {
               newsType={selectedNewsType}
               topNavigation={navigation}
               saveCallback={this.newsItemSaveSuccessCallback}
+              toggleCallback={this.newsItemToggledSuccessCallback}
+              deleteCallback={this.newsItemDeletedSuccessCallback}
             />
           )}
         </View>
@@ -113,6 +136,7 @@ SubscriptionNews.defaultProps = {
 }
 const mapStateToProps = state => ({
   newsTypes: state.newsTypes,
+  subscriptions: state.subscriptions,
 })
 
 export default connect(mapStateToProps)(SubscriptionNews)
