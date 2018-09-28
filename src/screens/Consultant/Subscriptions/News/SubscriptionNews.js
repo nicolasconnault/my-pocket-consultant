@@ -81,6 +81,7 @@ class SubscriptionNews extends React.Component {
             saveCallback={this.newsItemSaveSuccessCallback}
             toggleCallback={this.newsItemToggledSuccessCallback}
             deleteCallback={this.newsItemDeletedSuccessCallback}
+            createCallback={this.newsItemCreateSuccessCallback}
           />
         ),
       }
@@ -112,6 +113,7 @@ class SubscriptionNews extends React.Component {
               saveCallback={this.newsItemSaveSuccessCallback}
               toggleCallback={this.newsItemToggledSuccessCallback}
               deleteCallback={this.newsItemDeletedSuccessCallback}
+              createCallback={this.newsItemCreateSuccessCallback}
             />
           )}
         </View>

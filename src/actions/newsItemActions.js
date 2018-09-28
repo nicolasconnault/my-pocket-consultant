@@ -101,6 +101,8 @@ export const createNewsItem = (
       url,
       discountedPrice,
       regularPrice,
+      dispatch,
+      token,
     )
       .then(() => {
         dispatch(fetchNewsTypes(token))

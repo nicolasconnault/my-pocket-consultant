@@ -21,6 +21,7 @@ class NewsTypeTab extends React.Component {
       saveCallback,
       toggleCallback,
       deleteCallback,
+      createCallback,
     } = this.props
     const { listMenuStyle } = styles
 
@@ -64,7 +65,7 @@ class NewsTypeTab extends React.Component {
         <ActionButton
           style={{ container: { backgroundColor: CONSULTANT_MODE_COLOR } }}
           icon={<MyIcon iconKey="add" color="#FFFFFF" />}
-          onPress={() => topNavigation.navigate('CreateNewsItem', { subscription })}
+          onPress={() => topNavigation.navigate('CreateNewsItem', { subscription, newsType, createCallback })}
         />
       </View>
     )

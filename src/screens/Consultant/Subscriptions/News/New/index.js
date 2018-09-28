@@ -74,15 +74,14 @@ class CreateNewsItem extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      newsTypeId: null,
-      title: null,
-      description: null,
+      title: '',
+      description: '',
       startDate: Moment(),
       endDate: Moment(),
       active: true,
-      url: null,
-      regularPrice: null,
-      discountedPrice: null,
+      url: '',
+      regularPrice: '',
+      discountedPrice: '',
       errorMessage: null,
       isStartDatePickerVisible: false,
       isEndDatePickerVisible: false,
@@ -114,10 +113,8 @@ class CreateNewsItem extends React.Component {
     const {
       dispatch,
       navigation,
-      subscription,
     } = this.props
     const {
-      newsTypeId,
       title,
       description,
       startDate,
@@ -132,8 +129,11 @@ class CreateNewsItem extends React.Component {
       loading: true,
     })
     const createCallback = navigation.getParam('createCallback')
+    const newsType = navigation.getParam('newsType')
+    const subscription = navigation.getParam('subscription')
+
     dispatch(createNewsItem(
-      newsTypeId,
+      newsType.id,
       subscription.id,
       title,
       description,
@@ -145,9 +145,7 @@ class CreateNewsItem extends React.Component {
       regularPrice,
     )).then(() => {
       createCallback()
-      this.setState({
-        loading: false,
-      })
+      this.setState({ loading: false })
       navigation.goBack()
     })
   }
@@ -200,9 +198,7 @@ class CreateNewsItem extends React.Component {
     const { navigation } = this.props
     const subscription = navigation.getParam('subscription')
     try {
-      this.setState({
-        loading: true
-      })
+      this.setState({ loading: true })
 
       if (!pickerResult.cancelled) {
         uploadResponse = await uploadImageAsync(pickerResult.uri, subscription.id)
@@ -215,17 +211,15 @@ class CreateNewsItem extends React.Component {
     } catch (e) {
       alert('Upload failed, sorry :(')
     } finally {
-      this.setState({
-        loading: false
-      })
+      this.setState({ loading: false })
     }
   }
 
   render() {
     const { navigation } = this.props
-    const subscription = navigation.getParam('subscription')
+    const newsType = navigation.getParam('newsType')
+
     const {
-      newsTypeId,
       title,
       description,
       startDate,
@@ -249,19 +243,15 @@ class CreateNewsItem extends React.Component {
         <Toolbar
           leftElement="arrow-back"
           onLeftElementPress={() => navigation.goBack()}
-          centerElement="Edit News Item"
+          centerElement="Create News Item"
         />
         <ScrollView style={formStyle.formContainer}>
           { errorMessage }
           <TextField
-            onChangeText={val => this.setState({ newsTypeId: val })}
+            disabled
             label="Category"
             labelTextStyle={formStyle.label}
-            value={newsTypeId}
-            returnKeyType="next"
-            ref={(input) => {
-              this.inputs['one'] = input
-            }}
+            value={newsType.label}
           />
           <TextField
             onChangeText={val => this.setState({ title: val })}
@@ -391,8 +381,8 @@ class CreateNewsItem extends React.Component {
           </View>
 
           <Button
-            onPress={this.updateNewsItemCallBack}
-            text="Save Changes"
+            onPress={this.saveNewsItemCallBack}
+            text="Create News Item"
             style={mainButtonStyle}
           />
         </ScrollView>
@@ -401,5 +391,4 @@ class CreateNewsItem extends React.Component {
     )
   }
 }
-// TODO Load the news types for this subscription, then use them for the newsTypeId dropdown
 export default withNavigation(connect()(CreateNewsItem))
