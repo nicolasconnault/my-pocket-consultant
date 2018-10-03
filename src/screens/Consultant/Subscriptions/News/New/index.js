@@ -24,6 +24,7 @@ import {
   ImagePicker,
   Permissions,
 } from 'expo'
+import ValidationComponent from 'react-native-form-validator'
 
 import {
   DATE_FORMAT,
@@ -66,7 +67,7 @@ async function uploadImageAsync(uri, subscriptionId) {
   return fetch(apiUrl, options)
 }
 
-class CreateNewsItem extends React.Component {
+class CreateNewsItem extends ValidationComponent {
   static navigationOptions = {
     title: 'Edit Note',
   }
@@ -87,9 +88,31 @@ class CreateNewsItem extends React.Component {
       isEndDatePickerVisible: false,
       image: null,
       loading: false,
+      errors: {},
     }
+
+    this.onFocus = this.onFocus.bind(this)
     this.focusNextField = this.focusNextField.bind(this)
-    this.inputs = {}
+    this.onChangeText = this.onChangeText.bind(this)
+
+    this.titleRef = this.updateRef.bind(this, 'title')
+    this.descriptionRef = this.updateRef.bind(this, 'description')
+    this.urlRef = this.updateRef.bind(this, 'url')
+    this.startDateRef = this.updateRef.bind(this, 'startDate')
+    this.endDateRef = this.updateRef.bind(this, 'endDate')
+    this.regularPriceRef = this.updateRef.bind(this, 'regularPrice')
+    this.discountedPriceRef = this.updateRef.bind(this, 'discountedPrice')
+
+    this.messages = {
+      en: {
+        numbers: 'Must be a valid number.',
+        email: 'Must be a valid email address.',
+        required: 'Requires a value',
+        date: 'Must be a valid date',
+        minlength: 'Length must be greater than {1}.',
+        maxlength: 'Length must be lower than {1}.',
+      },
+    }
   }
 
   showStartDatePicker = () => this.setState({ isStartDatePickerVisible: true })
@@ -111,6 +134,26 @@ class CreateNewsItem extends React.Component {
   }
 
   saveNewsItemCallBack = () => {
+    this.validate({
+      title: { required: true, maxlength: 40 },
+      description: { required: true },
+      url: { minlength: 10, required: false },
+      discountedPrice: { numbers: true },
+      regularPrice: { numbers: true },
+      startDate: { date: 'YYYY-MM-DD' },
+      endDate: { date: 'YYYY-MM-DD' },
+    })
+
+    if (!this.isFormValid()) {
+      console.log(this.errors)
+      const errors = {}
+      this.errors.forEach((error) => {
+        errors[error.fieldName] = error.messages[0]
+      })
+      this.setState({ errors })
+      return false
+    }
+
     const {
       dispatch,
       navigation,
@@ -151,6 +194,10 @@ class CreateNewsItem extends React.Component {
     })
   }
 
+  updateRef(name, ref) {
+    this[name] = ref
+  }
+
   maybeRenderUploadingOverlay = () => {
     const { uploading } = this.state
     if (uploading) {
@@ -177,6 +224,30 @@ class CreateNewsItem extends React.Component {
         </View>
       </View>
     )
+  }
+
+  onChangeText(text) {
+    const fields = ['title', 'description', 'url', 'regularPrice', 'discountedPrice', 'startDate', 'endDate']
+    fields.map(name => ({ name, ref: this[name] }))
+      .forEach(({ name, ref }) => {
+        if (ref.isFocused()) {
+          this.setState({ [name]: text })
+        }
+      })
+  }
+
+  onFocus() {
+    const { errors = {} } = this.state
+
+    Object.entries(errors).forEach((error) => {
+      const ref = this[error[0]]
+
+      if (ref && ref.isFocused()) {
+        delete errors[error[0]]
+      }
+    })
+
+    this.setState({ errors })
   }
 
   pickImage = async () => {
@@ -216,8 +287,8 @@ class CreateNewsItem extends React.Component {
     }
   }
 
-  focusNextField(id) {
-    this.inputs[id].focus()
+  focusNextField(name) {
+    this[name].focus()
   }
 
   render() {
@@ -237,6 +308,7 @@ class CreateNewsItem extends React.Component {
       isStartDatePickerVisible,
       isEndDatePickerVisible,
       loading,
+      errors,
     } = this.state
     const { formStyle, switchStyle, mainButtonStyle } = styles
     return (
@@ -259,39 +331,36 @@ class CreateNewsItem extends React.Component {
             value={newsType.label}
           />
           <TextField
-            onChangeText={val => this.setState({ title: val })}
+            ref={this.titleRef}
+            onChangeText={this.onChangeText}
+            onFocus={this.onFocus}
             label="Title"
             labelTextStyle={formStyle.label}
             value={title}
+            error={errors.title}
             placeholderTextColor="rgba(225,225,225,0.7)"
             underlineColorAndroid="transparent"
             tintColor={CONSULTANT_MODE_COLOR}
             returnKeyType="next"
             blurOnSubmit={false}
-            onSubmitEditing={() => {
-              this.focusNextField('three')
-            }}
-            ref={(input) => {
-              this.inputs['two'] = input
-            }}
+            enablesReturnKeyAutomatically
+            onSubmitEditing={() => { this.description.focus() }}
           />
           <TextField
+            ref={this.descriptionRef}
             multiline
-            onChangeText={val => this.setState({ description: val })}
+            onChangeText={this.onChangeText}
+            onFocus={this.onFocus}
+            error={errors.description}
             label="Description"
             labelTextStyle={formStyle.label}
             value={description}
             placeholderTextColor="rgba(225,225,225,0.7)"
             underlineColorAndroid="transparent"
             blurOnSubmit={false}
-            onSubmitEditing={() => {
-              this.focusNextField('four')
-            }}
+            onSubmitEditing={() => { this.url.focus() }}
             tintColor={CONSULTANT_MODE_COLOR}
             returnKeyType="next"
-            ref={(input) => {
-              this.inputs['three'] = input
-            }}
           />
           <View>
             <Text style={formStyle.label}>Draft Mode</Text>
@@ -305,23 +374,22 @@ class CreateNewsItem extends React.Component {
 
           </View>
           <TextField
-            onChangeText={val => this.setState({ url: val })}
+            ref={this.urlRef}
+            onChangeText={this.onChangeText}
+            onFocus={this.onFocus}
             label="URL"
             labelTextStyle={formStyle.label}
+            error={errors.url}
             value={url}
             placeholderTextColor="rgba(225,225,225,0.7)"
             underlineColorAndroid="transparent"
             blurOnSubmit={false}
             autoCapitalize="none"
-            onSubmitEditing={() => {
-              this.focusNextField('five')
-            }}
+            onSubmitEditing={() => { this.startDate.focus() }}
             tintColor={CONSULTANT_MODE_COLOR}
+            enablesReturnKeyAutomatically
             returnKeyType="next"
             textContentType="URL"
-            ref={(input) => {
-              this.inputs['four'] = input
-            }}
           />
           <Button
             onPress={this.pickImage}
@@ -334,21 +402,20 @@ class CreateNewsItem extends React.Component {
           <View style={formStyle.doubleInputContainer}>
             <View style={formStyle.doubleInputField}>
               <TextField
+                ref={this.startDateRef}
                 label="From"
                 labelTextStyle={formStyle.label}
                 value={Moment(startDate).format(DATE_FORMAT)}
                 placeholderTextColor="rgba(225,225,225,0.7)"
                 underlineColorAndroid="transparent"
                 blurOnSubmit={false}
-                onSubmitEditing={() => {
-                  this.focusNextField('six')
-                }}
+                error={errors.startDate}
+                enablesReturnKeyAutomatically
+                onSubmitEditing={() => { this.endDate.focus() }}
                 onFocus={this.showStartDatePicker}
                 tintColor={CONSULTANT_MODE_COLOR}
                 returnKeyType="next"
-                ref={(input) => {
-                  this.inputs['five'] = input
-                }}
+
               />
               <DateTimePicker
                 isVisible={isStartDatePickerVisible}
@@ -359,21 +426,19 @@ class CreateNewsItem extends React.Component {
             </View>
             <View style={formStyle.doubleInputField}>
               <TextField
+                ref={this.endDateRef}
                 label="To"
                 labelTextStyle={formStyle.label}
                 value={Moment(endDate).format(DATE_FORMAT)}
                 placeholderTextColor="rgba(225,225,225,0.7)"
                 underlineColorAndroid="transparent"
                 blurOnSubmit={false}
-                onSubmitEditing={() => {
-                  this.focusNextField('seven')
-                }}
+                error={errors.endDate}
+                enablesReturnKeyAutomatically
+                onSubmitEditing={() => { this.regularPrice.focus() }}
                 onFocus={this.showEndDatePicker}
                 tintColor={CONSULTANT_MODE_COLOR}
                 returnKeyType="next"
-                ref={(input) => {
-                  this.inputs['six'] = input
-                }}
               />
               <DateTimePicker
                 isVisible={isEndDatePickerVisible}
@@ -386,38 +451,37 @@ class CreateNewsItem extends React.Component {
           <View style={formStyle.doubleInputContainer}>
             <View style={formStyle.doubleInputField}>
               <TextField
+                ref={this.regularPriceRef}
                 label="Regular Price"
-                onChangeText={val => this.setState({ regularPrice: val })}
+                onChangeText={this.onChangeText}
+                onFocus={this.onFocus}
                 labelTextStyle={formStyle.label}
                 value={String(regularPrice)}
                 placeholderTextColor="rgba(225,225,225,0.7)"
                 underlineColorAndroid="transparent"
                 blurOnSubmit={false}
-                onSubmitEditing={() => {
-                  this.focusNextField('eight')
-                }}
+                error={errors.regularPrice}
+                enablesReturnKeyAutomatically
+                onSubmitEditing={() => { this.discountedPrice.focus() }}
                 tintColor={CONSULTANT_MODE_COLOR}
                 keyboardType="numeric"
                 prefix="$"
                 returnKeyType="next"
-                ref={(input) => {
-                  this.inputs['seven'] = input
-                }}
               />
             </View>
             <View style={formStyle.doubleInputField}>
               <TextField
+                ref={this.discountedPriceRef}
                 label="Discounted Price"
-                onChangeText={val => this.setState({ discountedPrice: val })}
+                onChangeText={this.onChangeText}
+                onFocus={this.onFocus}
                 labelTextStyle={formStyle.label}
                 value={String(discountedPrice)}
+                error={errors.discountedPrice}
                 tintColor={CONSULTANT_MODE_COLOR}
                 keyboardType="numeric"
                 prefix="$"
                 returnKeyType="done"
-                ref={(input) => {
-                  this.inputs['eight'] = input
-                }}
               />
             </View>
           </View>

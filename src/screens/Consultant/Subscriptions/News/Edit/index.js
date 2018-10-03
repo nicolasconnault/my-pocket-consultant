@@ -393,7 +393,6 @@ class EditNewsItem extends ValidationComponent {
             blurOnSubmit={false}
             onSubmitEditing={() => { this.url.focus() }}
             tintColor={CONSULTANT_MODE_COLOR}
-            onSubmitEditing={() => { this.url.focus() }}
             returnKeyType="next"
           />
           <View>
@@ -444,7 +443,6 @@ class EditNewsItem extends ValidationComponent {
                 underlineColorAndroid="transparent"
                 blurOnSubmit={false}
                 error={errors.startDate}
-                onFocus={this.onFocus}
                 enablesReturnKeyAutomatically
                 onSubmitEditing={() => { this.endDate.focus() }}
                 onFocus={this.showStartDatePicker}
@@ -468,7 +466,6 @@ class EditNewsItem extends ValidationComponent {
                 underlineColorAndroid="transparent"
                 blurOnSubmit={false}
                 error={errors.endDate}
-                onFocus={this.onFocus}
                 enablesReturnKeyAutomatically
                 onSubmitEditing={() => { this.regularPrice.focus() }}
                 onFocus={this.showEndDatePicker}
