@@ -46,6 +46,7 @@
     "react-native-aws3": "0.0.8",
     "react-native-country-picker-modal": "^0.6.2",
     "react-native-extended-stylesheet": "^0.8.1",
+    "react-native-form-validator": "^0.2.0",
     "react-native-material-dialog": "^0.7.4",
     "react-native-material-menu": "^0.3.1",
     "react-native-material-textfield": "^0.12.0",

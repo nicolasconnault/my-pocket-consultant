@@ -78,7 +78,7 @@ class CreateNewsItem extends React.Component {
       description: '',
       startDate: Moment(),
       endDate: Moment(),
-      active: true,
+      active: false,
       url: '',
       regularPrice: '',
       discountedPrice: '',
@@ -88,6 +88,7 @@ class CreateNewsItem extends React.Component {
       image: null,
       loading: false,
     }
+    this.focusNextField = this.focusNextField.bind(this)
     this.inputs = {}
   }
 
@@ -215,6 +216,10 @@ class CreateNewsItem extends React.Component {
     }
   }
 
+  focusNextField(id) {
+    this.inputs[id].focus()
+  }
+
   render() {
     const { navigation } = this.props
     const newsType = navigation.getParam('newsType')
@@ -245,7 +250,7 @@ class CreateNewsItem extends React.Component {
           onLeftElementPress={() => navigation.goBack()}
           centerElement="Create News Item"
         />
-        <ScrollView style={formStyle.formContainer}>
+        <ScrollView style={formStyle.formContainer} keyboardShouldPersistTaps="always" keyboardDismissMode="on-drag">
           { errorMessage }
           <TextField
             disabled
@@ -258,8 +263,14 @@ class CreateNewsItem extends React.Component {
             label="Title"
             labelTextStyle={formStyle.label}
             value={title}
+            placeholderTextColor="rgba(225,225,225,0.7)"
+            underlineColorAndroid="transparent"
             tintColor={CONSULTANT_MODE_COLOR}
             returnKeyType="next"
+            blurOnSubmit={false}
+            onSubmitEditing={() => {
+              this.focusNextField('three')
+            }}
             ref={(input) => {
               this.inputs['two'] = input
             }}
@@ -270,6 +281,12 @@ class CreateNewsItem extends React.Component {
             label="Description"
             labelTextStyle={formStyle.label}
             value={description}
+            placeholderTextColor="rgba(225,225,225,0.7)"
+            underlineColorAndroid="transparent"
+            blurOnSubmit={false}
+            onSubmitEditing={() => {
+              this.focusNextField('four')
+            }}
             tintColor={CONSULTANT_MODE_COLOR}
             returnKeyType="next"
             ref={(input) => {
@@ -277,12 +294,12 @@ class CreateNewsItem extends React.Component {
             }}
           />
           <View>
-            <Text style={formStyle.label}>Active</Text>
+            <Text style={formStyle.label}>Draft Mode</Text>
             <Switch
               onTintColor={COLOR.pink300}
               thumbTintColor={COLOR.grey300}
               style={{ ...switchStyle, alignSelf: 'flex-start' }}
-              value={active}
+              value={!active}
               onValueChange={val => this.setState({ active: !active })}
             />
 
@@ -292,6 +309,13 @@ class CreateNewsItem extends React.Component {
             label="URL"
             labelTextStyle={formStyle.label}
             value={url}
+            placeholderTextColor="rgba(225,225,225,0.7)"
+            underlineColorAndroid="transparent"
+            blurOnSubmit={false}
+            autoCapitalize="none"
+            onSubmitEditing={() => {
+              this.focusNextField('five')
+            }}
             tintColor={CONSULTANT_MODE_COLOR}
             returnKeyType="next"
             textContentType="URL"
@@ -313,6 +337,12 @@ class CreateNewsItem extends React.Component {
                 label="From"
                 labelTextStyle={formStyle.label}
                 value={Moment(startDate).format(DATE_FORMAT)}
+                placeholderTextColor="rgba(225,225,225,0.7)"
+                underlineColorAndroid="transparent"
+                blurOnSubmit={false}
+                onSubmitEditing={() => {
+                  this.focusNextField('six')
+                }}
                 onFocus={this.showStartDatePicker}
                 tintColor={CONSULTANT_MODE_COLOR}
                 returnKeyType="next"
@@ -332,6 +362,12 @@ class CreateNewsItem extends React.Component {
                 label="To"
                 labelTextStyle={formStyle.label}
                 value={Moment(endDate).format(DATE_FORMAT)}
+                placeholderTextColor="rgba(225,225,225,0.7)"
+                underlineColorAndroid="transparent"
+                blurOnSubmit={false}
+                onSubmitEditing={() => {
+                  this.focusNextField('seven')
+                }}
                 onFocus={this.showEndDatePicker}
                 tintColor={CONSULTANT_MODE_COLOR}
                 returnKeyType="next"
@@ -354,6 +390,12 @@ class CreateNewsItem extends React.Component {
                 onChangeText={val => this.setState({ regularPrice: val })}
                 labelTextStyle={formStyle.label}
                 value={String(regularPrice)}
+                placeholderTextColor="rgba(225,225,225,0.7)"
+                underlineColorAndroid="transparent"
+                blurOnSubmit={false}
+                onSubmitEditing={() => {
+                  this.focusNextField('eight')
+                }}
                 tintColor={CONSULTANT_MODE_COLOR}
                 keyboardType="numeric"
                 prefix="$"
@@ -372,7 +414,7 @@ class CreateNewsItem extends React.Component {
                 tintColor={CONSULTANT_MODE_COLOR}
                 keyboardType="numeric"
                 prefix="$"
-                returnKeyType="next"
+                returnKeyType="done"
                 ref={(input) => {
                   this.inputs['eight'] = input
                 }}
