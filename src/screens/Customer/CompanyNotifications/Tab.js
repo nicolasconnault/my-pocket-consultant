@@ -13,7 +13,7 @@ class NotificationsTab extends React.Component {
   // It should be instant, following optimistic UI pattern
   toggleNewsTypeCallback(newsTypeId, oldValue) {
     const { dispatch, company } = this.props
-    dispatch(toggleNewsType(company.label, company.id, newsTypeId, oldValue))
+    dispatch(toggleNewsType(company.label, company.subscriptionId, newsTypeId, oldValue))
   }
 
   render() {

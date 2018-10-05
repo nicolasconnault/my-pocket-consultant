@@ -37,8 +37,6 @@ class CompanyNotifications extends React.Component {
         screen: () => (
           <NotificationsTab
             company={company}
-            topNavigation={navigation}
-            newsItems={company.newsItems}
           />
         ),
       }

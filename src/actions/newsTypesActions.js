@@ -14,27 +14,27 @@ function receiveNewsTypes(json) {
   }
 }
 
-function optimisticToggleNewsType(companyLabel, companyId, newsTypeId, oldValue) {
+function optimisticToggleNewsType(companyLabel, subscriptionId, newsTypeId, oldValue) {
   return {
     type: TOGGLE_NEWS_TYPE,
-    companyId,
+    subscriptionId,
     companyLabel,
     newsTypeId,
     oldValue,
   }
 }
 
-function undoToggleNewsType(companyLabel, companyId, newsTypeId, oldValue) {
+function undoToggleNewsType(companyLabel, subscriptionId, newsTypeId, oldValue) {
   return {
     type: UNDO_TOGGLE_NEWS_TYPE,
-    companyId,
+    subscriptionId,
     companyLabel,
     newsTypeId,
     oldValue: !oldValue,
   }
 }
 
-function sendToggleNewsType(companyId, newsTypeId, oldValue, dispatch, token) {
+function sendToggleNewsType(subscriptionId, newsTypeId, oldValue, dispatch, token) {
   return fetch(`${API_URL}customer/toggle_user_company_news_type.json`, {
     method: 'PUT',
     headers: {
@@ -43,7 +43,7 @@ function sendToggleNewsType(companyId, newsTypeId, oldValue, dispatch, token) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      companyId,
+      subscriptionId,
       newsTypeId,
       oldValue,
     }),
@@ -54,14 +54,14 @@ function sendToggleNewsType(companyId, newsTypeId, oldValue, dispatch, token) {
     })
 }
 
-export const toggleNewsType = (companyLabel, companyId, newsTypeId, oldValue) => async (dispatch) => {
+export const toggleNewsType = (companyLabel, subscriptionId, newsTypeId, oldValue) => async (dispatch) => {
   try {
-    dispatch(optimisticToggleNewsType(companyLabel, companyId, newsTypeId, oldValue))
+    dispatch(optimisticToggleNewsType(companyLabel, subscriptionId, newsTypeId, oldValue))
     const token = await AsyncStorage.getItem(ACCESS_TOKEN)
-    await sendToggleNewsType(companyId, newsTypeId, oldValue, dispatch, token)
+    await sendToggleNewsType(subscriptionId, newsTypeId, oldValue, dispatch, token)
   } catch (e) {
     // undo the state change
-    dispatch(undoToggleNewsType(companyLabel, companyId, newsTypeId, oldValue))
+    dispatch(undoToggleNewsType(companyLabel, subscriptionId, newsTypeId, oldValue))
 
     // then display the error
     // dispatch(toggleCompanyError(e))
