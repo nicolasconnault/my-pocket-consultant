@@ -25,7 +25,8 @@ class Settings extends React.Component {
   }
 
   goToNotifications() {
-
+    const { navigation } = this.props
+    navigation.navigate('CompanyNotifications')
   }
 
   goToProfile() {

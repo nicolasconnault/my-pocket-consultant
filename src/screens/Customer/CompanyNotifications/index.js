@@ -1,91 +1,83 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {
-  StatusBar,
-  View,
-  FlatList,
-  Switch,
-  LayoutAnimation,
-} from 'react-native'
-import { Toolbar, ListItem, COLOR } from 'react-native-material-ui'
+import { StatusBar, View } from 'react-native'
+import { Toolbar } from 'react-native-material-ui'
+import { createMaterialTopTabNavigator } from 'react-navigation'
 
-import { toggleNewsType } from '../../../actions'
-import { NewsTypesListPropType } from '../../../proptypes'
 import { Container } from '../../../components'
 import styles from '../../styles'
+import NotificationsTab from './Tab'
 
 class CompanyNotifications extends React.Component {
   static navigationOptions = {
     title: 'Notifications',
-  };
-
-  componentWillUpdate() {
-    LayoutAnimation.spring()
-  }
-
-  // TODO The update of the switch is very slow, as if it's waiting for
-  // the AJAX to complete before it redraws.
-  // It should be instant, following optimistic UI pattern
-  toggleNewsTypeCallback(newsTypeId, oldValue) {
-    const { dispatch, navigation } = this.props
-    const company = navigation.getParam('company')
-    dispatch(toggleNewsType(company.label, company.id, newsTypeId, oldValue))
   }
 
   render() {
-    const { navigation, newsTypes } = this.props
-    const company = navigation.getParam('company')
-    const companyNewsTypes = newsTypes[company.label]
-    const { listMenuStyle, switchStyle } = styles
+    const screens = {}
+
+    const { navigation, categoryCompanies } = this.props
+    const enabledCompanies = []
+    Object.keys(categoryCompanies).forEach((categoryName) => {
+      categoryCompanies[categoryName].forEach((company) => {
+        if (company.enabled) {
+          enabledCompanies.push(company)
+        }
+      })
+    })
+
+    let selectedCompany = navigation.getParam('company')
+
+    enabledCompanies.forEach((company) => {
+      if (selectedCompany === undefined) {
+        selectedCompany = company
+      }
+      // For each company's category, create a new tab screen with that category's companies
+      screens[company.name] = {
+        screen: () => (
+          <NotificationsTab
+            company={company}
+            topNavigation={navigation}
+            newsItems={company.newsItems}
+          />
+        ),
+      }
+    })
+
+    const TabNavigation = createMaterialTopTabNavigator(screens, {
+      initialRouteName: selectedCompany.name,
+      headerMode: 'none',
+      tabBarOptions: styles.tabBarOptions,
+    })
 
     return (
       <Container>
         <StatusBar hidden />
         <Toolbar
-          leftElement="arrow-back"
-          onLeftElementPress={() => navigation.goBack()}
-          centerElement={`${company.label} Notifications`}
+          leftElement="menu"
+          onLeftElementPress={() => navigation.toggleDrawer()}
+          centerElement="Notifications"
         />
         <View style={{ flex: 1 }}>
-          <FlatList
-            style={listMenuStyle}
-            data={companyNewsTypes}
-            keyExtractor={item => `${item.id}`}
-            renderItem={({ item }) => (
-              <ListItem
-                divider
-                ref={React.createRef()}
-                leftElement={(
-                  <Switch
-                    onTintColor={COLOR.pink300}
-                    thumbTintColor={COLOR.grey300}
-                    style={switchStyle}
-                    value={item.status}
-                    onValueChange={() => this.toggleNewsTypeCallback(
-                      item.id, item.status,
-                    )}
-                  />
-                )}
-                centerElement={{ primaryText: item.label }}
-              />
-            )}
-          />
+          { enabledCompanies.length > 1 && (
+            <TabNavigation />
+          )}
+          { enabledCompanies.length === 1 && (
+            <NotificationsTab
+              company={enabledCompanies[0]}
+              topNavigation={navigation}
+              newsItems={enabledCompanies[0].newsItems}
+            />
+          )}
         </View>
       </Container>
     )
   }
 }
 
-CompanyNotifications.propTypes = {
-  newsTypes: NewsTypesListPropType,
-}
-CompanyNotifications.defaultProps = {
-  newsTypes: [],
-}
-
 function mapStateToProps(state) {
   return {
-    newsTypes: state.newsTypes,
+    categoryCompanies: state.companies,
   }
 }
 

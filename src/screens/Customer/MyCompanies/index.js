@@ -14,7 +14,7 @@ class MyCompanies extends React.Component {
   static navigationOptions = {
     title: 'My Companies',
     drawerIcon: <MyIcon iconKey="people" />,
-  };
+  }
 
   constructor(props) {
     super(props)
