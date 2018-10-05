@@ -30,7 +30,7 @@ class Settings extends React.Component {
 
   goToProfile() {
     const { navigation } = this.props
-    navigation.navigate('Profile')
+    navigation.navigate('Profile', { appMode: 'customer' })
   }
 
   goToFeedback() {

@@ -3,12 +3,11 @@ import { connect } from 'react-redux'
 
 import {
   StatusBar,
-  View,
-  KeyboardAvoidingView,
+  ScrollView,
   AsyncStorage,
   Platform,
 } from 'react-native'
-
+import ValidationComponent from 'react-native-form-validator'
 import {
   Constants,
   Location,
@@ -18,21 +17,26 @@ import {
 import { Toolbar, Button } from 'react-native-material-ui'
 import { TextField } from 'react-native-material-textfield'
 
+import Loader from '../../../components/Loader'
 import Container from '../../../components/Container'
-import { ACCESS_TOKEN, API_URL } from '../../../config'
+import styles from '../../styles'
+import {
+  ACCESS_TOKEN,
+  API_URL,
+  CONSULTANT_MODE_COLOR,
+  CUSTOMER_MODE_COLOR,
+  VALIDATION_MESSAGES,
+} from '../../../config'
 import { fetchUser } from '../../../actions/authActions'
 
-
-class Profile extends React.Component {
+class Profile extends ValidationComponent {
   static navigationOptions = {
     title: 'My Profile',
   }
 
   constructor(props) {
     super(props)
-    const { user } = this.props
     this.state = {
-      address: null,
       firstName: '',
       lastName: '',
       username: '',
@@ -40,12 +44,23 @@ class Profile extends React.Component {
       suburb: '',
       street: '',
       phone: '',
+      loading: false,
       errors: [],
-      errorMessage: null,
     }
-    this.focusNextField = this.focusNextField.bind(this)
-    this.inputs = {}
     this.onUpdateButtonPress = this.onUpdateButtonPress.bind(this)
+    this.onFocus = this.onFocus.bind(this)
+    this.focusNextField = this.focusNextField.bind(this)
+    this.onChangeText = this.onChangeText.bind(this)
+
+    this.firstNameRef = this.updateRef.bind(this, 'firstName')
+    this.lastNameRef = this.updateRef.bind(this, 'lastName')
+    this.usernameRef = this.updateRef.bind(this, 'username')
+    this.postcodeRef = this.updateRef.bind(this, 'postcode')
+    this.suburbRef = this.updateRef.bind(this, 'suburb')
+    this.streetRef = this.updateRef.bind(this, 'street')
+    this.phoneRef = this.updateRef.bind(this, 'phone')
+
+    this.messages = VALIDATION_MESSAGES
   }
 
   componentWillMount() {
@@ -63,6 +78,24 @@ class Profile extends React.Component {
   }
 
   async onUpdateButtonPress() {
+    this.validate({
+      firstName: { required: true },
+      lastName: { required: true },
+      username: { minlength: 8, required: true },
+      suburb: { required: false },
+      street: { required: false },
+      phone: { required: false },
+    })
+
+    if (!this.isFormValid()) {
+      const errors = {}
+      this.errors.forEach((error) => {
+        errors[error.fieldName] = error.messages[0]
+      })
+      this.setState({ errors })
+      return false
+    }
+
     const {
       firstName,
       lastName,
@@ -71,12 +104,13 @@ class Profile extends React.Component {
       suburb,
       street,
       phone,
-      errors,
     } = this.state
     const {
-      navigation, dispatch,
+      dispatch,
     } = this.props
     const token = await AsyncStorage.getItem(ACCESS_TOKEN)
+
+    this.setState({ loading: true })
 
     try {
       const response = await fetch(`${API_URL}customer/save_profile`, {
@@ -103,8 +137,10 @@ class Profile extends React.Component {
       // If successful, automatically log in and get access token
       // TODO Email verification step (or SMS code)
       if (response.status >= 200 && response.status < 300) {
+        this.setState({ loading: false })
         dispatch(fetchUser(token))
       } else {
+        this.setState({ loading: false })
         let myError = { error: 'Validation Error' }
         if (res.error === 'invalid_grant') {
           myError = { errors: 'Invalid credentials' }
@@ -112,9 +148,34 @@ class Profile extends React.Component {
         throw myError
       }
     } catch (exception) {
+      this.setState({ loading: false })
       const formError = exception
       this.setState({ errors: formError.error })
     }
+  }
+
+  onChangeText(text) {
+    const fields = ['firstName', 'lastName', 'username', 'postcode', 'suburb', 'phone', 'street']
+    fields.map(name => ({ name, ref: this[name] }))
+      .forEach(({ name, ref }) => {
+        if (ref.isFocused()) {
+          this.setState({ [name]: text })
+        }
+      })
+  }
+
+  onFocus() {
+    const { errors = {} } = this.state
+
+    Object.entries(errors).forEach((error) => {
+      const ref = this[error[0]]
+
+      if (ref && ref.isFocused()) {
+        delete errors[error[0]]
+      }
+    })
+
+    this.setState({ errors })
   }
 
   getLocationAsync = async () => {
@@ -149,12 +210,18 @@ class Profile extends React.Component {
     })
   }
 
-  focusNextField(id) {
-    this.inputs[id].focus()
+  updateRef(name, ref) {
+    this[name] = ref
+  }
+
+  focusNextField(name) {
+    this[name].focus()
   }
 
   render() {
     const { navigation } = this.props
+    const appMode = navigation.getParam('appMode')
+    const tintColor = (appMode === 'consultant') ? CONSULTANT_MODE_COLOR : CUSTOMER_MODE_COLOR
     const {
       firstName,
       lastName,
@@ -164,137 +231,140 @@ class Profile extends React.Component {
       street,
       phone,
       errors,
-      errorMessage,
+      loading,
     } = this.state
-
+    const { formStyle } = styles
     return (
       <Container>
-        <KeyboardAvoidingView enabled>
-          <StatusBar hidden />
-          <Toolbar
-            leftElement="arrow-back"
-            onLeftElementPress={() => navigation.navigate('Login')}
-            centerElement="My Profile"
+        {loading && (
+        <Loader loading={loading} />
+        )}
+        <StatusBar hidden />
+
+        <Toolbar
+          leftElement="arrow-back"
+          onLeftElementPress={() => navigation.navigate('Login')}
+          centerElement="My Profile"
+        />
+        <ScrollView style={formStyle.formContainer} keyboardShouldPersistTaps="always" keyboardDismissMode="on-drag">
+          <TextField
+            ref={this.firstNameRef}
+            onChangeText={this.onChangeText}
+            onFocus={this.onFocus}
+            error={errors.firstName}
+            label="First Name"
+            value={firstName}
+            placeholderTextColor="rgba(225,225,225,0.7)"
+            underlineColorAndroid="transparent"
+            blurOnSubmit={false}
+            tintColor={tintColor}
+            enablesReturnKeyAutomatically
+            onSubmitEditing={() => { this.lastName.focus() }}
+            returnKeyType="next"
           />
-          <View style={{ padding: 10 }}>
-            <TextField
-              onChangeText={val => this.setState({ firstName: val })}
-              label="First Name"
-              value={firstName}
-              placeholderTextColor="rgba(225,225,225,0.7)"
-              underlineColorAndroid="transparent"
-              blurOnSubmit={false}
-              onSubmitEditing={() => {
-                this.focusNextField('two')
-              }}
-              returnKeyType="next"
-              ref={(input) => {
-                this.inputs['one'] = input
-              }}
-            />
-            <TextField
-              onChangeText={val => this.setState({ lastName: val })}
-              label="Last Name"
-              value={lastName}
-              placeholderTextColor="rgba(225,225,225,0.7)"
-              underlineColorAndroid="transparent"
-              blurOnSubmit={false}
-              onSubmitEditing={() => {
-                this.focusNextField('three')
-              }}
-              returnKeyType="next"
-              ref={(input) => {
-                this.inputs['two'] = input
-              }}
-            />
-            <TextField
-              onChangeText={val => this.setState({ username: val })}
-              autoCapitalize="none"
-              autoCorrect={false}
-              value={username}
-              keyboardType="email-address"
-              label="Email Address"
-              placeholderTextColor="rgba(225,225,225,0.7)"
-              underlineColorAndroid="transparent"
-              blurOnSubmit={false}
-              onSubmitEditing={() => {
-                this.focusNextField('four')
-              }}
-              returnKeyType="next"
-              ref={(input) => {
-                this.inputs['three'] = input
-              }}
-            />
+          <TextField
+            ref={this.lastNameRef}
+            onChangeText={this.onChangeText}
+            onFocus={this.onFocus}
+            error={errors.lastName}
+            label="Last Name"
+            value={lastName}
+            placeholderTextColor="rgba(225,225,225,0.7)"
+            underlineColorAndroid="transparent"
+            tintColor={tintColor}
+            blurOnSubmit={false}
+            enablesReturnKeyAutomatically
+            onSubmitEditing={() => { this.username.focus() }}
+            returnKeyType="next"
+          />
+          <TextField
+            ref={this.usernameRef}
+            onChangeText={this.onChangeText}
+            onFocus={this.onFocus}
+            error={errors.username}
+            autoCapitalize="none"
+            value={username}
+            autoCorrect={false}
+            label="Email Address"
+            placeholderTextColor="rgba(225,225,225,0.7)"
+            underlineColorAndroid="transparent"
+            tintColor={tintColor}
+            blurOnSubmit={false}
+            enablesReturnKeyAutomatically
+            onSubmitEditing={() => { this.postcode.focus() }}
+            returnKeyType="next"
+          />
+          <TextField
+            ref={this.postcodeRef}
+            onChangeText={this.onChangeText}
+            onFocus={this.onFocus}
+            error={errors.postcode}
+            label="Postcode/Zip Code"
+            value={postcode}
+            placeholderTextColor="rgba(225,225,225,0.7)"
+            underlineColorAndroid="transparent"
+            tintColor={tintColor}
+            blurOnSubmit={false}
+            enablesReturnKeyAutomatically
+            onSubmitEditing={() => { this.street.focus() }}
+            returnKeyType="next"
+          />
 
-            <TextField
-              onChangeText={val => this.setState({ postcode: val })}
-              label="Postcode/Zip Code"
-              value={postcode}
-              placeholderTextColor="rgba(225,225,225,0.7)"
-              underlineColorAndroid="transparent"
-              blurOnSubmit={false}
-              onSubmitEditing={() => {
-                this.focusNextField('five')
-              }}
-              returnKeyType="next"
-              ref={(input) => {
-                this.inputs['four'] = input
-              }}
-            />
+          <TextField
+            ref={this.streetRef}
+            onChangeText={this.onChangeText}
+            onFocus={this.onFocus}
+            error={errors.street}
+            label="Street Address"
+            value={street}
+            placeholderTextColor="rgba(225,225,225,0.7)"
+            underlineColorAndroid="transparent"
+            tintColor={tintColor}
+            blurOnSubmit={false}
+            enablesReturnKeyAutomatically
+            onSubmitEditing={() => { this.suburb.focus() }}
+            returnKeyType="next"
+          />
 
-            <TextField
-              onChangeText={val => this.setState({ street: val })}
-              label="Street Address"
-              value={street}
-              placeholderTextColor="rgba(225,225,225,0.7)"
-              underlineColorAndroid="transparent"
-              blurOnSubmit={false}
-              onSubmitEditing={() => {
-                this.focusNextField('six')
-              }}
-              returnKeyType="next"
-              ref={(input) => {
-                this.inputs['five'] = input
-              }}
-            />
+          <TextField
+            ref={this.suburbRef}
+            onChangeText={this.onChangeText}
+            onFocus={this.onFocus}
+            error={errors.suburb}
+            label="City/Suburb"
+            value={suburb}
+            placeholderTextColor="rgba(225,225,225,0.7)"
+            underlineColorAndroid="transparent"
+            tintColor={tintColor}
+            blurOnSubmit={false}
+            enablesReturnKeyAutomatically
+            onSubmitEditing={() => { this.phone.focus() }}
+            returnKeyType="next"
+          />
 
-            <TextField
-              onChangeText={val => this.setState({ suburb: val })}
-              label="City/Suburb"
-              value={suburb}
-              placeholderTextColor="rgba(225,225,225,0.7)"
-              underlineColorAndroid="transparent"
-              blurOnSubmit={false}
-              onSubmitEditing={() => {
-                this.focusNextField('seven')
-              }}
-              returnKeyType="next"
-              ref={(input) => {
-                this.inputs['six'] = input
-              }}
-            />
+          <TextField
+            ref={this.phoneRef}
+            onChangeText={this.onChangeText}
+            onFocus={this.onFocus}
+            error={errors.phone}
+            label="Phone"
+            value={phone}
+            keyboardType="numeric"
+            placeholderTextColor="rgba(225,225,225,0.7)"
+            underlineColorAndroid="transparent"
+            tintColor={tintColor}
+            enablesReturnKeyAutomatically
+            returnKeyType="done"
+          />
 
-            <TextField
-              onChangeText={val => this.setState({ phone: val })}
-              label="Phone"
-              value={phone}
-              placeholderTextColor="rgba(225,225,225,0.7)"
-              underlineColorAndroid="transparent"
-              blurOnSubmit
-              returnKeyType="done"
-              ref={(input) => {
-                this.inputs['seven'] = input
-              }}
-            />
-
-            <Button
-              primary
-              raised
-              onPress={this.onUpdateButtonPress}
-              text="UPDATE"
-            />
-          </View>
-        </KeyboardAvoidingView>
+          <Button
+            primary
+            raised
+            onPress={this.onUpdateButtonPress}
+            text="UPDATE"
+            style={{ container: { marginBottom: 50 } }}
+          />
+        </ScrollView>
       </Container>
     )
   }

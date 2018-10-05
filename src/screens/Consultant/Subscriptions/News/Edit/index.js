@@ -31,6 +31,7 @@ import {
   CONSULTANT_MODE_COLOR,
   API_URL,
   ACCESS_TOKEN,
+  VALIDATION_MESSAGES,
 } from '../../../../../config'
 import { updateNewsItem } from '../../../../../actions'
 import { Container, Loader } from '../../../../../components'
@@ -100,16 +101,7 @@ class EditNewsItem extends ValidationComponent {
     this.regularPriceRef = this.updateRef.bind(this, 'regularPrice')
     this.discountedPriceRef = this.updateRef.bind(this, 'discountedPrice')
 
-    this.messages = {
-      en: {
-        numbers: 'Must be a valid number.',
-        email: 'Must be a valid email address.',
-        required: 'Requires a value',
-        date: 'Must be a valid date',
-        minlength: 'Length must be greater than {1}.',
-        maxlength: 'Length must be lower than {1}.',
-      },
-    }
+    this.messages = VALIDATION_MESSAGES
   }
 
   componentWillMount = () => {
@@ -522,7 +514,9 @@ class EditNewsItem extends ValidationComponent {
           <Button
             onPress={this.updateNewsItemCallBack}
             text="Save Changes"
-            style={mainButtonStyle}
+            primary
+            raised
+            style={{ container: { marginBottom: 50 } }}
           />
 
         </ScrollView>

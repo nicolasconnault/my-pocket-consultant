@@ -44,6 +44,12 @@ class Login extends React.Component {
     this.onLoginButtonPress = this.onLoginButtonPress.bind(this)
     this.onRegisterButtonPress = this.onRegisterButtonPress.bind(this)
     this.onLayout = this.onLayout.bind(this)
+    this.onFocus = this.onFocus.bind(this)
+    this.focusNextField = this.focusNextField.bind(this)
+    this.onChangeText = this.onChangeText.bind(this)
+
+    this.usernameRef = this.updateRef.bind(this, 'username')
+    this.passwordRef = this.updateRef.bind(this, 'password')
   }
 
   componentDidMount() {
@@ -115,6 +121,30 @@ class Login extends React.Component {
     }
   }
 
+  onChangeText(text) {
+    const fields = ['username', 'password']
+    fields.map(name => ({ name, ref: this[name] }))
+      .forEach(({ name, ref }) => {
+        if (ref.isFocused()) {
+          this.setState({ [name]: text })
+        }
+      })
+  }
+
+  onFocus() {
+    const { errors = {} } = this.state
+
+    Object.entries(errors).forEach((error) => {
+      const ref = this[error[0]]
+
+      if (ref && ref.isFocused()) {
+        delete errors[error[0]]
+      }
+    })
+
+    this.setState({ errors })
+  }
+
   // If we already have a token in storage, it means the user hasn't logged out
   loadInitialState = async () => {
     const token = await AsyncStorage.getItem(ACCESS_TOKEN)
@@ -122,6 +152,14 @@ class Login extends React.Component {
     if (token !== null) {
       dispatch(fetchUser(token))
     }
+  }
+
+  focusNextField(name) {
+    this[name].focus()
+  }
+
+  updateRef(name, ref) {
+    this[name] = ref
   }
 
   render() {
@@ -165,8 +203,14 @@ class Login extends React.Component {
             <View>
               { errorMessage }
               <TextField
-                onChangeText={val => this.setState({ username: val })}
+                ref={this.usernameRef}
+                onChangeText={this.onChangeText}
+                onFocus={this.onFocus}
+                onSubmitEditing={() => { this.password.focus() }}
                 label="Email"
+                autoCapitalize="none"
+                returnKeyType="next"
+                enablesReturnKeyAutomatically
                 keyboardType="email-address"
                 baseColor="#FFFFFF"
                 textColor="#FFFFFF"
@@ -175,13 +219,16 @@ class Login extends React.Component {
               />
 
               <TextField
-                onChangeText={val => this.setState({ password: val })}
+                ref={this.passwordRef}
+                onChangeText={this.onChangeText}
+                onFocus={this.onFocus}
                 label="Password"
                 labelHeight={16}
                 baseColor="#FFFFFF"
                 textColor="#FFFFFF"
                 tintColor="#FFFFFF"
                 secureTextEntry
+                returnKeyType="done"
               />
               <TouchableOpacity style={passwordReminderContainerStyle} onPress={() => { navigation.navigate('PasswordReminder') }}>
                 <Text style={passwordReminderStyle}>

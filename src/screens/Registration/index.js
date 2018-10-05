@@ -10,9 +10,15 @@ import {
 import { DangerZone } from 'expo'
 import { Toolbar, Button } from 'react-native-material-ui'
 import { TextField } from 'react-native-material-textfield'
+import ValidationComponent from 'react-native-form-validator'
 
 import Container from '../../components/Container'
-import { ACCESS_TOKEN, API_URL } from '../../config'
+import {
+  ACCESS_TOKEN,
+  API_URL,
+  VALIDATION_MESSAGES,
+  CONSULTANT_MODE_COLOR,
+} from '../../config'
 import {
   fetchUser,
   fetchTutorials,
@@ -25,7 +31,7 @@ import Loader from '../../components/Loader'
 
 const { Localization } = DangerZone
 
-class Registration extends React.Component {
+class Registration extends ValidationComponent {
   static navigationOptions = {
     title: 'Sign Up',
   }
@@ -40,12 +46,21 @@ class Registration extends React.Component {
       password: '',
       countryCode: null,
       timeZone: null,
-      error: null,
       loading: false,
+      errors: {},
     }
+    this.onFocus = this.onFocus.bind(this)
     this.focusNextField = this.focusNextField.bind(this)
-    this.inputs = {}
+    this.onChangeText = this.onChangeText.bind(this)
     this.onRegistrationButtonPress = this.onRegistrationButtonPress.bind(this)
+
+    this.firstNameRef = this.updateRef.bind(this, 'firstName')
+    this.lastNameRef = this.updateRef.bind(this, 'lastName')
+    this.usernameRef = this.updateRef.bind(this, 'username')
+    this.postcodeRef = this.updateRef.bind(this, 'postcode')
+    this.passwordRef = this.updateRef.bind(this, 'password')
+
+    this.messages = VALIDATION_MESSAGES
   }
 
   componentDidMount() {
@@ -53,6 +68,22 @@ class Registration extends React.Component {
   }
 
   async onRegistrationButtonPress() {
+    this.validate({
+      firstName: { required: true },
+      lastName: { required: true },
+      username: { minlength: 8, required: true },
+      password: { required: true },
+    })
+
+    if (!this.isFormValid()) {
+      const errors = {}
+      this.errors.forEach((error) => {
+        errors[error.fieldName] = error.messages[0]
+      })
+      this.setState({ errors })
+      return false
+    }
+
     const {
       firstName,
       lastName,
@@ -93,7 +124,7 @@ class Registration extends React.Component {
       // If successful, automatically log in and get access token
       // TODO Email verification step (or SMS code)
       if (response.status >= 200 && response.status < 300) {
-        this.setState({ error: '', loading: false })
+        this.setState({ loading: false })
         const accessToken = res.access_token
         this.storeToken(accessToken)
 
@@ -124,6 +155,30 @@ class Registration extends React.Component {
     }
   }
 
+  onChangeText(text) {
+    const fields = ['firstName', 'lastName', 'username', 'postcode', 'password']
+    fields.map(name => ({ name, ref: this[name] }))
+      .forEach(({ name, ref }) => {
+        if (ref.isFocused()) {
+          this.setState({ [name]: text })
+        }
+      })
+  }
+
+  onFocus() {
+    const { errors = {} } = this.state
+
+    Object.entries(errors).forEach((error) => {
+      const ref = this[error[0]]
+
+      if (ref && ref.isFocused()) {
+        delete errors[error[0]]
+      }
+    })
+
+    this.setState({ errors })
+  }
+
   getToken = async () => {
     try {
       const token = await AsyncStorage.getItem(ACCESS_TOKEN)
@@ -141,11 +196,6 @@ class Registration extends React.Component {
     this.setState({
       countryCode,
       timeZone,
-      firstName: 'Russell',
-      lastName: 'Crowe',
-      username: 'fabrictrove@gmail.com',
-      postcode: '6220',
-      password: 'password',
     })
 
     if (token !== null) {
@@ -153,8 +203,12 @@ class Registration extends React.Component {
     }
   }
 
-  focusNextField(id) {
-    this.inputs[id].focus()
+  updateRef(name, ref) {
+    this[name] = ref
+  }
+
+  focusNextField(name) {
+    this[name].focus()
   }
 
   async storeToken(accessToken) {
@@ -175,6 +229,7 @@ class Registration extends React.Component {
       username,
       password,
       loading,
+      errors,
     } = this.state
 
     return (
@@ -189,86 +244,89 @@ class Registration extends React.Component {
           />
           <View style={{ padding: 10 }}>
             <TextField
-              onChangeText={val => this.setState({ firstName: val })}
+              ref={this.firstNameRef}
+              onChangeText={this.onChangeText}
+              onFocus={this.onFocus}
+              error={errors.firstName}
               label="First Name"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
               value={firstName}
               blurOnSubmit={false}
-              onSubmitEditing={() => {
-                this.focusNextField('two')
-              }}
+              tintColor={CONSULTANT_MODE_COLOR}
+              enablesReturnKeyAutomatically
+              onSubmitEditing={() => { this.lastName.focus() }}
               returnKeyType="next"
-              ref={(input) => {
-                this.inputs['one'] = input
-              }}
             />
             <TextField
-              onChangeText={val => this.setState({ lastName: val })}
+              ref={this.lastNameRef}
+              onChangeText={this.onChangeText}
+              onFocus={this.onFocus}
+              error={errors.lastName}
               label="Last Name"
               value={lastName}
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
+              tintColor={CONSULTANT_MODE_COLOR}
               blurOnSubmit={false}
-              onSubmitEditing={() => {
-                this.focusNextField('three')
-              }}
+              enablesReturnKeyAutomatically
+              onSubmitEditing={() => { this.username.focus() }}
               returnKeyType="next"
-              ref={(input) => {
-                this.inputs['two'] = input
-              }}
             />
             <TextField
-              onChangeText={val => this.setState({ username: val })}
+              ref={this.usernameRef}
+              onChangeText={this.onChangeText}
+              onFocus={this.onFocus}
+              error={errors.username}
               autoCapitalize="none"
               value={username}
               autoCorrect={false}
               label="Email Address"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
+              tintColor={CONSULTANT_MODE_COLOR}
               blurOnSubmit={false}
-              onSubmitEditing={() => {
-                this.focusNextField('four')
-              }}
+              enablesReturnKeyAutomatically
+              onSubmitEditing={() => { this.postcode.focus() }}
               returnKeyType="next"
-              ref={(input) => {
-                this.inputs['three'] = input
-              }}
             />
             <TextField
-              onChangeText={val => this.setState({ postcode: val })}
+              ref={this.postcodeRef}
+              onChangeText={this.onChangeText}
+              onFocus={this.onFocus}
+              error={errors.postcode}
               label="Postcode/Zip Code"
               value={postcode}
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
+              tintColor={CONSULTANT_MODE_COLOR}
               blurOnSubmit={false}
-              onSubmitEditing={() => {
-                this.focusNextField('five')
-              }}
+              enablesReturnKeyAutomatically
+              onSubmitEditing={() => { this.password.focus() }}
               returnKeyType="next"
-              ref={(input) => {
-                this.inputs['four'] = input
-              }}
             />
 
             <TextField
-              onChangeText={val => this.setState({ password: val })}
+              ref={this.passwordRef}
+              onChangeText={this.onChangeText}
+              onFocus={this.onFocus}
+              error={errors.password}
               label="Password"
               placeholderTextColor="rgba(225,225,225,0.7)"
               underlineColorAndroid="transparent"
+              tintColor={CONSULTANT_MODE_COLOR}
+              enablesReturnKeyAutomatically
               value={password}
               secureTextEntry
               blurOnSubmit
               returnKeyType="done"
-              ref={(input) => {
-                this.inputs['five'] = input
-              }}
             />
             <Button
               primary
               raised
               onPress={this.onRegistrationButtonPress}
               text="CONTINUE"
+              style={{ container: { marginBottom: 50 } }}
             />
           </View>
         </KeyboardAvoidingView>
