@@ -20,6 +20,7 @@ import {
   fetchCustomerCompanies,
   fetchConsultants,
   fetchTutorials,
+  fetchSubscribedCompanies,
 } from '../../actions'
 import { Loader } from '../../components'
 import { landscapeStyles, portraitStyles } from './styles'
@@ -86,17 +87,19 @@ class Login extends React.Component {
       const res = await response.json()
 
       if (response.status >= 200 && response.status < 300) {
-        this.setState({ error: '', loading: false })
         const accessToken = res.access_token
 
         if (!accessToken) {
+          this.setState({ error: '', loading: false })
           navigation.navigate('Login')
         } else {
           await AsyncStorage.setItem(ACCESS_TOKEN, accessToken)
-          dispatch(fetchCustomerCompanies(accessToken))
-          dispatch(fetchConsultants(accessToken))
-          dispatch(fetchTutorials(accessToken))
-          dispatch(fetchUser(accessToken))
+          await dispatch(fetchCustomerCompanies(accessToken))
+          await dispatch(fetchConsultants(accessToken))
+          await dispatch(fetchSubscribedCompanies(accessToken))
+          await dispatch(fetchTutorials(accessToken))
+          await dispatch(fetchUser(accessToken))
+          this.setState({ error: '', loading: false })
         }
       } else {
         let myError = { error: 'Login Error' }

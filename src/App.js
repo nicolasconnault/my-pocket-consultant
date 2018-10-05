@@ -93,7 +93,6 @@ class Main extends React.Component {
       CompanySettings: { screen: customerScreens.CompanySettings },
       Settings: { screen: customerScreens.Settings },
       Help: { screen: customerScreens.Help },
-      Logout: { screen: screens.Logout },
     }, {
       backBehavior: 'initialRoute',
       initialRouteName: 'MyCompanies',
@@ -111,7 +110,6 @@ class Main extends React.Component {
         Customers: { screen: consultantScreens.Customers },
         News: { screen: consultantScreens.ManageNews },
         Settings: { screen: consultantScreens.ConsultantSettings },
-        Logout: { screen: screens.Logout },
         Help: { screen: consultantScreens.ConsultantHelp },
         Terms: { screen: consultantScreens.Terms },
       }, {

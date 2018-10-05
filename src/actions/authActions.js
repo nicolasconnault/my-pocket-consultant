@@ -1,5 +1,6 @@
+import { AsyncStorage } from 'react-native'
 import { FETCH_USER } from './constants'
-import { API_URL } from '../config'
+import { API_URL, ACCESS_TOKEN } from '../config'
 
 export const receiveUser = json => ({
   type: FETCH_USER,
@@ -16,7 +17,15 @@ export function fetchUser(token) {
       'Content-Type': 'application/json',
     },
   })
-    .then(res => res.json())
+    .then((res) => {
+      if (res.status === 401) {
+        // Token expired, delete it
+        AsyncStorage.removeItem(ACCESS_TOKEN)
+        return { message: 'TOKEN_EXPIRED' }
+      } else {
+        return res.json()
+      }
+    })
     .then((json) => {
       dispatch(receiveUser(json))
     })

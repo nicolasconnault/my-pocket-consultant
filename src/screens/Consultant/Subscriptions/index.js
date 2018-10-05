@@ -23,6 +23,7 @@ class Subscriptions extends React.Component {
 
   render() {
     const { navigation, subscriptions } = this.props
+
     const { listMenuStyle } = styles
     return (
       <Container>
@@ -35,7 +36,7 @@ class Subscriptions extends React.Component {
         <View style={{ flex: 1 }}>
           <FlatList
             style={listMenuStyle}
-            data={subscriptions}
+            data={(subscriptions.constructor === Array) ? subscriptions : []}
             keyExtractor={item => `${item.id}`}
             renderItem={({ item }) => (
               <ListItem

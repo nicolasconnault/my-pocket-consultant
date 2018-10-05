@@ -22,7 +22,6 @@ class Home extends React.Component {
     const token = await AsyncStorage.getItem(ACCESS_TOKEN)
     if (token) {
       this.setState({ accessToken: token })
-      console.log(token)
       this.props.navigation.navigate('Main')
     } else {
       this.setState({ accessToken: false })

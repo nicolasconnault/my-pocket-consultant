@@ -1,14 +1,25 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View, ScrollView, Text } from 'react-native'
-import { COLOR } from 'react-native-material-ui'
+import {
+  View,
+  ScrollView,
+  Text,
+  AsyncStorage,
+} from 'react-native'
+import { COLOR, ListItem } from 'react-native-material-ui'
 import { DrawerItems } from 'react-navigation'
 
-import { CONSULTANT_MODE_COLOR, CUSTOMER_MODE_COLOR } from '../config'
-import { SwitchAppModeButton, UserAvatar } from '../components'
+import { CONSULTANT_MODE_COLOR, CUSTOMER_MODE_COLOR, ACCESS_TOKEN } from '../config'
+import { SwitchAppModeButton, UserAvatar, MyIcon } from '../components'
 import { AppModePropType, UserPropType, DeviceSizePropType } from '../proptypes'
 
 class Drawer extends React.Component {
+  logoutAction = async () => {
+    const { navigation } = this.props
+    await AsyncStorage.removeItem(ACCESS_TOKEN)
+    navigation.navigate('Login')
+  }
+
   render() {
     const props = this.props
     const { appMode, user } = this.props
@@ -60,12 +71,27 @@ class Drawer extends React.Component {
       listStyle: {
         backgroundColor: COLOR.grey300,
       },
+      logoutButtonStyle: {
+        container: {
+          backgroundColor: COLOR.grey300,
+          paddingLeft: 3,
+          borderTopWidth: 1,
+          borderStyle: 'solid',
+          borderTopColor: COLOR.grey400,
+        },
+        primaryText: {
+          fontSize: 13,
+          fontWeight: 'bold',
+          color: '#666666',
+        },
+      },
     }
 
     const {
       containerStyle,
       headerStyle,
       listStyle,
+      logoutButtonStyle,
     } = styles
 
     return (
@@ -89,6 +115,16 @@ class Drawer extends React.Component {
 
         <View style={listStyle}>
           <DrawerItems {...props} />
+          <ListItem
+            leftElement={(
+              <MyIcon iconKey="logOut" appMode={appMode} />
+            )}
+            centerElement={{
+              primaryText: 'Logout',
+            }}
+            onPress={() => { this.logoutAction() }}
+            style={logoutButtonStyle}
+          />
         </View>
       </ScrollView>
     )
