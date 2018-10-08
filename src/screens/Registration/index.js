@@ -5,9 +5,10 @@ import {
   View,
   KeyboardAvoidingView,
   AsyncStorage,
+  Platform,
 } from 'react-native'
 
-import { DangerZone } from 'expo'
+import { Permissions, Notifications, DangerZone } from 'expo'
 import { Toolbar, Button } from 'react-native-material-ui'
 import { TextField } from 'react-native-material-textfield'
 import ValidationComponent from 'react-native-form-validator'
@@ -30,6 +31,43 @@ import {
 import Loader from '../../components/Loader'
 
 const { Localization } = DangerZone
+
+async function registerForPushNotificationsAsync(authToken) {
+  const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS)
+  let finalStatus = existingStatus
+
+  // only ask if permissions have not already been determined, because
+  // iOS won't necessarily prompt the user a second time.
+  if (existingStatus !== 'granted') {
+    // Android remote notification permissions are granted during the app
+    // install, so this will only ask on iOS
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS)
+    finalStatus = status
+  }
+
+  // Stop here if the user did not grant permissions
+  if (finalStatus !== 'granted') {
+    return
+  }
+
+  // Get the token that uniquely identifies this device
+  const token = await Notifications.getExpoPushTokenAsync()
+
+  // POST the token to your backend server from where you can retrieve
+  // it to send push notifications.
+  return fetch(`${API_URL}customer/save_push_token`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${authToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      token,
+      deviceType: Platform.OS,
+    }),
+  }).done()
+}
 
 class Registration extends ValidationComponent {
   static navigationOptions = {
@@ -72,7 +110,7 @@ class Registration extends ValidationComponent {
       firstName: { required: true },
       lastName: { required: true },
       username: { minlength: 8, required: true },
-      password: { required: true },
+      password: { minLength: 6, required: true },
     })
 
     if (!this.isFormValid()) {
@@ -124,18 +162,19 @@ class Registration extends ValidationComponent {
       // If successful, automatically log in and get access token
       // TODO Email verification step (or SMS code)
       if (response.status >= 200 && response.status < 300) {
-        this.setState({ loading: false })
         const accessToken = res.access_token
         this.storeToken(accessToken)
 
         if (!accessToken) {
           navigation.navigate('Login')
         } else {
+          registerForPushNotificationsAsync(accessToken)
           dispatch(fetchCustomerCompanies(accessToken))
           dispatch(fetchTutorials(accessToken))
           dispatch(fetchNotifications(accessToken))
           dispatch(fetchConsultants(accessToken))
           dispatch(fetchNewsTypes(accessToken))
+          this.setState({ loading: false })
           dispatch(fetchUser(accessToken)).then(() => {
             navigation.navigate('MyCompanies')
           })
