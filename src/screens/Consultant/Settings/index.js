@@ -1,12 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Text, StatusBar, View, SectionList, Switch,
+  Text,
+  StatusBar,
+  View,
+  SectionList,
+  Switch,
+  Linking,
 } from 'react-native'
 import { Toolbar, ListItem } from 'react-native-material-ui'
 
 import { MyIcon, Container } from '../../../components'
-import { CONSULTANT_MODE_SECONDARY_COLOR } from '../../../config'
+import { CONSULTANT_MODE_SECONDARY_COLOR, APP_VERSION, FEEDBACK_EMAIL } from '../../../config'
 import styles from '../../styles'
 
 class Settings extends React.Component {
@@ -35,10 +40,14 @@ class Settings extends React.Component {
   }
 
   goToFeedback() {
-
+    Linking.openURL(`mailto:${FEEDBACK_EMAIL}`)
   }
 
   clearFiles() {
+
+  }
+
+  gotToAbout() {
 
   }
 
@@ -85,7 +94,7 @@ class Settings extends React.Component {
                     icon: 'notifications',
                     title: 'Notifications',
                     callback: this.goToNotifications,
-                    content: <Text>3 enabled</Text>
+                    // content: <Text>3 enabled</Text>
                   },
                   {
                     icon: 'person',
@@ -95,6 +104,7 @@ class Settings extends React.Component {
                   },
                 ],
               },
+              /*
               {
                 title: 'Content',
                 data: [
@@ -112,6 +122,7 @@ class Settings extends React.Component {
                   },
                 ],
               },
+              */
               {
                 title: 'Additional settings',
                 data: [
@@ -123,7 +134,8 @@ class Settings extends React.Component {
                   {
                     icon: 'infoCircle',
                     title: 'About',
-                    content: <Text>Version 1.0.0.1</Text>,
+                    content: <Text>Version {APP_VERSION}</Text>,
+                    callback: this.gotToAbout,
                   },
                 ],
               },
