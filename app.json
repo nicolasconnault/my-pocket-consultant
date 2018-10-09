@@ -1,9 +1,9 @@
 {
   "expo": {
-    "sdkVersion": "29.0.0"
-  },
-  "android": {
-    "package": "com.mypocketconsultant.mpc",
-    "googleServicesFile": "./google-services.json"
+    "sdkVersion": "29.0.0",
+    "android": {
+      "package": "com.mypocketconsultant.mpc",
+      "googleServicesFile": "./google-services.json"
+    }
   }
 }

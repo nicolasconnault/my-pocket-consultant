@@ -23,6 +23,7 @@ import {
   fetchSubscribedCompanies,
 } from '../../actions'
 import { Loader } from '../../components'
+import registerForPushNotificationsAsync from '../../modules/pushNotifications'
 import { landscapeStyles, portraitStyles } from './styles'
 
 const logoImage = require('./white_logo.png')
@@ -100,6 +101,7 @@ class Login extends React.Component {
           navigation.navigate('Login')
         } else {
           await AsyncStorage.setItem(ACCESS_TOKEN, accessToken)
+          registerForPushNotificationsAsync(accessToken)
           await dispatch(fetchCustomerCompanies(accessToken))
           await dispatch(fetchConsultants(accessToken))
           await dispatch(fetchSubscribedCompanies(accessToken))
