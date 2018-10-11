@@ -4,7 +4,6 @@ import { View, FlatList, Switch } from 'react-native'
 import { ListItem, COLOR } from 'react-native-material-ui'
 
 import { toggleNewsType } from '../../../actions'
-import { NewsTypesListPropType } from '../../../proptypes'
 import styles from '../../styles'
 
 class NotificationsTab extends React.Component {
@@ -17,20 +16,14 @@ class NotificationsTab extends React.Component {
   }
 
   render() {
-    const { company, newsTypes } = this.props
-    let companyNewsTypes = []
-    Object.keys(newsTypes).forEach((companyName) => {
-      if (companyName === company.label) {
-        companyNewsTypes = newsTypes[companyName]
-      }
-    })
+    const { company } = this.props
     const { listMenuStyle, switchStyle } = styles
 
     return (
       <View style={{ flex: 1 }}>
         <FlatList
           style={listMenuStyle}
-          data={companyNewsTypes}
+          data={company.newsTypes}
           keyExtractor={item => `${item.id}`}
           renderItem={({ item }) => (
             <ListItem
@@ -56,17 +49,4 @@ class NotificationsTab extends React.Component {
   }
 }
 
-NotificationsTab.propTypes = {
-  newsTypes: NewsTypesListPropType,
-}
-NotificationsTab.defaultProps = {
-  newsTypes: [],
-}
-
-function mapStateToProps(state) {
-  return {
-    newsTypes: state.newsTypes,
-  }
-}
-
-export default connect(mapStateToProps)(NotificationsTab)
+export default connect()(NotificationsTab)

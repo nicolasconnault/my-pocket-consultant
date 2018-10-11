@@ -11,7 +11,7 @@ import {
 import { Toolbar, ListItem } from 'react-native-material-ui'
 
 import { MyIcon, Container } from '../../../components'
-import { CUSTOMER_MODE_SECONDARY_COLOR } from '../../../config'
+import { CUSTOMER_MODE_SECONDARY_COLOR, APP_VERSION } from '../../../config'
 import styles from '../../styles'
 
 class Settings extends React.Component {

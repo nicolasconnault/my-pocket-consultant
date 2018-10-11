@@ -27,7 +27,7 @@ export default async function registerForPushNotificationsAsync(authToken) {
 
   // POST the token to your backend server from where you can retrieve
   // it to send push notifications.
-  return fetch(`${API_URL}customer/save_push_token`, {
+  return fetch(`${API_URL}push_notification/save_push_token`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

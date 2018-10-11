@@ -1,9 +1,32 @@
 {
   "expo": {
-    "sdkVersion": "29.0.0",
+    "name": "My Pocket Consultant",
+    "icon": "./assets/icon.png",
+    "version": "1.0.0",
+    "slug": "my-pocket-consultant",
+    "sdkVersion": "30.0.0",
+    "orientation": "portrait",
+    "primaryColor": "#9C27B0",
+    "notification": {
+      "icon": "./assets/notification-icon.png",
+      "color": "#E91E63",
+      "androidMode": "collapse",
+      "androidCollapsedTitle": "#{unread_notifications} new notifications"
+    },
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#000000",
+    },
+    "splash": {
+      "image": "./assets/launchscreen.png",
+      "backgroundColor": "#9168aa",
+      "resizeMode": "cover"
+    },
+    "ios": {
+      "bundleIdentifier": "app.mypocketconsultant.mpc"
+    },
     "android": {
-      "package": "com.mypocketconsultant.mpc",
-      "googleServicesFile": "./google-services.json"
+      "package": "app.mypocketconsultant.mpc"
     }
   }
 }
