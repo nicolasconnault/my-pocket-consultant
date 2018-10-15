@@ -45,18 +45,18 @@ class Subscriptions extends React.Component {
                 leftElement={(
                   <Image
                     style={{ width: 36, height: 36 }}
-                    source={{ uri: `${STORAGE_URL}images/companies/${item.companyName}_logo.png` }}
+                    source={{ uri: item.logoUrl }}
                   />)
                 }
                 onLeftElementPress={() => navigation.navigate('CompanyMenu', { company: item })}
-                centerElement={{ primaryText: item.companyLabel, secondaryText: 'Inactive' }}
+                centerElement={{ primaryText: item.companyLabel, secondaryText: item.status }}
                 onPress={() => navigation.navigate('SubscriptionMenu', { selectedSubscription: item })}
               />
             )}
           />
           <ActionButton
             style={{ container: { backgroundColor: CONSULTANT_MODE_COLOR } }}
-            icon={<MyIcon iconKey="settings" color="#FFFFFF" />}
+            icon={<MyIcon iconKey="add" color="#FFFFFF" />}
             onPress={() => navigation.navigate('NewSubscription')}
           />
         </View>

@@ -22,6 +22,7 @@ export const CompanyPropType = PropTypes.shape({
   facebookUrl: PropTypes.string,
   twitterUrl: PropTypes.string,
   websiteUrl: PropTypes.string,
+  logoUrl: PropTypes.string,
   phone: PropTypes.string,
   subscriptionId: PropTypes.number,
 })
@@ -122,6 +123,7 @@ export const SubscriptionPropType = PropTypes.shape({
   newsItems: NewsItemListPropType,
   tutorials: TutorialListPropType,
   customers: CustomerListPropType,
+  status: PropTypes.string,
 })
 export const SubscriptionListPropType = PropTypes.oneOfType([PropTypes.arrayOf(SubscriptionPropType), PropTypes.shape({})])
 

@@ -50,7 +50,7 @@ class CompanyCard extends Component {
             <View style={logoContainerStyle}>
               <Image
                 style={logoStyle}
-                source={{ uri: `${STORAGE_URL}images/companies/${name}_logo.png` }}
+                source={{ uri: company.logoUrl }}
               />
             </View>
             <View style={{ flexDirection: 'column' }}>

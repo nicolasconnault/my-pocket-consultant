@@ -26,7 +26,7 @@ class CompanyList extends React.Component {
             leftElement={(
               <Image
                 style={{ width: 36, height: 36 }}
-                source={{ uri: `${STORAGE_URL}images/companies/${item.name}_logo.png` }}
+                source={{ uri: item.logoUrl }}
               />)
             }
             onLeftElementPress={() => navigation.navigate('CompanyMenu', { company: item })}
