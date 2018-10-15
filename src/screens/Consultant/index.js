@@ -6,6 +6,7 @@ import EditNote from './Customers/EditNote'
 import TodoList from './TodoList'
 import Subscriptions from './Subscriptions'
 import NewSubscription from './Subscriptions/New'
+import EditSubscription from './Subscriptions/Edit'
 import SubscriptionMenu from './Subscriptions/SubscriptionMenu'
 import ConsultantSettings from './Settings'
 import Terms from './Terms'
@@ -27,6 +28,7 @@ export {
   TodoList,
   Subscriptions,
   NewSubscription,
+  EditSubscription,
   SubscriptionMenu,
   ConsultantSettings,
   Terms,

@@ -42,6 +42,10 @@ import {
   removeNotification,
   fetchNotifications,
 } from './notificationActions'
+import {
+  createSubscription,
+  updateSubscription,
+} from './subscriptionActions'
 
 export {
   changeAppMode,
@@ -74,4 +78,6 @@ export {
   removeNewsItem,
   toggleNewsItem,
   createNewsItem,
+  createSubscription,
+  updateSubscription,
 }
