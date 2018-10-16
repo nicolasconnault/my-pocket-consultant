@@ -16,6 +16,7 @@ class NewSubscriptionTab extends React.Component {
       createCallback,
     } = this.props
 
+    console.log(createCallback)
     return (
       <View style={{ flex: 1, padding: 10 }}>
         <GridView

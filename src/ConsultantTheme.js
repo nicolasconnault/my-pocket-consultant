@@ -19,6 +19,11 @@ function buildStyle() {
         height: toolbarContainerHeights[deviceSize],
       },
     },
+    snackbar: {
+      text: {
+        color: '#CCCCCC',
+      },
+    },
   }
 }
 store().subscribe(buildStyle)

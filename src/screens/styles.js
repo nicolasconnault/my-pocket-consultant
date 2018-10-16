@@ -198,15 +198,15 @@ function buildStyle() {
     },
     snackBar: {
       container: {
-        backgroundColor: 'rgba(0,0,0,0.87)',
+        backgroundColor: 'rgb(80,80,80)',
         elevation: 6,
-        opacity: 0.65,
+        opacity: 1,
         marginLeft: 10,
         marginRight: 10,
         borderRadius: 4,
       },
-      message: {
-        color: 'rgba(0,0,0,0.87)',
+      content: {
+        color: '#999999',
         fontSize: 14,
       },
     },

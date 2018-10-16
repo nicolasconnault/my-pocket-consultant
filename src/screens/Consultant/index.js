@@ -7,6 +7,7 @@ import TodoList from './TodoList'
 import Subscriptions from './Subscriptions'
 import NewSubscription from './Subscriptions/New'
 import EditSubscription from './Subscriptions/Edit'
+import ActivateSubscription from './Subscriptions/Activate'
 import SubscriptionMenu from './Subscriptions/SubscriptionMenu'
 import ConsultantSettings from './Settings'
 import Terms from './Terms'
@@ -30,6 +31,7 @@ export {
   NewSubscription,
   EditSubscription,
   SubscriptionMenu,
+  ActivateSubscription,
   ConsultantSettings,
   Terms,
   ManageNews,

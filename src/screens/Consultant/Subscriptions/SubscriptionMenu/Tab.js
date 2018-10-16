@@ -2,23 +2,34 @@ import React from 'react'
 import {
   Text, View, FlatList,
 } from 'react-native'
-import { ListItem } from 'react-native-material-ui'
+import { ListItem, Dialog, DialogDefaultActions } from 'react-native-material-ui'
+// TODO Create a ConfirmModal to confirm deactivation of subscription. Similar to components/ConsultantCard/ConfirmModal.js
 import { withNavigation } from 'react-navigation'
 
 import styles from '../../../styles'
 import { MyIcon } from '../../../../components'
 import { SubscriptionPropType } from '../../../../proptypes'
 
+
 class SubscriptionMenuTab extends React.Component {
   render() {
-    const { topNavigation, subscription } = this.props
+    const {
+      topNavigation,
+      subscription,
+      emptyCustomerListCallback,
+      deactivateSubscriptionCallback,
+    } = this.props
     const { listMenuStyle } = styles
     const menuItems = [
       {
         iconKey: 'people',
         text: `${subscription.customerCount} Customers`,
         onPress: () => {
-          topNavigation.navigate('Customers', { subscription })
+          if (subscription.customerCount > 0) {
+            topNavigation.navigate('Customers', { subscription })
+          } else {
+            emptyCustomerListCallback()
+          }
         },
       },
       {
@@ -36,6 +47,16 @@ class SubscriptionMenuTab extends React.Component {
         },
       },
     ]
+
+    if (subscription.active) {
+      menuItems.push({
+        iconKey: 'pause',
+        text: 'Deactivate Subscription',
+        onPress: () => {
+          deactivateSubscriptionCallback()
+        },
+      })
+    }
 
     return (
       <View style={{ flex: 1 }}>

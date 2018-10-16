@@ -24,7 +24,7 @@ import { Container, Loader } from '../../../../components'
 import Nav from '../../ConsultantNav'
 import styles from '../../../styles'
 
-class EditSubscription extends ValidationComponent {
+class ActivateSubscription extends ValidationComponent {
   static navigationOptions = {
     title: 'Subscription Details',
   }
@@ -279,4 +279,4 @@ class EditSubscription extends ValidationComponent {
   }
 }
 
-export default withNavigation(connect()(EditSubscription))
+export default withNavigation(connect()(ActivateSubscription))
