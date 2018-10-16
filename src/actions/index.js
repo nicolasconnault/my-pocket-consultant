@@ -45,6 +45,7 @@ import {
 import {
   createSubscription,
   updateSubscription,
+  deactivateSubscription,
 } from './subscriptionActions'
 
 export {
@@ -80,4 +81,5 @@ export {
   createNewsItem,
   createSubscription,
   updateSubscription,
+  deactivateSubscription,
 }

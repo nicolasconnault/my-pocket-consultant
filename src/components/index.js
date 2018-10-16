@@ -15,6 +15,7 @@ import NewsItemCard from './NewsItemCard'
 import TutorialList from './TutorialList'
 import TutorialStep from './TutorialStep'
 import UserAvatar from './UserAvatar'
+import SubscriptionConfirmModal from './Subscription/ConfirmModal'
 
 export {
   Button,
@@ -30,6 +31,7 @@ export {
   NewsItemCard,
   SwitchAppModeButton,
   SectionListContacts,
+  SubscriptionConfirmModal,
   TutorialStep,
   TutorialList,
   TutorialCard,

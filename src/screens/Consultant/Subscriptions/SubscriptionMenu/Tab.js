@@ -1,24 +1,52 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   Text, View, FlatList,
 } from 'react-native'
 import { ListItem, Dialog, DialogDefaultActions } from 'react-native-material-ui'
-// TODO Create a ConfirmModal to confirm deactivation of subscription. Similar to components/ConsultantCard/ConfirmModal.js
 import { withNavigation } from 'react-navigation'
 
 import styles from '../../../styles'
-import { MyIcon } from '../../../../components'
+import { MyIcon, SubscriptionConfirmModal } from '../../../../components'
 import { SubscriptionPropType } from '../../../../proptypes'
-
+import { deactivateSubscription } from '../../../../actions'
 
 class SubscriptionMenuTab extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      modalShown: false,
+    }
+
+    this.modalHandler = this.modalHandler.bind(this)
+    this.dispatchDeactivateSubscription = this.dispatchDeactivateSubscription.bind(this)
+  }
+
+  // This prepares the modal for the selectConsultant action and displays the modal
+  modalHandler() {
+    this.setState({ modalShown: true })
+  }
+
+  dispatchDeactivateSubscription(subscriptionId, action) {
+    const {
+      subscription,
+      dispatch,
+    } = this.props
+
+    if (action === 'confirm') {
+      dispatch(deactivateSubscription(subscription.id))
+    } else {
+      this.setState({ modalShown: false })
+    }
+  }
+
   render() {
     const {
       topNavigation,
       subscription,
       emptyCustomerListCallback,
-      deactivateSubscriptionCallback,
     } = this.props
+    const { modalShown } = this.state
     const { listMenuStyle } = styles
     const menuItems = [
       {
@@ -52,11 +80,16 @@ class SubscriptionMenuTab extends React.Component {
       menuItems.push({
         iconKey: 'pause',
         text: 'Deactivate Subscription',
-        onPress: () => {
-          deactivateSubscriptionCallback()
-        },
+        onPress: this.modalHandler,
       })
     }
+
+    const modal = (modalShown === false) ? null : (
+      <SubscriptionConfirmModal
+        subscription={subscription}
+        dispatchFunction={this.dispatchDeactivateSubscription}
+      />
+    )
 
     return (
       <View style={{ flex: 1 }}>
@@ -79,6 +112,7 @@ class SubscriptionMenuTab extends React.Component {
             />
           )}
         />
+        {modal}
       </View>
     )
   }
@@ -92,4 +126,4 @@ SubscriptionMenuTab.defaultProps = {
   subscription: [],
 }
 
-export default withNavigation(SubscriptionMenuTab)
+export default withNavigation(connect()(SubscriptionMenuTab))

@@ -59,6 +59,31 @@ export const createSubscription = (
 }
 
 /**
+ * DEACTIVATE
+ */
+function sendDeactivateSubscription(subscriptionId, dispatch, token) {
+  return fetch(`${API_URL}consultant/deactivate_subscription.json`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      subscriptionId,
+    }),
+  })
+    .then(() => {
+      dispatch(fetchSubscribedCompanies(token))
+    })
+}
+
+export const deactivateSubscription = subscriptionId => async (dispatch) => {
+  const token = await AsyncStorage.getItem(ACCESS_TOKEN)
+  await sendDeactivateSubscription(subscriptionId, dispatch, token)
+}
+
+/**
  * DELETE
  */
 function sendRemoveSubscription(subscriptionId, dispatch, token) {
