@@ -84,6 +84,32 @@ export const deactivateSubscription = subscriptionId => async (dispatch) => {
 }
 
 /**
+ * SAVE STRIPE TOKEN
+ */
+function sendSaveSubscriptionToken(subscriptionId, stripeToken, dispatch, token) {
+  return fetch(`${API_URL}consultant/save_subscription_token.json`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      subscriptionId,
+      stripeToken,
+    }),
+  })
+    .then(() => {
+      dispatch(fetchSubscribedCompanies(token))
+    })
+}
+
+export const saveSubscriptionToken = (subscriptionId, stripeToken) => async (dispatch) => {
+  const token = await AsyncStorage.getItem(ACCESS_TOKEN)
+  await sendSaveSubscriptionToken(subscriptionId, stripeToken, dispatch, token)
+}
+
+/**
  * DELETE
  */
 function sendRemoveSubscription(subscriptionId, dispatch, token) {

@@ -46,6 +46,7 @@ import {
   createSubscription,
   updateSubscription,
   deactivateSubscription,
+  saveSubscriptionToken,
 } from './subscriptionActions'
 
 export {
@@ -82,4 +83,5 @@ export {
   createSubscription,
   updateSubscription,
   deactivateSubscription,
+  saveSubscriptionToken,
 }

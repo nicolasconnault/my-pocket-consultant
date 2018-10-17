@@ -25,6 +25,7 @@ class SubscriptionMenu extends React.Component {
     }
     this.clickedEmptyCustomerListCallback = this.clickedEmptyCustomerListCallback.bind(this)
     this.deactivateSubscriptionCallback = this.deactivateSubscriptionCallback.bind(this)
+    this.activateSubscriptionCallback = this.activateSubscriptionCallback.bind(this)
   }
 
   clickedEmptyCustomerListCallback() {
