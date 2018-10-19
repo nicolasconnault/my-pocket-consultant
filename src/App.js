@@ -135,6 +135,7 @@ class Main extends React.Component {
       Registration: { screen: screens.Registration },
       Home: { screen: screens.Home },
       Main: { screen: screens.MainScreen },
+      EmailConfirmation: { screen: screens.EmailConfirmation },
 
       MyCompanies: { screen: customerScreens.MyCompanies },
       CompanySettings: { screen: customerScreens.CompanySettings },
@@ -175,6 +176,7 @@ class Main extends React.Component {
       StackNavigation = createStackNavigator({
         Login: { screen: screens.Login },
         Registration: { screen: screens.Registration },
+        EmailConfirmation: { screen: screens.EmailConfirmation },
       }, {
         initialRouteName: 'Login',
         headerMode: 'none',

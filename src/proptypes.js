@@ -43,6 +43,7 @@ export const UserPropType = PropTypes.shape({
   }),
   email: PropTypes.string,
   phone: PropTypes.string,
+  confirmed: PropTypes.bool,
 })
 export const UserListPropType = PropTypes.oneOfType([PropTypes.arrayOf(UserPropType), PropTypes.shape({})])
 

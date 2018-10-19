@@ -8,27 +8,21 @@ import {
 } from 'react-native'
 
 import { DangerZone } from 'expo'
-import { Toolbar, Button } from 'react-native-material-ui'
+import { Toolbar, Button, Snackbar } from 'react-native-material-ui'
 import { TextField } from 'react-native-material-textfield'
 import ValidationComponent from 'react-native-form-validator'
 
 import Container from '../../components/Container'
+import styles from '../styles'
 import {
   ACCESS_TOKEN,
+  CONFIRMATION_PIN,
   API_URL,
   VALIDATION_MESSAGES,
   CONSULTANT_MODE_COLOR,
 } from '../../config'
-import {
-  fetchUser,
-  fetchTutorials,
-  fetchCustomerCompanies,
-  fetchConsultants,
-  fetchNotifications,
-  fetchNewsTypes,
-} from '../../actions'
+import { fetchUser } from '../../actions'
 import Loader from '../../components/Loader'
-import registerForPushNotificationsAsync from '../../modules/pushNotifications'
 
 const { Localization } = DangerZone
 
@@ -48,6 +42,8 @@ class Registration extends ValidationComponent {
       countryCode: null,
       timeZone: null,
       loading: false,
+      isSnackBarVisible: false,
+      snackBarMessage: '',
       errors: {},
     }
     this.onFocus = this.onFocus.bind(this)
@@ -93,11 +89,11 @@ class Registration extends ValidationComponent {
       password,
       countryCode,
       timeZone,
+      isSnackBarVisible,
+      snackBarMessage,
     } = this.state
 
-    const {
-      navigation, dispatch,
-    } = this.props
+    const { navigation } = this.props
 
     this.setState({ loading: true })
 
@@ -125,31 +121,38 @@ class Registration extends ValidationComponent {
       // If successful, automatically log in and get access token
       // TODO Email verification step (or SMS code)
       if (response.status >= 200 && response.status < 300) {
-        const accessToken = res.access_token
-        this.storeToken(accessToken)
+        // Possible responses:
+        // - res.error
+        // - res.success
+        const confirmationPin = res.confirmationPin
+        const token = res.accessToken
 
-        if (!accessToken) {
-          navigation.navigate('Login')
-        } else {
-          registerForPushNotificationsAsync(accessToken)
-          dispatch(fetchCustomerCompanies(accessToken))
-          dispatch(fetchTutorials(accessToken))
-          dispatch(fetchNotifications(accessToken))
-          dispatch(fetchConsultants(accessToken))
-          dispatch(fetchNewsTypes(accessToken))
-          this.setState({ loading: false })
-          dispatch(fetchUser(accessToken)).then(() => {
-            navigation.navigate('MyCompanies')
-          })
-        }
-      } else {
+        this.storeConfirmationPin(confirmationPin)
+
         this.setState({ loading: false })
-        let myError = { error: 'Login Error' }
-        if (res.error === 'invalid_grant') {
-          myError = { error: 'Invalid credentials' }
+        if (!confirmationPin) {
+          console.log('going to registration')
+          navigation.navigate('Registration')
+        } else {
+          console.log('going to email confirmation')
+          navigation.navigate('EmailConfirmation', { accessToken: token })
         }
-        throw myError
+        return null
       }
+
+      let myError = { error: 'Registration Error' }
+      if (res.error) {
+        myError.error = res.error
+      }
+      this.setState({ loading: false })
+      if (res.error === 'invalid_grant') {
+        myError = { error: 'Invalid credentials' }
+      }
+      const errors = {}
+      if (res.errorField) {
+        errors[res.errorField] = myError.error
+      }
+      this.setState({ errors })
     } catch (exception) {
       const formError = exception
       console.log(formError.error)
@@ -181,15 +184,6 @@ class Registration extends ValidationComponent {
     this.setState({ errors })
   }
 
-  getToken = async () => {
-    try {
-      const token = await AsyncStorage.getItem(ACCESS_TOKEN)
-      console.log(`token is:${token}`)
-    } catch (error) {
-      console.log('Something went wrong')
-    }
-  }
-
   loadingInitialState = async () => {
     const { dispatch } = this.props
     const token = await AsyncStorage.getItem(ACCESS_TOKEN)
@@ -213,10 +207,9 @@ class Registration extends ValidationComponent {
     this[name].focus()
   }
 
-  async storeToken(accessToken) {
+  async storeConfirmationPin(confirmationPin) {
     try {
-      await AsyncStorage.setItem(ACCESS_TOKEN, accessToken)
-      this.getToken()
+      await AsyncStorage.setItem(CONFIRMATION_PIN, confirmationPin)
     } catch (error) {
       console.log('Something went wrong')
     }
@@ -232,6 +225,8 @@ class Registration extends ValidationComponent {
       password,
       loading,
       errors,
+      isSnackBarVisible,
+      snackBarMessage,
     } = this.state
 
     return (
@@ -331,6 +326,12 @@ class Registration extends ValidationComponent {
               style={{ container: { marginBottom: 50 } }}
             />
           </View>
+          <Snackbar
+            style={{ container: styles.snackBar.container, content: styles.snackBar.content }}
+            visible={isSnackBarVisible}
+            message={snackBarMessage}
+            onRequestClose={() => this.setState({ isSnackBarVisible: false })}
+          />
         </KeyboardAvoidingView>
       </Container>
     )
