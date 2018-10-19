@@ -98,7 +98,7 @@ class Registration extends ValidationComponent {
     this.setState({ loading: true })
 
     try {
-      const response = await fetch(`${API_URL}customer/register`, {
+      const response = await fetch(`${API_URL}auth/register`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

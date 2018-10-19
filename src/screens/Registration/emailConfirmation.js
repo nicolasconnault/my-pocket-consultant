@@ -7,7 +7,7 @@ import {
   AsyncStorage,
 } from 'react-native'
 
-import { Toolbar, Button } from 'react-native-material-ui'
+import { Toolbar, Button, Snackbar } from 'react-native-material-ui'
 import { TextField } from 'react-native-material-textfield'
 import ValidationComponent from 'react-native-form-validator'
 
@@ -28,6 +28,7 @@ import {
   fetchNewsTypes,
 } from '../../actions'
 import Loader from '../../components/Loader'
+import styles from '../styles'
 import registerForPushNotificationsAsync from '../../modules/pushNotifications'
 
 class EmailConfirmation extends ValidationComponent {
@@ -40,13 +41,15 @@ class EmailConfirmation extends ValidationComponent {
     this.state = {
       confirmationPin: '',
       loading: false,
+      isSnackBarVisible: false,
+      snackBarMessage: '',
       errors: {},
     }
     this.onFocus = this.onFocus.bind(this)
     this.focusNextField = this.focusNextField.bind(this)
     this.onChangeText = this.onChangeText.bind(this)
     this.onConfirmButtonPress = this.onConfirmButtonPress.bind(this)
-    this.onSendNewPinButtonPress = this.onSendNewPinButtonPress.bind(this)
+    this.onResendConfirmationButtonPress = this.onResendConfirmationButtonPress.bind(this)
 
     this.confirmationPinRef = this.updateRef.bind(this, 'confirmationPin')
 
@@ -75,8 +78,26 @@ class EmailConfirmation extends ValidationComponent {
     }
   }
 
-  async onSendNewPinButtonPress() {
-    // TODO Implement
+  async onResendConfirmationButtonPress() {
+    const { navigation, dispatch } = this.props
+    const accessToken = navigation.getParam('accessToken')
+    this.setState({ loading: true })
+    const response = await fetch(`${API_URL}auth/resend_email_confirmation`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    if (response.status === 200) {
+      const res = await response.json()
+      this.setState({
+        isSnackBarVisible: true,
+        snackBarMessage: `The confirmation PIN has been sent to ${res.email}.`,
+        loading: false,
+      })
+    }
   }
 
   async onConfirmButtonPress() {
@@ -102,7 +123,7 @@ class EmailConfirmation extends ValidationComponent {
     const accessToken = navigation.getParam('accessToken')
     if (serverConfirmationPin === confirmationPin) {
       // Record the confirmation in the DB, then proceed to Main Page
-      const response = await fetch(`${API_URL}customer/email_confirmation`, {
+      const response = await fetch(`${API_URL}auth/email_confirmation`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -182,6 +203,8 @@ class EmailConfirmation extends ValidationComponent {
       confirmationPin,
       loading,
       errors,
+      isSnackBarVisible,
+      snackBarMessage,
     } = this.state
 
     return (
@@ -218,11 +241,17 @@ class EmailConfirmation extends ValidationComponent {
             />
             <Button
               raised
-              onPress={this.onSendNewPinButtonPress}
-              text="SEND A NEW PIN"
+              onPress={this.onResendConfirmationButtonPress}
+              text="RESEND CONFIRMATION EMAIL"
               style={{ container: { marginBottom: 50 } }}
             />
           </View>
+          <Snackbar
+            style={{ container: styles.snackBar.container, content: styles.snackBar.content }}
+            visible={isSnackBarVisible}
+            message={snackBarMessage}
+            onRequestClose={() => this.setState({ isSnackBarVisible: false })}
+          />
         </KeyboardAvoidingView>
       </Container>
     )
